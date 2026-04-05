@@ -184,12 +184,12 @@ a{color:inherit;text-decoration:none}
 
 /* ── ACTIVE SCREEN ── */
 /* Top bar */
-.act-top{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid #1a1a1a}
-.act-rname{font-size:11px;letter-spacing:.12em;color:#666}
-.act-pause{font-size:11px;font-weight:700;letter-spacing:.08em;color:#999;border:1px solid #2a2a2a;padding:5px 12px;background:none}
+.act-top{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid #2a2a2a}
+.act-rname{font-size:11px;letter-spacing:.12em;color:#aaa}
+.act-pause{font-size:11px;font-weight:700;letter-spacing:.08em;color:#bbb;border:1px solid #555;padding:5px 12px;background:none}
 
 /* Timer */
-.act-timer-wrap{text-align:center;padding:16px 0 8px;flex-shrink:0}
+.act-timer-wrap{text-align:center;padding:12px 0 6px;flex-shrink:0}
 .act-timer{font-family:var(--mono);font-size:52px;font-weight:700;color:#fff;letter-spacing:.04em}
 
 /* Canvas area */
@@ -203,8 +203,30 @@ a{color:inherit;text-decoration:none}
 }
 #brew-canvas{
   display:block;
-  /* canvas is always 240x240 internally */
 }
+
+/* ── READY overlay (shown before START is pressed) ── */
+.ready-ov{
+  position:absolute;inset:0;
+  background:#000;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:30;
+  opacity:0;pointer-events:none;
+  transition:opacity .15s;
+}
+.ready-ov.show{opacity:1;pointer-events:auto}
+.ready-step1-lbl{font-size:10px;letter-spacing:.2em;color:#888;margin-bottom:10px}
+.ready-step1-type{font-size:11px;font-weight:700;letter-spacing:.15em;color:#aaa;margin-bottom:6px}
+.ready-step1-tip{font-size:18px;font-weight:600;color:#eee;text-align:center;padding:0 32px;margin-bottom:4px;line-height:1.4}
+.ready-step1-meta{font-family:var(--mono);font-size:12px;color:#888;margin-bottom:40px}
+.ready-start-btn{
+  background:#fff;color:#000;
+  font-size:12px;font-weight:700;letter-spacing:.18em;
+  border:none;padding:16px 52px;
+  cursor:pointer;
+}
+.ready-back{font-size:11px;letter-spacing:.1em;color:#777;background:none;border:none;cursor:pointer;margin-top:20px}
 
 /* Countdown overlay */
 .cd-overlay{
@@ -218,8 +240,8 @@ a{color:inherit;text-decoration:none}
 }
 .cd-overlay.show{opacity:1;pointer-events:auto}
 .cd-num{font-family:var(--mono);font-size:110px;font-weight:700;color:#fff;line-height:1}
-.cd-lbl{font-size:11px;letter-spacing:.2em;color:#444;margin-top:12px}
-.cd-cancel{font-size:11px;letter-spacing:.1em;color:#444;background:none;border:1px solid #222;padding:8px 24px;cursor:pointer;margin-top:36px}
+.cd-lbl{font-size:11px;letter-spacing:.2em;color:#aaa;margin-top:12px}
+.cd-cancel{font-size:11px;letter-spacing:.1em;color:#aaa;background:none;border:1px solid #666;padding:8px 24px;cursor:pointer;margin-top:36px}
 
 /* Paused overlay */
 .paused-ov{
@@ -232,33 +254,40 @@ a{color:inherit;text-decoration:none}
   transition:opacity .15s;
 }
 .paused-ov.show{opacity:1;pointer-events:auto}
-.paused-lbl{font-size:12px;letter-spacing:.2em;color:#555;margin-bottom:28px}
+.paused-lbl{font-size:12px;letter-spacing:.2em;color:#bbb;margin-bottom:28px}
 .paused-resume{font-size:12px;font-weight:700;letter-spacing:.15em;color:#fff;border:1px solid #fff;padding:14px 40px;background:none;cursor:pointer}
-.paused-stop{font-size:11px;letter-spacing:.08em;color:#333;background:none;border:none;cursor:pointer;margin-top:20px}
+.paused-stop{font-size:11px;letter-spacing:.08em;color:#999;background:none;border:none;cursor:pointer;margin-top:20px}
 
 /* Scale (gram meter) */
-.act-scale-wrap{flex-shrink:0;padding:8px 20px 4px;display:flex;flex-direction:column;align-items:center}
-.scale-bar-outer{width:100%;max-width:320px;height:4px;background:#1a1a1a;position:relative;margin-bottom:8px}
+.act-scale-wrap{flex-shrink:0;padding:6px 20px 2px;display:flex;flex-direction:column;align-items:center}
+.scale-bar-outer{width:100%;max-width:320px;height:4px;background:#2a2a2a;position:relative;margin-bottom:8px}
 .scale-bar-inner{position:absolute;left:0;top:0;bottom:0;background:#fff;max-width:100%}
 .scale-readout{display:flex;align-items:baseline;gap:6px;font-family:var(--mono)}
 .scale-cur-g{font-size:40px;font-weight:700;color:#fff;line-height:1}
-.scale-slash{font-size:20px;color:#333;line-height:1}
-.scale-target-g{font-size:18px;color:#3a3a3a;line-height:1}
-.scale-unit-g{font-size:12px;color:#555;letter-spacing:.1em}
+.scale-slash{font-size:20px;color:#888;line-height:1}
+.scale-target-g{font-size:18px;color:#aaa;line-height:1}
+.scale-unit-g{font-size:12px;color:#999;letter-spacing:.1em}
 
-/* Tip */
-.act-info{text-align:center;padding:6px 24px 2px;flex-shrink:0}
-.act-tip{font-size:12px;letter-spacing:.08em;color:#888}
-.act-stepcnt{font-size:10px;color:#333;letter-spacing:.12em;margin-top:3px}
+/* Current step info */
+.act-info{text-align:center;padding:4px 20px 0;flex-shrink:0}
+.act-step-type{font-size:10px;font-weight:700;letter-spacing:.18em;color:#aaa;margin-bottom:3px}
+.act-tip{font-size:13px;font-weight:500;letter-spacing:.04em;color:#eee}
+.act-stepcnt{font-family:var(--mono);font-size:10px;color:#999;letter-spacing:.1em;margin-top:2px}
+
+/* Next step info */
+.act-next{text-align:center;padding:6px 20px 0;flex-shrink:0;border-top:1px solid #222;margin-top:6px}
+.act-next-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;color:#666;margin-bottom:3px}
+.act-next-tip{font-size:11px;color:#888;letter-spacing:.04em}
+.act-next-meta{font-family:var(--mono);font-size:10px;color:#666;margin-top:1px}
 
 /* Progress bar */
-.act-progbar{display:flex;gap:3px;padding:0 16px 6px;flex-shrink:0}
-.pseg{height:2px;flex:1;background:#1a1a1a}
-.pseg.done{background:#444}
+.act-progbar{display:flex;gap:3px;padding:6px 16px 4px;flex-shrink:0}
+.pseg{height:2px;flex:1;background:#2a2a2a}
+.pseg.done{background:#666}
 .pseg.cur{background:#fff}
 
 /* Bottom hint */
-.act-hint{text-align:center;padding:6px 0 max(10px,env(safe-area-inset-bottom));font-size:10px;letter-spacing:.12em;color:#2a2a2a;flex-shrink:0}
+.act-hint{text-align:center;padding:4px 0 max(8px,env(safe-area-inset-bottom));font-size:10px;letter-spacing:.12em;color:#666;flex-shrink:0}
 
 /* FINISH */
 .fin-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center}
@@ -361,6 +390,15 @@ a{color:inherit;text-decoration:none}
   <!-- Canvas + overlays -->
   <div class="act-canvas-wrap" id="act-canvas-wrap">
     <canvas id="brew-canvas" width="240" height="240"></canvas>
+    <!-- READY overlay: shown before START is tapped -->
+    <div class="ready-ov show" id="ready-ov">
+      <div class="ready-step1-lbl" id="ready-step1-lbl">STEP 1</div>
+      <div class="ready-step1-type" id="ready-step1-type">POUR</div>
+      <div class="ready-step1-tip" id="ready-step1-tip">—</div>
+      <div class="ready-step1-meta" id="ready-step1-meta"></div>
+      <button class="ready-start-btn" id="ready-start-btn">START</button>
+      <button class="ready-back" id="ready-back">&lt; BACK</button>
+    </div>
     <!-- Countdown overlay -->
     <div class="cd-overlay" id="cd-overlay">
       <div class="cd-num" id="cd-num">5</div>
@@ -386,10 +424,17 @@ a{color:inherit;text-decoration:none}
       <div class="scale-unit-g">g</div>
     </div>
   </div>
-  <!-- Tip -->
+  <!-- Current step info -->
   <div class="act-info">
+    <div class="act-step-type" id="act-step-type"></div>
     <div class="act-tip" id="act-tip">—</div>
     <div class="act-stepcnt" id="act-stepcnt"></div>
+  </div>
+  <!-- Next step info -->
+  <div class="act-next" id="act-next">
+    <div class="act-next-lbl" id="act-next-lbl">NEXT</div>
+    <div class="act-next-tip" id="act-next-tip"></div>
+    <div class="act-next-meta" id="act-next-meta"></div>
   </div>
   <!-- Step progress bar -->
   <div class="act-progbar" id="act-prog"></div>
@@ -443,9 +488,14 @@ var T = {
     d_back:'< ALL', d_hdr:'RECIPE',
     save:'SAVE', saved:'SAVED',
     start:'START EXTRACTION >',
+    act_start:'START', act_back:'< BACK',
+    ready_step1:'STEP 1',
     pause:'PAUSE', resume:'RESUME', stop:'STOP EXTRACTION',
     cd_lbl:'STARTING IN', cd_cancel:'CANCEL',
     paused:'PAUSED', tap_hint:'TAP TO PAUSE / RESUME',
+    next_step:'NEXT STEP',
+    last_step:'FINAL STEP',
+    all_done:'ALL STEPS DONE',
     fin_hdr:'COMPLETE', fin_check:'EXTRACTION COMPLETE',
     fin_time_lbl:'TOTAL TIME',
     fin_recipe:'RECIPE >', fin_home:'< HOME',
@@ -476,10 +526,15 @@ var T = {
     count_lbl:'レシピ',
     d_back:'< 一覧', d_hdr:'レシピ',
     save:'保存', saved:'保存済',
-    start:'抽出をスタート >',
+    start:'抽出画面へ >',
+    act_start:'スタート', act_back:'< 戻る',
+    ready_step1:'ステップ 1',
     pause:'一時停止', resume:'再開', stop:'抽出を中止',
     cd_lbl:'秒後にスタート', cd_cancel:'キャンセル',
     paused:'一時停止中', tap_hint:'タップで一時停止 / 再開',
+    next_step:'次のステップ',
+    last_step:'最後のステップ',
+    all_done:'全ステップ完了',
     fin_hdr:'完了', fin_check:'抽出完了',
     fin_time_lbl:'抽出時間',
     fin_recipe:'レシピ >', fin_home:'< ホーム',
@@ -519,6 +574,9 @@ function applyI18n(){
   setText('d-back', t('d_back'));
   setText('d-hdr-title', t('d_hdr'));
   setText('start-btn', t('start'));
+  setText('ready-start-btn', t('act_start'));
+  setText('ready-back', t('act_back'));
+  setText('ready-step1-lbl', t('ready_step1'));
   setText('act-pause-btn', t('pause'));
   setText('cd-lbl', t('cd_lbl'));
   setText('cd-cancel', t('cd_cancel'));
@@ -526,6 +584,7 @@ function applyI18n(){
   setText('paused-resume', t('resume'));
   setText('paused-stop', t('stop'));
   setText('act-hint', t('tap_hint'));
+  setText('act-next-lbl', t('next_step'));
   setText('fin-hdr', t('fin_hdr'));
   setText('fin-check', t('fin_check'));
   setText('fin-time-lbl', t('fin_time_lbl'));
@@ -794,8 +853,8 @@ function cancelCountdown(){
   if(cdInterval){ clearInterval(cdInterval); cdInterval = null; }
   cdActive = false;
   document.getElementById('cd-overlay').classList.remove('show');
-  stopBrewClean();
-  showScreen('detail');
+  // Return to ready overlay (don't go all the way back to detail)
+  document.getElementById('ready-ov').classList.add('show');
 }
 
 /* ══════════════════════════════════════════════
@@ -818,6 +877,7 @@ function startBrew(){
   document.getElementById('act-rname').textContent = currentRecipe.meta.title.toUpperCase();
   document.getElementById('act-timer').textContent = '0:00.0';
   document.getElementById('act-tip').textContent = '—';
+  document.getElementById('act-step-type').textContent = '';
   document.getElementById('act-stepcnt').textContent = '';
   document.getElementById('scale-cur-g').textContent = '0.0';
   document.getElementById('scale-target-g').textContent = '—';
@@ -826,13 +886,31 @@ function startBrew(){
   document.getElementById('paused-ov').classList.remove('show');
   document.getElementById('cd-overlay').classList.remove('show');
 
+  // Populate step 1 info in ready overlay
+  renderReadyOverlay();
+
   buildProg();
+  updateProg(-1);
   drawIdle();
   acquireWakeLock();
   showScreen('active');
+  // Show ready overlay (do NOT start countdown yet)
+  document.getElementById('ready-ov').classList.add('show');
+}
 
-  // Start countdown
-  startCountdown();
+function renderReadyOverlay(){
+  if(!currentRecipe || !currentRecipe.steps.length) return;
+  var r = currentRecipe;
+  var step0 = r.steps[0];
+  var tip = lang === 'ja' ? step0.tip_ja : step0.tip;
+  var typeLbl = step0.type === 'pour' ? t('step_pour') : t('step_wait');
+  var tgt = stepTargetG(r, 0, userBeans);
+  var meta = step0.duration + 's';
+  if(tgt !== null) meta += '  →  ' + tgt.toFixed(1) + 'g';
+  setText('ready-step1-lbl', t('ready_step1'));
+  setText('ready-step1-type', typeLbl);
+  setText('ready-step1-tip', tip);
+  setText('ready-step1-meta', meta);
 }
 
 function beginBrew(){
@@ -895,13 +973,39 @@ function tick(){
   var cumulTgt = cumulTargetAtStep(r, stepIdx, userBeans);
   updateScaleDisplay(dispGrams, cumulTgt > 0 ? cumulTgt : null);
 
-  // Tip & step counter
+  // Current step info
   var tip = lang === 'ja' ? step.tip_ja : step.tip;
   var typeLbl = step.type === 'pour' ? t('step_pour') : t('step_wait');
-  document.getElementById('act-tip').textContent = tip.toUpperCase();
+  document.getElementById('act-step-type').textContent = typeLbl;
+  document.getElementById('act-tip').textContent = tip;
   document.getElementById('act-stepcnt').textContent =
     t('step_lbl') + ' ' + (stepIdx+1) + ' ' + t('of_lbl') + ' ' + r.steps.length +
-    ' \u00B7 ' + typeLbl + ' ' + step.duration + 's';
+    ' \u00B7 ' + step.duration + 's';
+
+  // Next step info
+  var nextIdx = stepIdx + 1;
+  var nextEl = document.getElementById('act-next');
+  var nextLblEl = document.getElementById('act-next-lbl');
+  var nextTipEl = document.getElementById('act-next-tip');
+  var nextMetaEl = document.getElementById('act-next-meta');
+  if(nextIdx < r.steps.length){
+    var ns = r.steps[nextIdx];
+    var nsTip = lang === 'ja' ? ns.tip_ja : ns.tip;
+    var nsType = ns.type === 'pour' ? t('step_pour') : t('step_wait');
+    var nsTgt = stepTargetG(r, nextIdx, userBeans);
+    var nsMeta = ns.duration + 's';
+    if(nsTgt !== null) nsMeta += '  \u2192  ' + nsTgt.toFixed(1) + 'g';
+    nextLblEl.textContent = t('next_step');
+    nextTipEl.textContent = nsTip;
+    nextMetaEl.textContent = nsType + '  ' + nsMeta;
+    nextEl.style.display = '';
+  } else {
+    nextLblEl.textContent = t('last_step');
+    nextTipEl.textContent = '';
+    nextMetaEl.textContent = '';
+    nextEl.style.display = '';
+  }
+
   updateProg(stepIdx);
 
   rafId = requestAnimationFrame(tick);
@@ -1253,15 +1357,26 @@ document.getElementById('d-fav').addEventListener('click', function(){
   saveFavs();
   updateFavBtn();
 });
-// Start button
+// Start button (on detail screen → navigate to active screen, show ready overlay)
 document.getElementById('start-btn').addEventListener('click', function(){
   if(!currentRecipe) return;
   startBrew();
 });
+// Ready overlay START button → begin countdown
+document.getElementById('ready-start-btn').addEventListener('click', function(){
+  document.getElementById('ready-ov').classList.remove('show');
+  startCountdown();
+});
+// Ready overlay BACK button → return to detail
+document.getElementById('ready-back').addEventListener('click', function(){
+  stopBrewClean();
+  document.getElementById('ready-ov').classList.remove('show');
+  showScreen('detail');
+});
 
-// Canvas tap → pause/resume (guard: countdown or not started)
+// Canvas tap → pause/resume (guard: countdown or not started, or in ready state)
 document.getElementById('act-canvas-wrap').addEventListener('click', function(e){
-  if(e.target.closest('#cd-overlay') || e.target.closest('#paused-ov')) return;
+  if(e.target.closest('#cd-overlay') || e.target.closest('#paused-ov') || e.target.closest('#ready-ov')) return;
   if(cdActive || !brewActive) return;
   if(brewPaused) resumeBrew(); else pauseBrew();
 });
