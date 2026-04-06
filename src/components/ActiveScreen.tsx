@@ -269,20 +269,6 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
       {/* ── BOTTOM HALF: TEXT INFO ── */}
       <div className="act-bottom">
-        {/* Step label */}
-        <div className="act-step-label">
-          <span className="act-step-type-badge">
-            {curStep?.type === 'pour' ? t('step_pour') : t('step_wait')}
-          </span>
-          <span className="act-step-count">
-            {t('step_lbl')} {stepIdx + 1}{t('of_lbl')}{r.steps.length}
-          </span>
-        </div>
-
-        {/* Instruction + tip */}
-        <div className="act-instruction">{buildInstruction(stepIdx)}</div>
-        <div className="act-tip-text">{lang === 'ja' ? curStep?.tip_ja : curStep?.tip}</div>
-
         {/* Scale display */}
         <div className="act-scale-display" onClick={e => e.stopPropagation()}>
           <div className="act-scale-col">
@@ -297,6 +283,20 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
             </div>
           </div>
         </div>
+
+        {/* Step label */}
+        <div className="act-step-label">
+          <span className="act-step-type-badge">
+            {curStep?.type === 'pour' ? t('step_pour') : t('step_wait')}
+          </span>
+          <span className="act-step-count">
+            {t('step_lbl')} {stepIdx + 1}{t('of_lbl')}{r.steps.length}
+          </span>
+        </div>
+
+        {/* Instruction + tip */}
+        <div className="act-instruction">{buildInstruction(stepIdx)}</div>
+        <div className="act-tip-text">{lang === 'ja' ? curStep?.tip_ja : curStep?.tip}</div>
 
         {/* Progress bar */}
         <div className="act-progbar">
@@ -338,6 +338,12 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
       <div className={`overlay${overlay === 'countdown' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
         <div className="cd-num">{cdCount === 0 ? 'GO' : cdCount}</div>
         <div className="cd-lbl">{t('cd_lbl')}</div>
+        <div className="cd-step-divider" />
+        <div className="ready-type-badge">
+          {step0?.type === 'pour' ? t('step_pour') : t('step_wait')}
+        </div>
+        <div className="ready-instruction">{buildInstruction(0)}</div>
+        <div className="ready-tip">{lang === 'ja' ? step0?.tip_ja : step0?.tip}</div>
         <button className="cd-cancel" onClick={cancelCountdown}>{t('cd_cancel')}</button>
       </div>
 
