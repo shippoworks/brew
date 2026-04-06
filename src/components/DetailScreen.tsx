@@ -153,6 +153,10 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
                 : lang === 'ja'
                   ? `${step.duration}秒待つ`
                   : `Wait ${step.duration}s`
+              const cumulSec = r.steps.slice(0, i + 1).reduce((sum, s) => sum + s.duration, 0)
+              const fmtCumul = cumulSec >= 60
+                ? `${String(Math.floor(cumulSec / 60)).padStart(2, '0')}:${String(cumulSec % 60).padStart(2, '0')}`
+                : `0:${String(cumulSec).padStart(2, '0')}`
               return (
                 <li key={i} className="step-row">
                   <div className="step-n">{i + 1}</div>
@@ -160,7 +164,7 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
                     <div className="step-instruction">{instruction}</div>
                     <div className="step-tip">{lang === 'ja' ? step.tip_ja : step.tip}</div>
                   </div>
-                  <div className="step-dur">{step.duration}s</div>
+                  <div className="step-dur">{fmtCumul}</div>
                 </li>
               )
             })}
