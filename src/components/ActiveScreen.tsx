@@ -33,11 +33,10 @@ function prevCumulG(r: Recipe, i: number, beans: number): number {
 }
 
 function fmtTime(ms: number) {
-  const s = ms / 1000
+  const s = Math.floor(ms / 1000)
   const m = Math.floor(s / 60)
-  const sec = Math.floor(s % 60)
-  const d = Math.floor((ms % 1000) / 100)
-  return `${m}:${String(sec).padStart(2, '0')}.${d}`
+  const sec = s % 60
+  return `${m}:${String(sec).padStart(2, '0')}`
 }
 
 function stepEndSec(r: Recipe, i: number): number {
