@@ -65,8 +65,8 @@ function blobPath(
   for (let i = 0; i < n; i++) {
     const angle = (i / n) * Math.PI * 2 + rotation
     const d = 1
-      + Math.sin(i * 1.7 + seed) * 0.06
-      + Math.cos(i * 2.9 + seed * 0.8) * 0.03
+      + Math.sin(i * 1.7 + seed) * 0.03
+      + Math.cos(i * 2.9 + seed * 0.8) * 0.015
     pts.push({ x: cx + Math.cos(angle) * r * d, y: cy + Math.sin(angle) * r * d })
   }
   ctx.beginPath()
@@ -154,23 +154,23 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
     // ── 3層の有機的ブロブ（それぞれ独立した回転速度） ──
     // blob 1（背面・左上にオフセット）
-    const rot1 = sec * -0.55
-    const r1 = baseR * 0.72
-    const ox1 = baseR * -0.18, oy1 = baseR * -0.14
+    const rot1 = sec * -1.10
+    const r1 = baseR * 0.92
+    const ox1 = baseR * -0.12, oy1 = baseR * -0.10
     blobPath(ctx, cx + ox1, cy + oy1, r1, rot1, 1.4)
     ctx.fillStyle = phase === 'pour' ? 'rgba(95,95,95,0.38)' : 'rgba(55,55,55,0.45)'
     ctx.fill()
 
     // blob 2（中間・右上にオフセット）
-    const rot2 = sec * 0.42
-    const r2 = baseR * 0.82
-    const ox2 = baseR * 0.14, oy2 = baseR * -0.18
+    const rot2 = sec * 0.84
+    const r2 = baseR * 0.95
+    const ox2 = baseR * 0.10, oy2 = baseR * -0.12
     blobPath(ctx, cx + ox2, cy + oy2, r2, rot2, 3.8)
     ctx.fillStyle = phase === 'pour' ? 'rgba(80,80,80,0.30)' : 'rgba(50,50,50,0.38)'
     ctx.fill()
 
     // blob 3（前面・中央・グラデーション）
-    const rot3 = sec * 0.28
+    const rot3 = sec * 0.56
     blobPath(ctx, cx, cy, baseR, rot3, 6.2)
     if (phase === 'pour') {
       const g = ctx.createRadialGradient(
