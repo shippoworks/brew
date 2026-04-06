@@ -52,6 +52,39 @@ function fmtSec(sec: number): string {
 const CSIZE = 240
 const RMAX = 108
 
+// Catmull-Rom スプラインで滑らかな有機的ブロブを描く
+function blobPath(
+  ctx: CanvasRenderingContext2D,
+  cx: number, cy: number,
+  r: number,
+  rotation: number,
+  seed: number
+) {
+  const n = 6
+  const pts: { x: number; y: number }[] = []
+  for (let i = 0; i < n; i++) {
+    const angle = (i / n) * Math.PI * 2 + rotation
+    const d = 1
+      + Math.sin(i * 1.7 + seed) * 0.13
+      + Math.cos(i * 2.9 + seed * 0.8) * 0.07
+    pts.push({ x: cx + Math.cos(angle) * r * d, y: cy + Math.sin(angle) * r * d })
+  }
+  ctx.beginPath()
+  for (let i = 0; i < n; i++) {
+    const p0 = pts[(i - 1 + n) % n]
+    const p1 = pts[i]
+    const p2 = pts[(i + 1) % n]
+    const p3 = pts[(i + 2) % n]
+    const cp1x = p1.x + (p2.x - p0.x) / 6
+    const cp1y = p1.y + (p2.y - p0.y) / 6
+    const cp2x = p2.x - (p3.x - p1.x) / 6
+    const cp2y = p2.y - (p3.y - p1.y) / 6
+    if (i === 0) ctx.moveTo(p1.x, p1.y)
+    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, p2.x, p2.y)
+  }
+  ctx.closePath()
+}
+
 export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack }: Props) {
   const t = useT(lang)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -100,79 +133,59 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
     // ── 外側の固定リング（ペースメーター） ──
     ctx.beginPath()
     ctx.arc(cx, cy, RMAX, 0, Math.PI * 2)
-    ctx.strokeStyle = '#222'
+    ctx.strokeStyle = '#1e1e1e'
     ctx.lineWidth = 1.5
     ctx.stroke()
 
-    // プログレスアーク（外リング上を進む）
+    // プログレスアーク（外リング固定、進捗だけ変化）
     if (prog > 0.01) {
       const a = -Math.PI / 2
       ctx.beginPath()
       ctx.arc(cx, cy, RMAX, a, a + Math.PI * 2 * prog)
-      ctx.strokeStyle = phase === 'pour' ? 'rgba(255,255,255,0.85)' : 'rgba(120,120,120,0.7)'
+      ctx.strokeStyle = phase === 'pour' ? 'rgba(255,255,255,0.80)' : 'rgba(110,110,110,0.65)'
       ctx.lineWidth = 2.5
       ctx.stroke()
     }
 
-    if (prog < 0.02) return
+    const maxR = RMAX * 0.80
+    // pour: 拡大（0→1）  wait: 縮小（1→0）
+    const baseR = phase === 'pour' ? maxR * prog : maxR * (1 - prog)
+    if (baseR < 2) return
 
-    // ── 内側の有機的ブロブ ──
-    const maxR = RMAX * 0.82
-    const baseR = maxR * prog
+    // ── 3層の有機的ブロブ（それぞれ独立した回転速度） ──
+    // blob 1（背面・左上にオフセット）
+    const rot1 = sec * -0.24
+    const r1 = baseR * 0.72
+    const ox1 = baseR * -0.18, oy1 = baseR * -0.14
+    blobPath(ctx, cx + ox1, cy + oy1, r1, rot1, 1.4)
+    ctx.fillStyle = phase === 'pour' ? 'rgba(95,95,95,0.38)' : 'rgba(55,55,55,0.45)'
+    ctx.fill()
 
+    // blob 2（中間・右上にオフセット）
+    const rot2 = sec * 0.19
+    const r2 = baseR * 0.82
+    const ox2 = baseR * 0.14, oy2 = baseR * -0.18
+    blobPath(ctx, cx + ox2, cy + oy2, r2, rot2, 3.8)
+    ctx.fillStyle = phase === 'pour' ? 'rgba(80,80,80,0.30)' : 'rgba(50,50,50,0.38)'
+    ctx.fill()
+
+    // blob 3（前面・中央・グラデーション）
+    const rot3 = sec * 0.11
+    blobPath(ctx, cx, cy, baseR, rot3, 6.2)
     if (phase === 'pour') {
-      // 背景レイヤー（3つのオフセットブロブ）
-      const layers = [
-        { dx: -0.22, dy: -0.16, rs: 0.80, alpha: 0.32 },
-        { dx:  0.18, dy: -0.20, rs: 0.74, alpha: 0.26 },
-        { dx: -0.10, dy:  0.20, rs: 0.70, alpha: 0.22 },
-      ]
-      for (const l of layers) {
-        const bx = cx + baseR * l.dx
-        const by = cy + baseR * l.dy
-        blobPath(ctx, bx, by, baseR * l.rs, sec * 0.4 + l.dx * 8)
-        ctx.fillStyle = `rgba(85,85,85,${l.alpha})`
-        ctx.fill()
-      }
-      // メインブロブ（グラデーション）
-      blobPath(ctx, cx, cy, baseR, sec * 0.25)
       const g = ctx.createRadialGradient(
-        cx - baseR * 0.12, cy - baseR * 0.10, 0,
+        cx - baseR * 0.10, cy - baseR * 0.08, 0,
         cx, cy, baseR
       )
-      g.addColorStop(0,    'rgba(255,255,255,1)')
-      g.addColorStop(0.45, 'rgba(240,240,240,0.97)')
-      g.addColorStop(0.78, 'rgba(195,195,195,0.90)')
-      g.addColorStop(1,    'rgba(145,145,145,0.70)')
+      g.addColorStop(0,    'rgba(255,255,255,1.00)')
+      g.addColorStop(0.42, 'rgba(242,242,242,0.97)')
+      g.addColorStop(0.76, 'rgba(195,195,195,0.90)')
+      g.addColorStop(1,    'rgba(140,140,140,0.68)')
       ctx.fillStyle = g
-      ctx.fill()
     } else {
-      // waitフェーズ：暗いブロブが収縮
-      blobPath(ctx, cx, cy, baseR, sec * 0.18)
-      ctx.fillStyle = 'rgba(55,55,55,0.65)'
-      ctx.fill()
-      blobPath(ctx, cx, cy, baseR * 0.72, sec * 0.25 + 2)
-      ctx.fillStyle = 'rgba(75,75,75,0.40)'
-      ctx.fill()
+      ctx.fillStyle = 'rgba(48,48,48,0.60)'
     }
-  }
-
-  function blobPath(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, t: number) {
-    const n = 8
-    ctx.beginPath()
-    for (let i = 0; i <= n; i++) {
-      const angle = (i / n) * Math.PI * 2
-      const w = 1 + Math.sin(angle * 2.3 + t) * 0.08 + Math.cos(angle * 3.7 + t * 1.4) * 0.055
-      const x = cx + Math.cos(angle) * r * w
-      const y = cy + Math.sin(angle) * r * w
-      if (i === 0) ctx.moveTo(x, y)
-      else {
-        const pa = ((i - 0.5) / n) * Math.PI * 2
-        const pw = 1 + Math.sin(pa * 2.3 + t) * 0.08 + Math.cos(pa * 3.7 + t * 1.4) * 0.055 * 1.08
-        ctx.quadraticCurveTo(cx + Math.cos(pa) * r * pw, cy + Math.sin(pa) * r * pw, x, y)
-      }
-    }
-    ctx.closePath()
+    ctx.fill()
   }
 
   const onTick = useCallback((elapsedMs: number) => {
