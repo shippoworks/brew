@@ -89,39 +89,90 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
   }
 
   function drawIdle(ctx: CanvasRenderingContext2D) {
-    ctx.clearRect(0, 0, CSIZE, CSIZE)
-    const cx = CSIZE / 2, cy = CSIZE / 2
-    ctx.beginPath(); ctx.arc(cx, cy, RMAX, 0, Math.PI * 2)
-    ctx.strokeStyle = '#1c1c1c'; ctx.lineWidth = 1; ctx.stroke()
-    ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(cx - 6, cy); ctx.lineTo(cx + 6, cy); ctx.stroke()
-    ctx.beginPath(); ctx.moveTo(cx, cy - 6); ctx.lineTo(cx, cy + 6); ctx.stroke()
+    drawOrganic(ctx, 'wait', 0, 0)
   }
 
-  function drawCircle(ctx: CanvasRenderingContext2D, phase: 'pour' | 'wait', prog: number) {
+  function drawOrganic(ctx: CanvasRenderingContext2D, phase: 'pour' | 'wait', prog: number, elapsedMs: number) {
     ctx.clearRect(0, 0, CSIZE, CSIZE)
     const cx = CSIZE / 2, cy = CSIZE / 2
-    ctx.beginPath(); ctx.arc(cx, cy, RMAX, 0, Math.PI * 2)
-    ctx.strokeStyle = '#1c1c1c'; ctx.lineWidth = 1; ctx.stroke()
-    ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(cx - 6, cy); ctx.lineTo(cx + 6, cy); ctx.stroke()
-    ctx.beginPath(); ctx.moveTo(cx, cy - 6); ctx.lineTo(cx, cy + 6); ctx.stroke()
-    const rad = RMAX * Math.max(0, Math.min(1, prog))
-    if (rad < 1) return
-    if (phase === 'pour') {
-      ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2)
-      ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fill()
-      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke()
+    const sec = elapsedMs / 1000
+
+    // ── 外側の固定リング（ペースメーター） ──
+    ctx.beginPath()
+    ctx.arc(cx, cy, RMAX, 0, Math.PI * 2)
+    ctx.strokeStyle = '#222'
+    ctx.lineWidth = 1.5
+    ctx.stroke()
+
+    // プログレスアーク（外リング上を進む）
+    if (prog > 0.01) {
       const a = -Math.PI / 2
-      ctx.beginPath(); ctx.arc(cx, cy, rad + 3, a, a + Math.PI * 2 * prog)
-      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke()
-    } else {
-      ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2)
-      ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 2; ctx.stroke()
-      const a = -Math.PI / 2
-      ctx.beginPath(); ctx.arc(cx, cy, rad, a, a + Math.PI * 2 * prog)
-      ctx.strokeStyle = '#777'; ctx.lineWidth = 2; ctx.stroke()
+      ctx.beginPath()
+      ctx.arc(cx, cy, RMAX, a, a + Math.PI * 2 * prog)
+      ctx.strokeStyle = phase === 'pour' ? 'rgba(255,255,255,0.85)' : 'rgba(120,120,120,0.7)'
+      ctx.lineWidth = 2.5
+      ctx.stroke()
     }
+
+    if (prog < 0.02) return
+
+    // ── 内側の有機的ブロブ ──
+    const maxR = RMAX * 0.82
+    const baseR = maxR * prog
+
+    if (phase === 'pour') {
+      // 背景レイヤー（3つのオフセットブロブ）
+      const layers = [
+        { dx: -0.22, dy: -0.16, rs: 0.80, alpha: 0.32 },
+        { dx:  0.18, dy: -0.20, rs: 0.74, alpha: 0.26 },
+        { dx: -0.10, dy:  0.20, rs: 0.70, alpha: 0.22 },
+      ]
+      for (const l of layers) {
+        const bx = cx + baseR * l.dx
+        const by = cy + baseR * l.dy
+        blobPath(ctx, bx, by, baseR * l.rs, sec * 0.4 + l.dx * 8)
+        ctx.fillStyle = `rgba(85,85,85,${l.alpha})`
+        ctx.fill()
+      }
+      // メインブロブ（グラデーション）
+      blobPath(ctx, cx, cy, baseR, sec * 0.25)
+      const g = ctx.createRadialGradient(
+        cx - baseR * 0.12, cy - baseR * 0.10, 0,
+        cx, cy, baseR
+      )
+      g.addColorStop(0,    'rgba(255,255,255,1)')
+      g.addColorStop(0.45, 'rgba(240,240,240,0.97)')
+      g.addColorStop(0.78, 'rgba(195,195,195,0.90)')
+      g.addColorStop(1,    'rgba(145,145,145,0.70)')
+      ctx.fillStyle = g
+      ctx.fill()
+    } else {
+      // waitフェーズ：暗いブロブが収縮
+      blobPath(ctx, cx, cy, baseR, sec * 0.18)
+      ctx.fillStyle = 'rgba(55,55,55,0.65)'
+      ctx.fill()
+      blobPath(ctx, cx, cy, baseR * 0.72, sec * 0.25 + 2)
+      ctx.fillStyle = 'rgba(75,75,75,0.40)'
+      ctx.fill()
+    }
+  }
+
+  function blobPath(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, t: number) {
+    const n = 8
+    ctx.beginPath()
+    for (let i = 0; i <= n; i++) {
+      const angle = (i / n) * Math.PI * 2
+      const w = 1 + Math.sin(angle * 2.3 + t) * 0.08 + Math.cos(angle * 3.7 + t * 1.4) * 0.055
+      const x = cx + Math.cos(angle) * r * w
+      const y = cy + Math.sin(angle) * r * w
+      if (i === 0) ctx.moveTo(x, y)
+      else {
+        const pa = ((i - 0.5) / n) * Math.PI * 2
+        const pw = 1 + Math.sin(pa * 2.3 + t) * 0.08 + Math.cos(pa * 3.7 + t * 1.4) * 0.055 * 1.08
+        ctx.quadraticCurveTo(cx + Math.cos(pa) * r * pw, cy + Math.sin(pa) * r * pw, x, y)
+      }
+    }
+    ctx.closePath()
   }
 
   const onTick = useCallback((elapsedMs: number) => {
@@ -153,7 +204,7 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
     const canvas = canvasRef.current
     if (canvas) {
       const ctx = canvas.getContext('2d')
-      if (ctx) drawCircle(ctx, step.type, prog)
+      if (ctx) drawOrganic(ctx, step.type, prog, elapsedMs)
     }
 
     const prev = prevCumulG(r, si, beans)
