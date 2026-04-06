@@ -40,6 +40,16 @@ function fmtTime(ms: number) {
   return `${m}:${String(sec).padStart(2, '0')}.${d}`
 }
 
+function stepEndSec(r: Recipe, i: number): number {
+  return r.steps.slice(0, i + 1).reduce((sum, s) => sum + s.duration, 0)
+}
+
+function fmtSec(sec: number): string {
+  const m = Math.floor(sec / 60)
+  const s = sec % 60
+  return `${m}:${String(s).padStart(2, '0')}`
+}
+
 const CSIZE = 240
 const RMAX = 108
 
@@ -57,6 +67,27 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
   const [stepIdx, setStepIdx] = useState(0)
   const [dispGrams, setDispGrams] = useState(0)
   const cdIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  function buildInstruction(si: number): string {
+    const step = r.steps[si]
+    const tgt = stepTargetG(r, si, beans)
+    const endTime = fmtSec(stepEndSec(r, si))
+    if (lang === 'ja') {
+      if (step.type === 'pour') {
+        return tgt != null
+          ? `${endTime}${t('by_time')} ${tgt.toFixed(1)}g ${t('pour_to')}`
+          : `${endTime}${t('pour_until')}`
+      }
+      return `${endTime}${t('wait_until')}`
+    } else {
+      if (step.type === 'pour') {
+        return tgt != null
+          ? `${t('pour_to')} ${tgt.toFixed(1)}g ${t('by_time')} ${endTime}`
+          : `${t('pour_until')} ${endTime}`
+      }
+      return `${t('wait_until')} ${endTime}`
+    }
+  }
 
   // Canvas drawing
   function drawIdle(ctx: CanvasRenderingContext2D) {
@@ -102,7 +133,6 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
     let si = stepIdxRef.current
     let stepStart = stepStartMsRef.current
 
-    // Advance steps
     while (si < steps.length && elapsedMs - stepStart >= steps[si].duration * 1000) {
       stepStart += steps[si].duration * 1000
       si++
@@ -112,7 +142,6 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
     }
 
     if (si >= steps.length) {
-      // All done
       finTimeMsRef.current = elapsedMs
       timer.stop()
       releaseWakeLock()
@@ -124,14 +153,12 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
     const stepElapsed = (elapsedMs - stepStart) / 1000
     const prog = Math.min(stepElapsed / step.duration, 1)
 
-    // Canvas
     const canvas = canvasRef.current
     if (canvas) {
       const ctx = canvas.getContext('2d')
       if (ctx) drawCircle(ctx, step.type, prog)
     }
 
-    // Grams simulation
     const prev = prevCumulG(r, si, beans)
     if (step.type === 'pour' && step.target_ratio != null) {
       const thisTgt = stepTargetG(r, si, beans)!
@@ -185,7 +212,7 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
       if (count <= 0) {
         clearInterval(cdIntervalRef.current!)
         cdIntervalRef.current = null
-        setCdCount(0) // shows 'GO' briefly
+        setCdCount(0)
         setTimeout(() => {
           setOverlay('none')
           stepIdxRef.current = 0
@@ -223,22 +250,15 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
   const curStep = r.steps[stepIdx]
   const nextStep = r.steps[stepIdx + 1]
-  const totalWater = scaledWater(r, beans)
-  const curTarget = curStep ? stepTargetG(r, stepIdx, beans) : null
-  const waterPct = totalWater > 0 ? Math.min(dispGrams / totalWater * 100, 100) : 0
-
-  function getNextLabel() {
-    if (!nextStep) return t('all_done')
-    if (stepIdx + 1 === r.steps.length - 1) return t('last_step')
-    return t('next_step')
-  }
+  const nextStepIdx = stepIdx + 1
 
   const step0 = r.steps[0]
   const step0Tgt = stepTargetG(r, 0, beans)
 
   return (
     <div className="screen-active" onClick={overlay === 'none' ? handlePauseResume : undefined}>
-      {/* Top bar */}
+
+      {/* ── HEADER ── */}
       <div className="act-top" onClick={e => e.stopPropagation()}>
         <div className="act-rname">{r.meta.title.toUpperCase()}</div>
         <button className="act-pause" onClick={handlePauseResume}>
@@ -246,77 +266,68 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
         </button>
       </div>
 
-      {/* Timer */}
-      <div className="act-timer-wrap">
-        <div className="act-timer">{timerDisplay}</div>
-      </div>
-
-      {/* Canvas */}
+      {/* ── CANVAS ── */}
       <div className="act-canvas-wrap">
         <canvas ref={canvasRef} />
       </div>
 
-      {/* Scale */}
-      <div className="act-scale-wrap">
-        <div className="scale-bar-outer">
-          <div className="scale-bar-inner" style={{ width: `${waterPct.toFixed(1)}%` }} />
+      {/* ── CURRENT STEP ── */}
+      {overlay === 'none' && curStep && (
+        <>
+          <div className="act-step-label">
+            <span className="act-step-type-badge">
+              {curStep.type === 'pour' ? t('step_pour') : t('step_wait')}
+            </span>
+            <span className="act-step-count">
+              {t('step_lbl')} {stepIdx + 1}{t('of_lbl')}{r.steps.length}
+            </span>
+          </div>
+          <div className="act-instruction">{buildInstruction(stepIdx)}</div>
+          <div className="act-tip-text">{lang === 'ja' ? curStep.tip_ja : curStep.tip}</div>
+        </>
+      )}
+
+      {/* ── SCALE DISPLAY: TIME | WEIGHT ── */}
+      <div className="act-scale-display" onClick={e => e.stopPropagation()}>
+        <div className="act-scale-col">
+          <div className="act-scale-lbl">{t('time_lbl')}</div>
+          <div className="act-scale-val">{timerDisplay}</div>
         </div>
-        <div className="scale-readout">
-          <div className="scale-cur-g">{dispGrams.toFixed(1)}</div>
-          <div className="scale-slash">/</div>
-          <div className="scale-target-g">{curTarget != null ? curTarget.toFixed(1) : '—'}</div>
-          <div className="scale-unit-g">g</div>
+        <div className="act-scale-divider" />
+        <div className="act-scale-col">
+          <div className="act-scale-lbl">{t('weight_lbl')}</div>
+          <div className="act-scale-val">
+            {dispGrams.toFixed(1)}<span className="act-scale-unit">g</span>
+          </div>
         </div>
       </div>
 
-      {/* Step info */}
-      {overlay === 'none' && curStep && (
-        <div className="act-info">
-          <div className="act-step-type">
-            {curStep.type === 'pour' ? t('step_pour') : t('step_wait')}
-            <span className="act-stepcnt-inline"> · {t('step_lbl')} {stepIdx + 1}{t('of_lbl')}{r.steps.length}</span>
-          </div>
-          <div className="act-tip">{lang === 'ja' ? curStep.tip_ja : curStep.tip}</div>
-          <div className="act-step-meta">
-            {curTarget != null
-              ? <><span className="act-step-meta-dur">{curStep.duration}s</span><span className="act-step-meta-arrow"> → </span><span className="act-step-meta-g">{curTarget.toFixed(1)}g</span></>
-              : <span className="act-step-meta-dur">{curStep.duration}s</span>
-            }
-          </div>
-        </div>
-      )}
+      {/* ── PROGRESS BAR ── */}
+      <div className="act-progbar">
+        {r.steps.map((_, i) => (
+          <div key={i} className={`pseg${i < stepIdx ? ' done' : i === stepIdx ? ' cur' : ''}`} />
+        ))}
+      </div>
 
-      {/* Next step */}
+      {/* ── NEXT STEP ── */}
       {overlay === 'none' && (
         <div className="act-next">
-          <div className="act-next-lbl">{getNextLabel()}</div>
+          <div className="act-next-lbl">
+            {!nextStep ? t('all_done') : nextStepIdx === r.steps.length - 1 ? t('last_step') : t('next_step')}
+          </div>
           {nextStep && (
             <>
-              <div className="act-next-tip">{lang === 'ja' ? nextStep.tip_ja : nextStep.tip}</div>
-              <div className="act-next-meta">
-                <span className="act-next-dur">{nextStep.duration}s</span>
-                {stepTargetG(r, stepIdx + 1, beans) != null && (
-                  <><span> → </span><span>{stepTargetG(r, stepIdx + 1, beans)!.toFixed(1)}g</span></>
-                )}
-              </div>
+              <div className="act-next-instruction">{buildInstruction(nextStepIdx)}</div>
+              <div className="act-next-tip-text">{lang === 'ja' ? nextStep.tip_ja : nextStep.tip}</div>
             </>
           )}
         </div>
       )}
 
-      {/* Step progress bar */}
-      <div className="act-progbar">
-        {r.steps.map((_, i) => (
-          <div
-            key={i}
-            className={`pseg${i < stepIdx ? ' done' : i === stepIdx ? ' cur' : ''}`}
-          />
-        ))}
-      </div>
-
+      {/* ── FOOTER ── */}
       <div className="act-hint">{t('tap_hint')}</div>
 
-      {/* Ready overlay */}
+      {/* ── READY OVERLAY ── */}
       <div className={`overlay${overlay === 'ready' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
         <div className="ready-title">{t('ready_step1')}</div>
         <div className="ready-step-type">
@@ -324,25 +335,28 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
         </div>
         <div className="ready-step-tip">{lang === 'ja' ? step0?.tip_ja : step0?.tip}</div>
         <div className="ready-step-meta">
-          {step0?.duration}s{step0Tgt != null ? `  →  ${step0Tgt.toFixed(1)}g` : ''}
+          {step0Tgt != null
+            ? (lang === 'ja' ? `0:${String(step0.duration).padStart(2,'0')}までに ${step0Tgt.toFixed(1)}g まで注ぐ` : `Pour to ${step0Tgt.toFixed(1)}g by 0:${String(step0.duration).padStart(2,'0')}`)
+            : `${step0?.duration}s`}
         </div>
         <button className="ready-start-btn" onClick={startCountdown}>{t('act_start')}</button>
         <button className="ready-back-btn" onClick={handleStop}>{t('act_back')}</button>
       </div>
 
-      {/* Countdown overlay */}
+      {/* ── COUNTDOWN OVERLAY ── */}
       <div className={`overlay${overlay === 'countdown' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
         <div className="cd-num">{cdCount === 0 ? 'GO' : cdCount}</div>
         <div className="cd-lbl">{t('cd_lbl')}</div>
         <button className="cd-cancel" onClick={cancelCountdown}>{t('cd_cancel')}</button>
       </div>
 
-      {/* Paused overlay */}
+      {/* ── PAUSED OVERLAY ── */}
       <div className={`overlay${overlay === 'paused' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
         <div className="paused-lbl">{t('paused')}</div>
         <button className="paused-resume" onClick={handlePauseResume}>{t('resume')}</button>
         <button className="paused-stop" onClick={handleStop}>{t('stop')}</button>
       </div>
+
     </div>
   )
 }

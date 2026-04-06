@@ -39,6 +39,8 @@ const T = {
     note_zp: 'Zpresso J-Max / K-Max (turns).',
     note_va: 'Varia VS3 (dial number).',
     step_lbl: 'STEP', of_lbl: '/',
+    time_lbl: 'TIME', weight_lbl: 'WEIGHT',
+    by_time: 'by', pour_to: 'Pour to', pour_until: 'Pour until', wait_until: 'Wait until',
   },
   ja: {
     sub: 'コーヒー抽出ガイド',
@@ -78,6 +80,8 @@ const T = {
     note_zp: 'Zpresso J-Max / K-Max（回転数）。',
     note_va: 'Varia VS3（ダイヤル数値）。',
     step_lbl: 'ステップ', of_lbl: '/',
+    time_lbl: '経過時間', weight_lbl: '重量',
+    by_time: 'までに', pour_to: 'まで注ぐ', pour_until: 'まで注ぐ', wait_until: 'まで待つ',
   },
 } as const
 
