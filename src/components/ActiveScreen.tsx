@@ -25,7 +25,7 @@ function stepTargetG(r: Recipe, i: number, beans: number): number | null {
 
 function prevCumulG(r: Recipe, i: number, beans: number): number {
   let last = 0
-  for (let j = 0; j <= i; j++) {
+  for (let j = 0; j < i; j++) {
     const tg = stepTargetG(r, j, beans)
     if (tg !== null) last = tg
   }
@@ -274,10 +274,14 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
         <div className="act-info">
           <div className="act-step-type">
             {curStep.type === 'pour' ? t('step_pour') : t('step_wait')}
+            <span className="act-stepcnt-inline"> · {t('step_lbl')} {stepIdx + 1}{t('of_lbl')}{r.steps.length}</span>
           </div>
           <div className="act-tip">{lang === 'ja' ? curStep.tip_ja : curStep.tip}</div>
-          <div className="act-stepcnt">
-            {t('step_lbl')} {stepIdx + 1} {t('of_lbl')} {r.steps.length}
+          <div className="act-step-meta">
+            {curTarget != null
+              ? <><span className="act-step-meta-dur">{curStep.duration}s</span><span className="act-step-meta-arrow"> → </span><span className="act-step-meta-g">{curTarget.toFixed(1)}g</span></>
+              : <span className="act-step-meta-dur">{curStep.duration}s</span>
+            }
           </div>
         </div>
       )}
@@ -290,10 +294,10 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
             <>
               <div className="act-next-tip">{lang === 'ja' ? nextStep.tip_ja : nextStep.tip}</div>
               <div className="act-next-meta">
-                {nextStep.duration}s
-                {stepTargetG(r, stepIdx + 1, beans) != null
-                  ? `  →  ${stepTargetG(r, stepIdx + 1, beans)!.toFixed(1)}g`
-                  : ''}
+                <span className="act-next-dur">{nextStep.duration}s</span>
+                {stepTargetG(r, stepIdx + 1, beans) != null && (
+                  <><span> → </span><span>{stepTargetG(r, stepIdx + 1, beans)!.toFixed(1)}g</span></>
+                )}
               </div>
             </>
           )}

@@ -83,6 +83,7 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
                 min={1}
                 max={100}
                 onChange={e => setBeans(Math.max(1, Math.min(100, Number(e.target.value))))}
+                style={{ textAlign: 'center' }}
               />
               <div className="scale-adj">
                 <button className="scale-btn" onClick={() => setBeans(b => Math.max(1, b - 1))}>−</button>
@@ -141,17 +142,23 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
           <ul className="step-list">
             {r.steps.map((step, i) => {
               const tgt = stepTargetG(r, i, beans)
+              const instruction = step.type === 'pour'
+                ? lang === 'ja'
+                  ? tgt != null
+                    ? `${step.duration}秒で ${tgt.toFixed(1)}g まで注ぐ`
+                    : `${step.duration}秒間注ぐ`
+                  : tgt != null
+                    ? `Pour to ${tgt.toFixed(1)}g over ${step.duration}s`
+                    : `Pour for ${step.duration}s`
+                : lang === 'ja'
+                  ? `${step.duration}秒待つ`
+                  : `Wait ${step.duration}s`
               return (
                 <li key={i} className="step-row">
                   <div className="step-n">{i + 1}</div>
                   <div className="step-info">
-                    <div className={`step-type${step.type === 'pour' ? ' pour' : ''}`}>
-                      {step.type === 'pour' ? t('step_pour') : t('step_wait')}
-                    </div>
+                    <div className="step-instruction">{instruction}</div>
                     <div className="step-tip">{lang === 'ja' ? step.tip_ja : step.tip}</div>
-                    {tgt != null && (
-                      <div className="step-tgt">{t('cumul')} {tgt.toFixed(1)}g</div>
-                    )}
                   </div>
                   <div className="step-dur">{step.duration}s</div>
                 </li>
