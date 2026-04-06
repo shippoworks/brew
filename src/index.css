@@ -119,53 +119,52 @@ a{color:inherit;text-decoration:none}
 .act-top{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid #1e1e1e}
 .act-rname{font-size:11px;letter-spacing:.12em;color:#555}
 .act-pause{font-size:11px;font-weight:700;letter-spacing:.08em;color:#bbb;border:1px solid #444;padding:5px 12px;background:none;cursor:pointer;font-family:var(--sans)}
-/* Canvas */
-.act-canvas-wrap{display:flex;align-items:center;justify-content:center;padding:8px 0;flex-shrink:0;position:relative}
-.act-canvas-wrap canvas{display:block;width:140px;height:140px}
-.act-cd-badge{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(0,0,0,.75)}
-.act-cd-num{font-family:var(--mono);font-size:72px;font-weight:700;color:#fff;line-height:1}
-.act-cd-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;color:#555}
-/* Current step */
-.act-step-label{display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;margin-bottom:4px}
+/* Canvas — top half (flex:1 fills remaining space above .act-bottom) */
+.act-canvas-wrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.act-canvas-wrap canvas{display:block;width:min(55vw,220px);height:min(55vw,220px)}
+/* Bottom half */
+.act-bottom{display:flex;flex-direction:column;flex-shrink:0;border-top:1px solid #1a1a1a}
+.act-step-label{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 4px}
 .act-step-type-badge{font-size:10px;font-weight:700;letter-spacing:.16em;color:#fff;background:#222;padding:3px 8px}
 .act-step-count{font-size:10px;letter-spacing:.1em;color:#444}
-.act-instruction{font-family:var(--mono);font-size:22px;font-weight:700;color:#fff;padding:0 16px;margin-bottom:6px;flex-shrink:0;line-height:1.2}
-.act-tip-text{font-size:13px;color:#666;padding:0 16px;margin-bottom:8px;flex-shrink:0;line-height:1.4}
+.act-instruction{font-family:var(--mono);font-size:20px;font-weight:700;color:#fff;padding:2px 16px 4px;line-height:1.2}
+.act-tip-text{font-size:12px;color:#555;padding:0 16px 8px;line-height:1.4}
 /* Scale display: TIME | WEIGHT */
-.act-scale-display{display:flex;align-items:stretch;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;flex-shrink:0}
-.act-scale-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 8px}
+.act-scale-display{display:flex;align-items:stretch;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a}
+.act-scale-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px}
 .act-scale-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;color:#444;margin-bottom:4px}
-.act-scale-val{font-family:var(--mono);font-size:38px;font-weight:700;color:#fff;line-height:1;letter-spacing:.02em}
-.act-scale-unit{font-size:18px;font-weight:400;color:#666;margin-left:2px}
-.act-scale-divider{width:1px;background:#1a1a1a;flex-shrink:0;margin:10px 0}
+.act-scale-val{font-family:var(--mono);font-size:36px;font-weight:700;color:#fff;line-height:1;letter-spacing:.02em}
+.act-scale-unit{font-size:16px;font-weight:400;color:#666;margin-left:2px}
+.act-scale-divider{width:1px;background:#1a1a1a;flex-shrink:0;margin:8px 0}
 /* Progress bar */
-.act-progbar{display:flex;height:3px;flex-shrink:0}
+.act-progbar{display:flex;height:3px}
 .pseg{flex:1;background:#1a1a1a;margin-right:1px}
 .pseg:last-child{margin-right:0}
 .pseg.done{background:#444}
 .pseg.cur{background:#fff}
 /* Next step */
-.act-next{padding:12px 16px;flex-shrink:0;background:#080808;border-top:1px solid #1a1a1a}
-.act-next-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;color:#3a3a3a;margin-bottom:5px}
-.act-next-instruction{font-family:var(--mono);font-size:16px;font-weight:700;color:#555;margin-bottom:3px}
-.act-next-tip-text{font-size:12px;color:#3a3a3a;line-height:1.4}
-/* Footer / Ready actions */
-.act-hint{font-size:9px;font-weight:700;letter-spacing:.16em;color:#2a2a2a;text-align:center;padding:8px;flex-shrink:0}
-.act-ready-actions{padding:12px 16px;flex-shrink:0;border-top:1px solid #1a1a1a}
-.act-start-btn{width:100%;padding:15px;background:#fff;color:#000;font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:none;font-family:var(--sans)}
+.act-next{padding:10px 16px}
+.act-next-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;color:#3a3a3a;margin-bottom:4px}
+.act-next-instruction{font-family:var(--mono);font-size:15px;font-weight:700;color:#555;margin-bottom:2px}
+.act-next-tip-text{font-size:11px;color:#3a3a3a;line-height:1.4}
+/* Footer */
+.act-hint{font-size:9px;font-weight:700;letter-spacing:.16em;color:#2a2a2a;text-align:center;padding:7px}
 
 /* OVERLAYS (active screen) */
-.overlay{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
 .overlay.show{opacity:1;pointer-events:all}
-.ready-title{font-size:11px;font-weight:700;letter-spacing:.2em;color:#555;margin-bottom:8px}
-.ready-step-type{font-size:10px;font-weight:700;letter-spacing:.14em;color:#777}
-.ready-step-tip{font-size:18px;font-weight:600;color:#fff;text-align:center;padding:0 24px}
-.ready-step-meta{font-family:var(--mono);font-size:13px;color:#666;margin-top:2px}
-.ready-start-btn{width:200px;padding:15px;background:#fff;color:#000;font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:none;font-family:var(--sans)}
+/* Ready overlay — styled to match extraction screen */
+.ready-label{font-size:9px;font-weight:700;letter-spacing:.2em;color:#3a3a3a}
+.ready-type-badge{font-size:10px;font-weight:700;letter-spacing:.16em;color:#fff;background:#222;padding:3px 10px}
+.ready-instruction{font-family:var(--mono);font-size:22px;font-weight:700;color:#fff;text-align:center;padding:0 24px;line-height:1.3}
+.ready-tip{font-size:13px;color:#555;text-align:center;padding:0 32px;line-height:1.5}
+.ready-start-btn{width:200px;padding:15px;background:#fff;color:#000;font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:none;font-family:var(--sans);margin-top:8px}
 .ready-back-btn{font-size:11px;font-weight:700;letter-spacing:.1em;color:#444;background:none;border:none;cursor:pointer;font-family:var(--sans);padding:4px}
+/* Countdown overlay */
 .cd-num{font-family:var(--mono);font-size:96px;font-weight:700;color:#fff;line-height:1}
-.cd-lbl{font-size:11px;font-weight:700;letter-spacing:.2em;color:#555}
-.cd-cancel{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;background:none;border:none;cursor:pointer;font-family:var(--sans);margin-top:8px}
+.cd-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;color:#3a3a3a}
+.cd-cancel{font-size:11px;font-weight:700;letter-spacing:.1em;color:#444;background:none;border:none;cursor:pointer;font-family:var(--sans);margin-top:8px}
+/* Paused overlay */
 .paused-lbl{font-size:14px;font-weight:700;letter-spacing:.2em;color:#fff}
 .paused-resume{width:200px;padding:13px;background:#fff;color:#000;font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;border:none;font-family:var(--sans)}
 .paused-stop{font-size:11px;font-weight:700;letter-spacing:.1em;color:#555;background:none;border:none;cursor:pointer;font-family:var(--sans);padding:4px}

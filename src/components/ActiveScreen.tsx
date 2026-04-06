@@ -68,9 +68,6 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
   const [dispGrams, setDispGrams] = useState(0)
   const cdIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  // step index to display (0 during ready/countdown, current during active)
-  const displayIdx = overlay === 'none' ? stepIdx : 0
-
   function buildInstruction(si: number): string {
     const step = r.steps[si]
     const tgt = stepTargetG(r, si, beans)
@@ -130,7 +127,6 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
   const onTick = useCallback((elapsedMs: number) => {
     setTimerDisplay(fmtTime(elapsedMs))
-
     const steps = r.steps
     let si = stepIdxRef.current
     let stepStart = stepStartMsRef.current
@@ -250,9 +246,11 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
     onBack()
   }
 
-  const curStep = r.steps[displayIdx]
-  const nextStep = overlay === 'none' ? r.steps[stepIdx + 1] : r.steps[1]
-  const nextStepIdx = overlay === 'none' ? stepIdx + 1 : 1
+  const curStep = r.steps[stepIdx]
+  const nextStep = r.steps[stepIdx + 1]
+  const nextStepIdx = stepIdx + 1
+  const step0 = r.steps[0]
+  const step0Tgt = stepTargetG(r, 0, beans)
 
   return (
     <div className="screen-active" onClick={overlay === 'none' ? handlePauseResume : undefined}>
@@ -260,88 +258,89 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
       {/* ── HEADER ── */}
       <div className="act-top" onClick={e => e.stopPropagation()}>
         <div className="act-rname">{r.meta.title.toUpperCase()}</div>
-        {overlay === 'none' && (
-          <button className="act-pause" onClick={handlePauseResume}>{t('pause')}</button>
-        )}
-        {overlay === 'ready' && (
-          <button className="act-pause" onClick={handleStop}>{t('act_back')}</button>
-        )}
-        {overlay === 'countdown' && (
-          <button className="act-pause" onClick={cancelCountdown}>{t('cd_cancel')}</button>
-        )}
+        <button className="act-pause" onClick={handlePauseResume}>
+          {overlay === 'paused' ? t('resume') : t('pause')}
+        </button>
       </div>
 
-      {/* ── CANVAS (with countdown overlay) ── */}
+      {/* ── TOP HALF: CANVAS ── */}
       <div className="act-canvas-wrap">
         <canvas ref={canvasRef} />
-        {overlay === 'countdown' && (
-          <div className="act-cd-badge">
-            <div className="act-cd-num">{cdCount === 0 ? 'GO' : cdCount}</div>
-            <div className="act-cd-lbl">{t('cd_lbl')}</div>
-          </div>
-        )}
       </div>
 
-      {/* ── STEP LABEL ── */}
-      <div className="act-step-label">
-        <span className="act-step-type-badge">
-          {curStep?.type === 'pour' ? t('step_pour') : t('step_wait')}
-        </span>
-        <span className="act-step-count">
-          {t('step_lbl')} {displayIdx + 1}{t('of_lbl')}{r.steps.length}
-        </span>
-      </div>
-
-      {/* ── INSTRUCTION ── */}
-      <div className="act-instruction">{buildInstruction(displayIdx)}</div>
-      <div className="act-tip-text">{lang === 'ja' ? curStep?.tip_ja : curStep?.tip}</div>
-
-      {/* ── SPACER ── */}
-      <div style={{ flex: 1 }} />
-
-      {/* ── SCALE DISPLAY: TIME | WEIGHT ── */}
-      <div className="act-scale-display" onClick={e => e.stopPropagation()}>
-        <div className="act-scale-col">
-          <div className="act-scale-lbl">{t('time_lbl')}</div>
-          <div className="act-scale-val">{timerDisplay}</div>
+      {/* ── BOTTOM HALF: TEXT INFO ── */}
+      <div className="act-bottom">
+        {/* Step label */}
+        <div className="act-step-label">
+          <span className="act-step-type-badge">
+            {curStep?.type === 'pour' ? t('step_pour') : t('step_wait')}
+          </span>
+          <span className="act-step-count">
+            {t('step_lbl')} {stepIdx + 1}{t('of_lbl')}{r.steps.length}
+          </span>
         </div>
-        <div className="act-scale-divider" />
-        <div className="act-scale-col">
-          <div className="act-scale-lbl">{t('weight_lbl')}</div>
-          <div className="act-scale-val">
-            {dispGrams.toFixed(1)}<span className="act-scale-unit">g</span>
+
+        {/* Instruction + tip */}
+        <div className="act-instruction">{buildInstruction(stepIdx)}</div>
+        <div className="act-tip-text">{lang === 'ja' ? curStep?.tip_ja : curStep?.tip}</div>
+
+        {/* Scale display */}
+        <div className="act-scale-display" onClick={e => e.stopPropagation()}>
+          <div className="act-scale-col">
+            <div className="act-scale-lbl">{t('time_lbl')}</div>
+            <div className="act-scale-val">{timerDisplay}</div>
+          </div>
+          <div className="act-scale-divider" />
+          <div className="act-scale-col">
+            <div className="act-scale-lbl">{t('weight_lbl')}</div>
+            <div className="act-scale-val">
+              {dispGrams.toFixed(1)}<span className="act-scale-unit">g</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* ── PROGRESS BAR ── */}
-      <div className="act-progbar">
-        {r.steps.map((_, i) => (
-          <div key={i} className={`pseg${i < stepIdx ? ' done' : i === stepIdx && overlay === 'none' ? ' cur' : ''}`} />
-        ))}
-      </div>
-
-      {/* ── NEXT STEP ── */}
-      <div className="act-next" onClick={e => e.stopPropagation()}>
-        <div className="act-next-lbl">
-          {!nextStep ? t('all_done') : nextStepIdx === r.steps.length - 1 ? t('last_step') : t('next_step')}
+        {/* Progress bar */}
+        <div className="act-progbar">
+          {r.steps.map((_, i) => (
+            <div key={i} className={`pseg${i < stepIdx ? ' done' : i === stepIdx ? ' cur' : ''}`} />
+          ))}
         </div>
-        {nextStep && (
-          <>
-            <div className="act-next-instruction">{buildInstruction(nextStepIdx)}</div>
-            <div className="act-next-tip-text">{lang === 'ja' ? nextStep.tip_ja : nextStep.tip}</div>
-          </>
-        )}
+
+        {/* Next step */}
+        <div className="act-next" onClick={e => e.stopPropagation()}>
+          <div className="act-next-lbl">
+            {!nextStep ? t('all_done') : nextStepIdx === r.steps.length - 1 ? t('last_step') : t('next_step')}
+          </div>
+          {nextStep && (
+            <>
+              <div className="act-next-instruction">{buildInstruction(nextStepIdx)}</div>
+              <div className="act-next-tip-text">{lang === 'ja' ? nextStep.tip_ja : nextStep.tip}</div>
+            </>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="act-hint">{t('tap_hint')}</div>
       </div>
 
-      {/* ── FOOTER ── */}
-      {overlay === 'ready' ? (
-        <div className="act-ready-actions" onClick={e => e.stopPropagation()}>
-          <button className="act-start-btn" onClick={startCountdown}>{t('act_start')}</button>
+      {/* ── READY OVERLAY ── */}
+      <div className={`overlay${overlay === 'ready' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
+        <div className="ready-label">{t('ready_step1')}</div>
+        <div className="ready-type-badge">
+          {step0?.type === 'pour' ? t('step_pour') : t('step_wait')}
         </div>
-      ) : (
-        <div className="act-hint">{overlay === 'countdown' ? t('cd_cancel') : t('tap_hint')}</div>
-      )}
+        <div className="ready-instruction">{buildInstruction(0)}</div>
+        <div className="ready-tip">{lang === 'ja' ? step0?.tip_ja : step0?.tip}</div>
+        <button className="ready-start-btn" onClick={startCountdown}>{t('act_start')}</button>
+        <button className="ready-back-btn" onClick={handleStop}>{t('act_back')}</button>
+      </div>
+
+      {/* ── COUNTDOWN OVERLAY ── */}
+      <div className={`overlay${overlay === 'countdown' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
+        <div className="cd-num">{cdCount === 0 ? 'GO' : cdCount}</div>
+        <div className="cd-lbl">{t('cd_lbl')}</div>
+        <button className="cd-cancel" onClick={cancelCountdown}>{t('cd_cancel')}</button>
+      </div>
 
       {/* ── PAUSED OVERLAY ── */}
       <div className={`overlay${overlay === 'paused' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
