@@ -19,6 +19,7 @@ export interface Recipe {
   id: string
   meta: {
     title: string
+    title_ja: string
     creator: string
     grind: GrindSize
     desc: string
@@ -44,6 +45,7 @@ export const recipes: Recipe[] = [
     id: "recipe_001",
     meta: {
       title: "6:4 Method",
+      title_ja: "6:4メソッド",
       creator: "T.Kasuya",
       grind: { comandante: 25, timemore: 18, zpresso: 3.2, varia: 6, label: "Medium-Coarse", label_ja: "やや粗め" },
       desc: "This recipe divides the pour into two distinct phases: the first 60% extracts sweetness and body, while the final 40% adjusts balance and strength. By controlling each pour independently, you can dial in the cup with surgical precision. Kasuya's World Brewers Cup-winning method, refined for repeatability.",
@@ -72,6 +74,7 @@ export const recipes: Recipe[] = [
     id: "recipe_002",
     meta: {
       title: "Turbo Bloom",
+      title_ja: "ターボブルーム",
       creator: "M.Hoffmann",
       grind: { comandante: 30, timemore: 22, zpresso: 4.0, varia: 7, label: "Coarse", label_ja: "粗め" },
       desc: "A high-agitation, fast-draw method designed for clarity and brightness. The aggressive first pour creates turbulence that extracts evenly without channeling. Ideal for light-roasted, high-density beans where you want the full fruit character without bitterness.",
@@ -96,6 +99,7 @@ export const recipes: Recipe[] = [
     id: "recipe_003",
     meta: {
       title: "Iced Clarity",
+      title_ja: "アイスクラリティ",
       creator: "S.Goto",
       grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "やや細め" },
       desc: "A Japanese-style flash-iced brew. Half the water weight is placed as ice in the vessel below. The hot concentrated brew hits the ice immediately, locking in volatile aromatics and achieving crystal clarity. Serve immediately — this cup does not improve with time.",
@@ -122,6 +126,7 @@ export const recipes: Recipe[] = [
     id: "recipe_004",
     meta: {
       title: "Bodied Immersion",
+      title_ja: "ボディ浸漬",
       creator: "A.Weber",
       grind: { comandante: 26, timemore: 19, zpresso: 3.5, varia: 6, label: "Medium", label_ja: "中挽き" },
       desc: "A hybrid immersion-percolation method for maximum body and sweetness. The extended immersion phase creates even extraction, while the final drain concentrates the cup. Perfect for medium roasts where you want texture alongside clarity. Forgiving of grind inconsistency.",
@@ -145,6 +150,7 @@ export const recipes: Recipe[] = [
     id: "recipe_005",
     meta: {
       title: "Dark & Structured",
+      title_ja: "ダーク&ストラクチャード",
       creator: "H.Bui",
       grind: { comandante: 28, timemore: 20, zpresso: 3.8, varia: 7, label: "Medium-Coarse", label_ja: "やや粗め" },
       desc: "Designed for dark roasts where solubility is high and bitterness is the primary risk. Lower temperature and coarser grind prevent over-extraction. A single long pour maintains flow rate consistency. The result is a structured, bold cup with a clean finish — not muddy, not bitter.",
@@ -169,6 +175,7 @@ export const recipes: Recipe[] = [
     id: "recipe_006",
     meta: {
       title: "Aeropress Classic",
+      title_ja: "エアロプレス クラシック",
       creator: "K.Yamamoto",
       grind: { comandante: 18, timemore: 13, zpresso: 2.5, varia: 4, label: "Fine-Medium", label_ja: "やや細め〜中挽き" },
       desc: "The inverted Aeropress method for full immersion and maximum control. Extended steep time builds body and sweetness. The key is consistency in press pressure — aim for a slow 30-second press. Clean and repeatable, morning after morning.",

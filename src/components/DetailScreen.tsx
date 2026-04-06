@@ -52,7 +52,7 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
       <div className="d-content">
         {/* Hero */}
         <div className="d-hero">
-          <div className="d-title">{r.meta.title}</div>
+          <div className="d-title">{lang === 'ja' ? r.meta.title_ja : r.meta.title}</div>
           <div className="d-creator">{r.meta.creator}</div>
           <div className="d-tagrow">
             <span className={`badge ${r.meta.hot ? 'badge-hot' : 'badge-ice'} d-tag`}>

@@ -28,7 +28,7 @@ export default function FinishScreen({ recipe: r, elapsedMs, lang, onGoHome, onG
       </div>
       <div className="fin-body">
         <div className="fin-check">{t('fin_check')}</div>
-        <div className="fin-title">{r.meta.title}</div>
+        <div className="fin-title">{lang === 'ja' ? r.meta.title_ja : r.meta.title}</div>
         <div className="fin-by">{r.meta.creator}</div>
         <div className="fin-time-box">
           <div className="fin-time-lbl">{t('fin_time_lbl')}</div>

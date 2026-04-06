@@ -256,7 +256,7 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
       {/* ── HEADER ── */}
       <div className="act-top" onClick={e => e.stopPropagation()}>
-        <div className="act-rname">{r.meta.title.toUpperCase()}</div>
+        <div className="act-rname">{(lang === 'ja' ? r.meta.title_ja : r.meta.title).toUpperCase()}</div>
         <button className="act-pause" onClick={handlePauseResume}>
           {overlay === 'paused' ? t('resume') : t('pause')}
         </button>
