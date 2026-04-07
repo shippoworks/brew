@@ -145,8 +145,8 @@ export const recipes: Recipe[] = [
   {
     id: "recipe_007",
     meta: {
-      title: "4:6 Method (Canonical)",
-      title_ja: "4:6メソッド（正規版）",
+      title: "4:6 Method",
+      title_ja: "4:6メソッド",
       creator: "T.Kasuya / Philocoffea",
       grind: { comandante: 30, timemore: 22, zpresso: 4.2, varia: 7, label: "Coarse", label_ja: "粗め" },
       desc: "The original World Brewers Cup 2016 winning recipe by Tetsu Kasuya. Five equal 60g pours divide into two phases: the first two pours (40%) control flavor — sweetness vs. acidity — while the last three pours (60%) control strength. Each pour begins only once the previous has fully drained. Adjust the first pour split to dial in your cup.",
