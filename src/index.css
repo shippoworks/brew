@@ -116,9 +116,11 @@ a{color:inherit;text-decoration:none}
 
 /* ACTIVE SCREEN */
 .screen-active{display:flex;flex-direction:column;height:100%;background:#000;color:#fff;max-width:var(--w);margin:0 auto;position:relative;overflow:hidden}
-.act-top{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid #1e1e1e}
-.act-rname{font-size:11px;letter-spacing:.12em;color:#555}
-.act-pause{font-size:11px;font-weight:700;letter-spacing:.08em;color:#bbb;border:1px solid #444;padding:5px 12px;background:none;cursor:pointer;font-family:var(--sans)}
+.act-top{padding:12px 16px;display:flex;align-items:center;gap:8px;justify-content:space-between;flex-shrink:0;border-bottom:1px solid #1e1e1e}
+.act-rname{font-size:11px;letter-spacing:.12em;color:#555;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.act-timer-btn{font-size:10px;font-weight:700;letter-spacing:.1em;color:#444;border:1px solid #2a2a2a;padding:5px 10px;background:none;cursor:pointer;font-family:var(--sans);flex-shrink:0}
+.act-timer-btn.on{color:#fff;border-color:#666}
+.act-pause{font-size:11px;font-weight:700;letter-spacing:.08em;color:#bbb;border:1px solid #444;padding:5px 12px;background:none;cursor:pointer;font-family:var(--sans);flex-shrink:0}
 /* Canvas — fixed smaller height to give room for the hero */
 .act-canvas-wrap{flex-shrink:0;height:min(44vw,190px);display:flex;align-items:center;justify-content:center}
 .act-canvas-wrap canvas{display:block;width:min(44vw,190px);height:min(44vw,190px)}
@@ -129,13 +131,17 @@ a{color:inherit;text-decoration:none}
 .pseg.done{background:#444}
 .pseg.cur{background:#fff}
 /* Phase hero area — fills remaining space, centered */
-.act-phase-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 16px;min-height:0}
+.act-phase-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 16px;min-height:0}
 .act-phase-badge{font-size:9px;font-weight:700;letter-spacing:.2em;padding:4px 12px;border:1px solid #2a2a2a;color:#444;transition:background .2s,color .2s,border-color .2s}
 .act-phase-badge.pour{background:#fff;color:#000;border-color:#fff}
 .act-phase-badge.wait{background:transparent;color:#444;border-color:#2a2a2a}
-.act-hero{font-family:var(--mono);font-size:clamp(64px,18vw,88px);font-weight:700;line-height:1;color:#fff;letter-spacing:-.02em}
-.act-hero-unit{font-size:clamp(26px,7vw,36px);font-weight:400;color:#555;margin-left:3px;vertical-align:baseline}
-.act-hero-sub{font-size:13px;color:#444;letter-spacing:.06em;margin-top:2px}
+/* Recipe mode: POUR */
+.act-time-range{font-family:var(--mono);font-size:clamp(20px,5.5vw,26px);font-weight:700;color:#777;letter-spacing:.02em;margin-top:2px}
+.act-hero{font-family:var(--mono);font-size:clamp(60px,17vw,84px);font-weight:700;line-height:1;color:#fff;letter-spacing:-.02em}
+.act-hero-unit{font-size:clamp(24px,6.5vw,34px);font-weight:400;color:#555;margin-left:3px;vertical-align:baseline}
+.act-hero-sub{font-size:13px;color:#444;letter-spacing:.04em;margin-top:2px}
+/* Timer mode */
+.act-timer-hero{font-family:var(--mono);font-size:clamp(64px,19vw,96px);font-weight:700;line-height:1;color:#fff;letter-spacing:.02em}
 /* Footer */
 .act-footer-bar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 16px 12px;border-top:1px solid #1a1a1a}
 .act-total-time{font-family:var(--mono);font-size:13px;color:#3a3a3a}

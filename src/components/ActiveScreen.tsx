@@ -23,16 +23,30 @@ function stepTargetG(r: Recipe, i: number, beans: number): number | null {
   return Math.round(step.target_ratio * scaledWater(r, beans) * 10) / 10
 }
 
+function stepStartSec(r: Recipe, i: number): number {
+  return r.steps.slice(0, i).reduce((sum, s) => sum + s.duration, 0)
+}
+
+function stepEndSec(r: Recipe, i: number): number {
+  return r.steps.slice(0, i + 1).reduce((sum, s) => sum + s.duration, 0)
+}
+
+function stepDeltaG(r: Recipe, i: number, beans: number): number | null {
+  const target = stepTargetG(r, i, beans)
+  if (target == null) return null
+  let prev = 0
+  for (let j = i - 1; j >= 0; j--) {
+    const t = stepTargetG(r, j, beans)
+    if (t != null) { prev = t; break }
+  }
+  return Math.round((target - prev) * 10) / 10
+}
 
 function fmtTime(ms: number) {
   const s = Math.floor(ms / 1000)
   const m = Math.floor(s / 60)
   const sec = s % 60
   return `${m}:${String(sec).padStart(2, '0')}`
-}
-
-function stepEndSec(r: Recipe, i: number): number {
-  return r.steps.slice(0, i + 1).reduce((sum, s) => sum + s.duration, 0)
 }
 
 function fmtSec(sec: number): string {
@@ -90,6 +104,7 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
   const [cdCount, setCdCount] = useState(5)
   const [stepIdx, setStepIdx] = useState(0)
   const [stepRemaining, setStepRemaining] = useState(r.steps[0]?.duration ?? 0)
+  const [timerMode, setTimerMode] = useState(false)
   const cdIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   function buildInstruction(si: number): string {
@@ -296,20 +311,25 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
   const curStep = r.steps[stepIdx]
   const step0 = r.steps[0]
+  const pourStartSec = stepStartSec(r, stepIdx)
+  const pourEndSec   = stepEndSec(r, stepIdx)
+  const heroTarget   = stepTargetG(r, stepIdx, beans)
+  const deltaG       = stepDeltaG(r, stepIdx, beans)
 
   function nextStepSummary(): string {
-    const ns = r.steps[stepIdx + 1]
+    const nsIdx = stepIdx + 1
+    const ns = r.steps[nsIdx]
     if (!ns) return lang === 'ja' ? '最終ステップ' : 'last step'
-    const nsTgt = stepTargetG(r, stepIdx + 1, beans)
+    const nsDelta  = stepDeltaG(r, nsIdx, beans)
+    const nsStart  = fmtSec(stepEndSec(r, stepIdx))
+    const nsEnd    = fmtSec(stepEndSec(r, nsIdx))
     if (ns.type === 'pour') {
-      return nsTgt != null
-        ? (lang === 'ja' ? `次: ${nsTgt.toFixed(0)}g まで注ぐ` : `next: pour → ${nsTgt.toFixed(0)}g`)
+      return nsDelta != null
+        ? `next: ${nsStart} → ${nsEnd} · +${nsDelta.toFixed(0)}g`
         : (lang === 'ja' ? '次: 注湯' : 'next: pour')
     }
     return lang === 'ja' ? '次: 待機' : 'next: wait'
   }
-
-  const heroTarget = stepTargetG(r, stepIdx, beans)
 
   return (
     <div className="screen-active" onClick={overlay === 'none' ? handlePauseResume : undefined}>
@@ -317,6 +337,12 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
       {/* ── HEADER ── */}
       <div className="act-top" onClick={e => e.stopPropagation()}>
         <div className="act-rname">{(lang === 'ja' ? r.meta.title_ja : r.meta.title).toUpperCase()}</div>
+        <button
+          className={`act-timer-btn${timerMode ? ' on' : ''}`}
+          onClick={() => setTimerMode(m => !m)}
+        >
+          {timerMode ? 'RECIPE' : 'TIMER'}
+        </button>
         <button className="act-pause" onClick={handlePauseResume}>
           {overlay === 'paused' ? t('resume') : t('pause')}
         </button>
@@ -336,26 +362,51 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
       {/* ── PHASE HERO AREA ── */}
       <div className="act-phase-area" onClick={e => e.stopPropagation()}>
-        <div className={`act-phase-badge${curStep?.type === 'pour' ? ' pour' : ' wait'}`}>
-          {curStep?.type === 'pour'
-            ? (lang === 'ja' ? 'POUR · 注湯' : 'POUR')
-            : (lang === 'ja' ? 'WAIT · 待機' : 'WAIT')}
-        </div>
 
-        {curStep?.type === 'pour' ? (
+        {timerMode ? (
+          /* ── TIMER MODE: 大きなタイマー表示 ── */
           <>
+            <div className={`act-phase-badge${curStep?.type === 'pour' ? ' pour' : ' wait'}`}>
+              {curStep?.type === 'pour'
+                ? (lang === 'ja' ? 'POUR · 注湯' : 'POUR')
+                : (lang === 'ja' ? 'WAIT · 待機' : 'WAIT')}
+            </div>
+            <div className="act-timer-hero">{timerDisplay}</div>
+            <div className="act-hero-sub">
+              {curStep?.type === 'pour' && deltaG != null
+                ? `${fmtSec(pourStartSec)} → ${fmtSec(pourEndSec)} · +${deltaG.toFixed(0)}g`
+                : nextStepSummary()}
+            </div>
+          </>
+        ) : curStep?.type === 'pour' ? (
+          /* ── RECIPE MODE: POUR ── */
+          <>
+            <div className="act-phase-badge pour">
+              {lang === 'ja' ? 'POUR · 注湯' : 'POUR'}
+            </div>
+            <div className="act-time-range">
+              {fmtSec(pourStartSec)} → {fmtSec(pourEndSec)}
+            </div>
             <div className="act-hero">
-              {heroTarget != null ? heroTarget.toFixed(0) : '—'}
+              +{deltaG != null ? deltaG.toFixed(0) : '—'}
               <span className="act-hero-unit">g</span>
             </div>
             <div className="act-hero-sub">
+              {heroTarget != null
+                ? (lang === 'ja' ? `→ 合計 ${heroTarget.toFixed(0)}g` : `→ ${heroTarget.toFixed(0)}g total`)
+                : ''}
+              {' · '}
               {stepRemaining > 0
-                ? (lang === 'ja' ? `残り ${stepRemaining}s` : `${stepRemaining}s remaining`)
+                ? (lang === 'ja' ? `残り ${stepRemaining}s` : `${stepRemaining}s left`)
                 : (lang === 'ja' ? '完了' : 'done')}
             </div>
           </>
         ) : (
+          /* ── RECIPE MODE: WAIT ── */
           <>
+            <div className="act-phase-badge wait">
+              {lang === 'ja' ? 'WAIT · 待機' : 'WAIT'}
+            </div>
             <div className="act-hero">
               {stepRemaining}
               <span className="act-hero-unit">s</span>
