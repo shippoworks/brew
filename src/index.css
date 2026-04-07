@@ -119,36 +119,27 @@ a{color:inherit;text-decoration:none}
 .act-top{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;border-bottom:1px solid #1e1e1e}
 .act-rname{font-size:11px;letter-spacing:.12em;color:#555}
 .act-pause{font-size:11px;font-weight:700;letter-spacing:.08em;color:#bbb;border:1px solid #444;padding:5px 12px;background:none;cursor:pointer;font-family:var(--sans)}
-/* Canvas — top half (flex:1 fills remaining space above .act-bottom) */
-.act-canvas-wrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
-.act-canvas-wrap canvas{display:block;width:min(55vw,220px);height:min(55vw,220px)}
-/* Bottom half */
-.act-bottom{display:flex;flex-direction:column;flex-shrink:0;border-top:1px solid #1a1a1a}
-.act-step-label{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 4px}
-.act-step-type-badge{font-size:10px;font-weight:700;letter-spacing:.16em;color:#fff;background:#222;padding:3px 8px}
-.act-step-count{font-size:10px;letter-spacing:.1em;color:#444}
-.act-instruction{font-family:var(--mono);font-size:20px;font-weight:700;color:#fff;padding:2px 16px 4px;line-height:1.2}
-.act-tip-text{font-size:12px;color:#555;padding:0 16px 8px;line-height:1.4}
-/* Scale display: TIME | WEIGHT */
-.act-scale-display{display:flex;align-items:stretch;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a}
-.act-scale-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px}
-.act-scale-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;color:#444;margin-bottom:4px}
-.act-scale-val{font-family:var(--mono);font-size:36px;font-weight:700;color:#fff;line-height:1;letter-spacing:.02em}
-.act-scale-unit{font-size:16px;font-weight:400;color:#666;margin-left:2px}
-.act-scale-divider{width:1px;background:#1a1a1a;flex-shrink:0;margin:8px 0}
+/* Canvas — fixed smaller height to give room for the hero */
+.act-canvas-wrap{flex-shrink:0;height:min(44vw,190px);display:flex;align-items:center;justify-content:center}
+.act-canvas-wrap canvas{display:block;width:min(44vw,190px);height:min(44vw,190px)}
 /* Progress bar */
-.act-progbar{display:flex;height:3px}
+.act-progbar{display:flex;height:3px;flex-shrink:0}
 .pseg{flex:1;background:#1a1a1a;margin-right:1px}
 .pseg:last-child{margin-right:0}
 .pseg.done{background:#444}
 .pseg.cur{background:#fff}
-/* Next step */
-.act-next{padding:10px 16px}
-.act-next-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;color:#3a3a3a;margin-bottom:4px}
-.act-next-instruction{font-family:var(--mono);font-size:15px;font-weight:700;color:#555;margin-bottom:2px}
-.act-next-tip-text{font-size:11px;color:#3a3a3a;line-height:1.4}
+/* Phase hero area — fills remaining space, centered */
+.act-phase-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 16px;min-height:0}
+.act-phase-badge{font-size:9px;font-weight:700;letter-spacing:.2em;padding:4px 12px;border:1px solid #2a2a2a;color:#444;transition:background .2s,color .2s,border-color .2s}
+.act-phase-badge.pour{background:#fff;color:#000;border-color:#fff}
+.act-phase-badge.wait{background:transparent;color:#444;border-color:#2a2a2a}
+.act-hero{font-family:var(--mono);font-size:clamp(64px,18vw,88px);font-weight:700;line-height:1;color:#fff;letter-spacing:-.02em}
+.act-hero-unit{font-size:clamp(26px,7vw,36px);font-weight:400;color:#555;margin-left:3px;vertical-align:baseline}
+.act-hero-sub{font-size:13px;color:#444;letter-spacing:.06em;margin-top:2px}
 /* Footer */
-.act-hint{font-size:9px;font-weight:700;letter-spacing:.16em;color:#2a2a2a;text-align:center;padding:7px}
+.act-footer-bar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 16px 12px;border-top:1px solid #1a1a1a}
+.act-total-time{font-family:var(--mono);font-size:13px;color:#3a3a3a}
+.act-step-count{font-size:10px;font-weight:700;letter-spacing:.14em;color:#333}
 
 /* OVERLAYS (active screen) */
 .overlay{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
