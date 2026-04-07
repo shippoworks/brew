@@ -172,6 +172,60 @@ export const recipes: Recipe[] = [
     ]
   },
   {
+    id: "recipe_007",
+    meta: {
+      title: "4:6 Method (Canonical)",
+      title_ja: "4:6メソッド（正規版）",
+      creator: "T.Kasuya / Philocoffea",
+      grind: { comandante: 30, timemore: 22, zpresso: 4.2, varia: 7, label: "Coarse", label_ja: "粗め" },
+      desc: "The original World Brewers Cup 2016 winning recipe by Tetsu Kasuya. Five equal 60g pours divide into two phases: the first two pours (40%) control flavor — sweetness vs. acidity — while the last three pours (60%) control strength. Each pour begins only once the previous has fully drained. Adjust the first pour split to dial in your cup.",
+      desc_ja: "粕谷哲による2016年World Brewers Cup優勝の正規レシピ。60gずつ5回注ぐことで2フェーズに分かれます。最初の2投（40%）は甘みと酸味のバランスを決定し、後半3投（60%）は濃度をコントロールします。前回の注湯が完全に落ちてから次を注ぐのが鍵。最初の2投の配分で味を調整できます。",
+      beans_note: "Versatile across all origins and processes. To tune flavor: split first two pours equally (60g/60g) for balance; more in the 1st pour (70g/50g) for brightness; less (50g/70g) for sweetness. Medium-light to medium roast recommended.",
+      beans_note_ja: "産地・精製問わず幅広く対応。風味調整：最初の2投を均等(60g/60g)でバランス、1投目を多く(70g/50g)で明るさ・酸味、少なく(50g/70g)で甘みが強まります。ミディアムライト〜ミディアムロースト推奨。",
+      links: ["https://en.philocoffea.com/blogs/blog/coffee-brewing-method", "https://philocoffea.com"],
+      tags: ["balanced", "sweet", "clean", "adjustable"],
+      roast: 2, brewer: "V60", temp: 92, estimatedTime: 210, hot: true, likes: 0, createdAt: "2026-04-07"
+    },
+    base: { beans: 20, water: 300, temp: 92 },
+    steps: [
+      { type: "pour", duration: 12, target_ratio: 0.20, tip: "Pour 60g — center, gentle spiral", tip_ja: "60g注ぐ — 中心からゆっくりスパイラル" },
+      { type: "wait", duration: 30, tip: "Wait for complete draw-down — taste phase 1", tip_ja: "完全にドローダウンするまで待つ — 風味フェーズ1" },
+      { type: "pour", duration: 12, target_ratio: 0.40, tip: "Pour 60g — taste phase complete at 40%", tip_ja: "60g注ぐ — 風味フェーズ完了（40%）" },
+      { type: "wait", duration: 30, tip: "Full draw-down — strength phase begins next", tip_ja: "完全ドローダウン — 次から濃度フェーズ" },
+      { type: "pour", duration: 12, target_ratio: 0.60, tip: "Pour 60g — strength phase starts", tip_ja: "60g注ぐ — 濃度フェーズ開始" },
+      { type: "wait", duration: 30, tip: "Steady draw-down", tip_ja: "安定したドローダウン" },
+      { type: "pour", duration: 12, target_ratio: 0.80, tip: "Pour 60g — consistent pace", tip_ja: "60g注ぐ — 一定のペースで" },
+      { type: "wait", duration: 30, tip: "Nearly complete", tip_ja: "もうすぐ完了" },
+      { type: "pour", duration: 12, target_ratio: 1.0, tip: "Final 60g — center pour", tip_ja: "最終60g — 中心に注ぐ" },
+      { type: "wait", duration: 30, tip: "Complete draw-down — total 3:30", tip_ja: "完全にドローダウン — 合計3分30秒" }
+    ]
+  },
+  {
+    id: "recipe_008",
+    meta: {
+      title: "Kurasu Kyoto V60",
+      title_ja: "Kurasu京都 V60",
+      creator: "Tsubasa / Kurasu Kyoto",
+      grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "やや細め" },
+      desc: "A clean, structured three-pour V60 recipe published by Tsubasa at Kurasu Kyoto. The generous 40g bloom saturates the bed evenly before two progressive pours build extraction. Compact at just over two minutes, yet precise enough to showcase delicate floral and fruit notes. Adjust grind coarser if draw-down is too slow.",
+      desc_ja: "京都のスペシャルティカフェ・Kurasu KyotoのTsubasaが公開した、クリーンで構造的な3投V60レシピ。40gの多めの蒸らしで粉全体を均一に湿らせ、その後2投で段階的に抽出します。2分少々とコンパクトながら、フローラルやフルーツの繊細なニュアンスを引き出す精度があります。ドローダウンが遅い場合は挽き目を粗くしてください。",
+      beans_note: "Light-roasted Ethiopian or Kenyan washed beans shine here. Also excellent with Guatemalan or Rwandan single origins. Avoid dark roasts — this recipe rewards high-quality, delicate beans.",
+      beans_note_ja: "エチオピアやケニア産のライトロースト・ウォッシュトが特に映えます。グアテマラやルワンダ産のシングルオリジンにも最適。ダークローストには不向き。高品質で繊細な豆を使うと真価が発揮されます。",
+      links: ["https://kurasu.kyoto/blogs/kurasu-journal/tsubasas-homebrew-recipe", "https://kurasu.kyoto"],
+      tags: ["clean", "bright", "floral"],
+      roast: 1, brewer: "V60", temp: 92, estimatedTime: 145, hot: true, likes: 0, createdAt: "2026-04-07"
+    },
+    base: { beans: 14, water: 200, temp: 92 },
+    steps: [
+      { type: "pour", duration: 15, target_ratio: 0.20, tip: "Bloom — 40g, saturate evenly", tip_ja: "蒸らし — 40g、均一に湿らせる" },
+      { type: "wait", duration: 25, tip: "Full bloom — 40s from start", tip_ja: "蒸らし完了 — スタートから40秒" },
+      { type: "pour", duration: 20, target_ratio: 0.55, tip: "Pour to 110g — gentle outward spiral", tip_ja: "110gまで注ぐ — 外へ向かって穏やかにスパイラル" },
+      { type: "wait", duration: 10, tip: "Short rest — watch the bed", tip_ja: "短い休憩 — コーヒーベッドを観察" },
+      { type: "pour", duration: 25, target_ratio: 1.0, tip: "Final pour to 200g — spiral back to center", tip_ja: "200gまで最終注湯 — 中心へ収束させる" },
+      { type: "wait", duration: 50, tip: "Complete draw-down — total ~2:15", tip_ja: "完全にドローダウン — 合計約2分15秒" }
+    ]
+  },
+  {
     id: "recipe_006",
     meta: {
       title: "Aeropress Classic",
