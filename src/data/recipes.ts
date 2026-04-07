@@ -42,35 +42,6 @@ export interface Recipe {
 
 export const recipes: Recipe[] = [
   {
-    id: "recipe_001",
-    meta: {
-      title: "6:4 Method",
-      title_ja: "6:4メソッド",
-      creator: "T.Kasuya",
-      grind: { comandante: 25, timemore: 18, zpresso: 3.2, varia: 6, label: "Medium-Coarse", label_ja: "やや粗め" },
-      desc: "This recipe divides the pour into two distinct phases: the first 60% extracts sweetness and body, while the final 40% adjusts balance and strength. By controlling each pour independently, you can dial in the cup with surgical precision. Kasuya's World Brewers Cup-winning method, refined for repeatability.",
-      desc_ja: "注湯を2フェーズに分割するレシピです。前半60%で甘みとボディを引き出し、後半40%でバランスと濃度を調整します。各注湯を独立してコントロールすることで、精密にカップを調整できます。粕谷哲のWorld Brewers Cup優勝手法を再現性重視でチューニングしたものです。",
-      beans_note: "Versatile — works with any origin. Particularly shines with washed Ethiopian or Colombian beans. Medium-light roast recommended.",
-      beans_note_ja: "どんな産地の豆にも対応可能。ウォッシュトのエチオピアやコロンビア産と特に相性が良いです。ミディアムライト焙煎推奨。",
-      links: ["https://twitter.com/tetsu_kasuya", "https://kasuya.coffee"],
-      tags: ["balanced", "sweet", "clean"],
-      roast: 2, brewer: "V60", temp: 93, estimatedTime: 210, hot: true, likes: 2847, createdAt: "2024-01-15"
-    },
-    base: { beans: 20, water: 300, temp: 93 },
-    steps: [
-      { type: "pour", duration: 10, target_ratio: 0.12, tip: "Bloom — saturate evenly", tip_ja: "蒸らし — 均一に湿らせる" },
-      { type: "wait", duration: 35, tip: "Wait for full bloom", tip_ja: "蒸らしが完了するまで待つ" },
-      { type: "pour", duration: 20, target_ratio: 0.28, tip: "Slow spiral, center out", tip_ja: "中心から外へゆっくりスパイラル" },
-      { type: "wait", duration: 30, tip: "Let it drain halfway", tip_ja: "半分ほど落ちるまで待つ" },
-      { type: "pour", duration: 15, target_ratio: 0.44, tip: "Maintain steady flow", tip_ja: "一定の流量を保つ" },
-      { type: "wait", duration: 20, tip: "Watch the draw-down", tip_ja: "落ちるのを見守る" },
-      { type: "pour", duration: 15, target_ratio: 0.60, tip: "Gentle, consistent pour", tip_ja: "穏やかに一定速度で注ぐ" },
-      { type: "wait", duration: 20, tip: "Control the strength", tip_ja: "濃度を調整する" },
-      { type: "pour", duration: 15, target_ratio: 0.80, tip: "Adjust to taste", tip_ja: "好みに合わせて調整" },
-      { type: "wait", duration: 30, tip: "Final draw-down", tip_ja: "最終ドローダウン" }
-    ]
-  },
-  {
     id: "recipe_002",
     meta: {
       title: "Turbo Bloom",
