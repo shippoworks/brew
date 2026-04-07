@@ -314,18 +314,17 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
   const pourStartSec = stepStartSec(r, stepIdx)
   const pourEndSec   = stepEndSec(r, stepIdx)
   const heroTarget   = stepTargetG(r, stepIdx, beans)
-  const deltaG       = stepDeltaG(r, stepIdx, beans)
 
   function nextStepSummary(): string {
     const nsIdx = stepIdx + 1
     const ns = r.steps[nsIdx]
     if (!ns) return lang === 'ja' ? '最終ステップ' : 'last step'
-    const nsDelta  = stepDeltaG(r, nsIdx, beans)
-    const nsStart  = fmtSec(stepEndSec(r, stepIdx))
-    const nsEnd    = fmtSec(stepEndSec(r, nsIdx))
+    const nsTgt   = stepTargetG(r, nsIdx, beans)
+    const nsStart = fmtSec(stepEndSec(r, stepIdx))
+    const nsEnd   = fmtSec(stepEndSec(r, nsIdx))
     if (ns.type === 'pour') {
-      return nsDelta != null
-        ? `next: ${nsStart} → ${nsEnd} · +${nsDelta.toFixed(0)}g`
+      return nsTgt != null
+        ? `next: ${nsStart} → ${nsEnd}  ~${nsTgt.toFixed(0)}g`
         : (lang === 'ja' ? '次: 注湯' : 'next: pour')
     }
     return lang === 'ja' ? '次: 待機' : 'next: wait'
@@ -364,7 +363,7 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
       <div className="act-phase-area" onClick={e => e.stopPropagation()}>
 
         {timerMode ? (
-          /* ── TIMER MODE: 大きなタイマー表示 ── */
+          /* ── TIMER MODE ── */
           <>
             <div className={`act-phase-badge${curStep?.type === 'pour' ? ' pour' : ' wait'}`}>
               {curStep?.type === 'pour'
@@ -373,8 +372,8 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
             </div>
             <div className="act-timer-hero">{timerDisplay}</div>
             <div className="act-hero-sub">
-              {curStep?.type === 'pour' && deltaG != null
-                ? `${fmtSec(pourStartSec)} → ${fmtSec(pourEndSec)} · +${deltaG.toFixed(0)}g`
+              {curStep?.type === 'pour' && heroTarget != null
+                ? `${fmtSec(pourStartSec)} → ${fmtSec(pourEndSec)}  ~${heroTarget.toFixed(0)}g`
                 : nextStepSummary()}
             </div>
           </>
@@ -388,17 +387,8 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
               {fmtSec(pourStartSec)} → {fmtSec(pourEndSec)}
             </div>
             <div className="act-hero">
-              +{deltaG != null ? deltaG.toFixed(0) : '—'}
+              ~{heroTarget != null ? heroTarget.toFixed(0) : '—'}
               <span className="act-hero-unit">g</span>
-            </div>
-            <div className="act-hero-sub">
-              {heroTarget != null
-                ? (lang === 'ja' ? `→ 合計 ${heroTarget.toFixed(0)}g` : `→ ${heroTarget.toFixed(0)}g total`)
-                : ''}
-              {' · '}
-              {stepRemaining > 0
-                ? (lang === 'ja' ? `残り ${stepRemaining}s` : `${stepRemaining}s left`)
-                : (lang === 'ja' ? '完了' : 'done')}
             </div>
           </>
         ) : (
@@ -407,11 +397,7 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
             <div className="act-phase-badge wait">
               {lang === 'ja' ? 'WAIT · 待機' : 'WAIT'}
             </div>
-            <div className="act-hero">
-              {stepRemaining}
-              <span className="act-hero-unit">s</span>
-            </div>
-            <div className="act-hero-sub">{nextStepSummary()}</div>
+            <div className="act-wait-next">{nextStepSummary()}</div>
           </>
         )}
       </div>

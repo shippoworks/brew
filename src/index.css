@@ -121,27 +121,28 @@ a{color:inherit;text-decoration:none}
 .act-timer-btn{font-size:10px;font-weight:700;letter-spacing:.1em;color:#444;border:1px solid #2a2a2a;padding:5px 10px;background:none;cursor:pointer;font-family:var(--sans);flex-shrink:0}
 .act-timer-btn.on{color:#fff;border-color:#666}
 .act-pause{font-size:11px;font-weight:700;letter-spacing:.08em;color:#bbb;border:1px solid #444;padding:5px 12px;background:none;cursor:pointer;font-family:var(--sans);flex-shrink:0}
-/* Canvas — fixed smaller height to give room for the hero */
-.act-canvas-wrap{flex-shrink:0;height:min(44vw,190px);display:flex;align-items:center;justify-content:center}
+/* Canvas — pushed down with top margin */
+.act-canvas-wrap{flex-shrink:0;height:min(44vw,190px);display:flex;align-items:center;justify-content:center;margin-top:16px}
 .act-canvas-wrap canvas{display:block;width:min(44vw,190px);height:min(44vw,190px)}
-/* Progress bar */
-.act-progbar{display:flex;height:3px;flex-shrink:0}
-.pseg{flex:1;background:#1a1a1a;margin-right:1px}
-.pseg:last-child{margin-right:0}
-.pseg.done{background:#444}
-.pseg.cur{background:#fff}
-/* Phase hero area — fills remaining space, centered */
-.act-phase-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 16px;min-height:0}
+/* Progress bar — circular dots */
+.act-progbar{display:flex;justify-content:center;align-items:center;gap:5px;padding:12px 16px 0;flex-shrink:0}
+.pseg{flex:none;width:5px;height:5px;border-radius:50%;background:#222}
+.pseg.done{background:#555}
+.pseg.cur{background:#fff;box-shadow:0 0 4px rgba(255,255,255,.4)}
+/* Phase hero area */
+.act-phase-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 16px;min-height:0}
 .act-phase-badge{font-size:9px;font-weight:700;letter-spacing:.2em;padding:4px 12px;border:1px solid #2a2a2a;color:#444;transition:background .2s,color .2s,border-color .2s}
 .act-phase-badge.pour{background:#fff;color:#000;border-color:#fff}
 .act-phase-badge.wait{background:transparent;color:#444;border-color:#2a2a2a}
 /* Recipe mode: POUR */
-.act-time-range{font-family:var(--mono);font-size:clamp(20px,5.5vw,26px);font-weight:700;color:#777;letter-spacing:.02em;margin-top:2px}
-.act-hero{font-family:var(--mono);font-size:clamp(60px,17vw,84px);font-weight:700;line-height:1;color:#fff;letter-spacing:-.02em}
-.act-hero-unit{font-size:clamp(24px,6.5vw,34px);font-weight:400;color:#555;margin-left:3px;vertical-align:baseline}
-.act-hero-sub{font-size:13px;color:#444;letter-spacing:.04em;margin-top:2px}
+.act-time-range{font-family:var(--mono);font-size:clamp(26px,7vw,32px);font-weight:700;color:#777;letter-spacing:.02em}
+.act-hero{font-family:var(--mono);font-size:clamp(72px,20vw,96px);font-weight:700;line-height:1;color:#fff;letter-spacing:-.02em}
+.act-hero-unit{font-size:clamp(28px,7.5vw,38px);font-weight:400;color:#555;margin-left:3px;vertical-align:baseline}
+/* Recipe mode: WAIT */
+.act-wait-next{font-family:var(--mono);font-size:clamp(17px,4.5vw,21px);font-weight:700;color:#555;letter-spacing:.02em;text-align:center;line-height:1.6}
 /* Timer mode */
-.act-timer-hero{font-family:var(--mono);font-size:clamp(64px,19vw,96px);font-weight:700;line-height:1;color:#fff;letter-spacing:.02em}
+.act-timer-hero{font-family:var(--mono);font-size:clamp(68px,20vw,100px);font-weight:700;line-height:1;color:#fff;letter-spacing:.02em}
+.act-hero-sub{font-size:13px;color:#444;letter-spacing:.04em;margin-top:2px}
 /* Footer */
 .act-footer-bar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 16px 12px;border-top:1px solid #1a1a1a}
 .act-total-time{font-family:var(--mono);font-size:13px;color:#3a3a3a}
