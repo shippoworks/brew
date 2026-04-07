@@ -339,8 +339,20 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
         <button
           className={`act-timer-btn${timerMode ? ' on' : ''}`}
           onClick={() => setTimerMode(m => !m)}
+          aria-label={timerMode ? 'Hide timer' : 'Show timer'}
         >
-          {timerMode ? 'RECIPE' : 'TIMER'}
+          {timerMode ? (
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1 7s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z"/>
+              <circle cx="10" cy="7" r="2.5"/>
+            </svg>
+          ) : (
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1 7s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z" opacity="0.35"/>
+              <circle cx="10" cy="7" r="2.5" opacity="0.35"/>
+              <line x1="3" y1="1" x2="17" y2="13"/>
+            </svg>
+          )}
         </button>
         <button className="act-pause" onClick={handlePauseResume}>
           {overlay === 'paused' ? t('resume') : t('pause')}
@@ -352,33 +364,23 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
         <canvas ref={canvasRef} />
       </div>
 
-      {/* ── PROGRESS BAR ── */}
+      {/* ── PROGRESS DOTS ── */}
       <div className="act-progbar">
         {r.steps.map((_, i) => (
           <div key={i} className={`pseg${i < stepIdx ? ' done' : i === stepIdx ? ' cur' : ''}`} />
         ))}
       </div>
 
-      {/* ── PHASE HERO AREA ── */}
-      <div className="act-phase-area" onClick={e => e.stopPropagation()}>
+      {/* ── ADDL TIMER (shown when eye is open) ── */}
+      {timerMode && (
+        <div className="act-addl-timer" onClick={e => e.stopPropagation()}>
+          {timerDisplay}
+        </div>
+      )}
 
-        {timerMode ? (
-          /* ── TIMER MODE ── */
-          <>
-            <div className={`act-phase-badge${curStep?.type === 'pour' ? ' pour' : ' wait'}`}>
-              {curStep?.type === 'pour'
-                ? (lang === 'ja' ? 'POUR · 注湯' : 'POUR')
-                : (lang === 'ja' ? 'WAIT · 待機' : 'WAIT')}
-            </div>
-            <div className="act-timer-hero">{timerDisplay}</div>
-            <div className="act-hero-sub">
-              {curStep?.type === 'pour' && heroTarget != null
-                ? `${fmtSec(pourStartSec)} → ${fmtSec(pourEndSec)}  ~${heroTarget.toFixed(0)}g`
-                : nextStepSummary()}
-            </div>
-          </>
-        ) : curStep?.type === 'pour' ? (
-          /* ── RECIPE MODE: POUR ── */
+      {/* ── PHASE HERO AREA (always shown) ── */}
+      <div className="act-phase-area" onClick={e => e.stopPropagation()}>
+        {curStep?.type === 'pour' ? (
           <>
             <div className="act-phase-badge pour">
               {lang === 'ja' ? 'POUR · 注湯' : 'POUR'}
@@ -392,7 +394,6 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
             </div>
           </>
         ) : (
-          /* ── RECIPE MODE: WAIT ── */
           <>
             <div className="act-phase-badge wait">
               {lang === 'ja' ? 'WAIT · 待機' : 'WAIT'}
