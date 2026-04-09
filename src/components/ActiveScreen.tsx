@@ -414,27 +414,35 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
       {/* ── READY OVERLAY ── */}
       <div className={`overlay${overlay === 'ready' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
-        <div className="ready-label">{t('ready_step1')}</div>
+        <div className="overlay-upper">
+          <div className="ready-label">{t('ready_step1')}</div>
+        </div>
         <div className="ready-type-badge">
           {step0?.type === 'pour' ? t('step_pour') : t('step_wait')}
         </div>
         <div className="ready-instruction">{buildInstruction(0)}</div>
         <div className="ready-tip">{lang === 'ja' ? step0?.tip_ja : step0?.tip}</div>
-        <button className="ready-start-btn" onClick={startCountdown}>{t('act_start')}</button>
-        <button className="ready-back-btn" onClick={handleStop}>{t('act_back')}</button>
+        <div className="overlay-actions">
+          <button className="ready-start-btn" onClick={startCountdown}>{t('act_start')}</button>
+          <button className="ready-back-btn" onClick={handleStop}>{t('act_back')}</button>
+        </div>
       </div>
 
       {/* ── COUNTDOWN OVERLAY ── */}
       <div className={`overlay${overlay === 'countdown' ? ' show' : ''}`} onClick={e => e.stopPropagation()}>
-        <div className="cd-num">{cdCount === 0 ? 'GO' : cdCount}</div>
-        <div className="cd-lbl">{t('cd_lbl')}</div>
-        <div className="cd-step-divider" />
+        <div className="overlay-upper">
+          <div className="cd-num">{cdCount === 0 ? 'GO' : cdCount}</div>
+          <div className="cd-lbl">{t('cd_lbl')}</div>
+          <div className="cd-step-divider" />
+        </div>
         <div className="ready-type-badge">
           {step0?.type === 'pour' ? t('step_pour') : t('step_wait')}
         </div>
         <div className="ready-instruction">{buildInstruction(0)}</div>
         <div className="ready-tip">{lang === 'ja' ? step0?.tip_ja : step0?.tip}</div>
-        <button className="cd-cancel" onClick={cancelCountdown}>{t('cd_cancel')}</button>
+        <div className="overlay-actions">
+          <button className="cd-cancel" onClick={cancelCountdown}>{t('cd_cancel')}</button>
+        </div>
       </div>
 
       {/* ── PAUSED OVERLAY ── */}

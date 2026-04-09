@@ -150,6 +150,8 @@ a{color:inherit;text-decoration:none}
 /* OVERLAYS (active screen) */
 .overlay{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:20;opacity:0;pointer-events:none;transition:opacity .2s}
 .overlay.show{opacity:1;pointer-events:all}
+.overlay-upper{flex:0 0 150px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px}
+.overlay-actions{flex:0 0 100px;display:flex;flex-direction:column;align-items:center;gap:14px}
 /* Ready overlay — styled to match extraction screen */
 .ready-label{font-size:9px;font-weight:700;letter-spacing:.2em;color:#3a3a3a}
 .ready-type-badge{font-size:10px;font-weight:700;letter-spacing:.16em;color:#fff;background:#222;padding:3px 10px}
