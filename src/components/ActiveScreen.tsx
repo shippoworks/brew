@@ -342,15 +342,18 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
           aria-label={timerMode ? 'Hide timer' : 'Show timer'}
         >
           {timerMode ? (
-            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M1 7s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z"/>
-              <circle cx="10" cy="7" r="2.5"/>
+            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="10" cy="11" r="7"/>
+              <line x1="10" y1="11" x2="10" y2="6"/>
+              <line x1="7" y1="2" x2="13" y2="2"/>
+              <line x1="10" y1="2" x2="10" y2="4"/>
             </svg>
           ) : (
-            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M1 7s4-6 9-6 9 6 9 6-4 6-9 6-9-6-9-6z" opacity="0.35"/>
-              <circle cx="10" cy="7" r="2.5" opacity="0.35"/>
-              <line x1="3" y1="1" x2="17" y2="13"/>
+            <svg width="20" height="18" viewBox="0 0 20 18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4">
+              <circle cx="10" cy="11" r="7"/>
+              <line x1="10" y1="11" x2="10" y2="6"/>
+              <line x1="7" y1="2" x2="13" y2="2"/>
+              <line x1="10" y1="2" x2="10" y2="4"/>
             </svg>
           )}
         </button>
@@ -371,7 +374,7 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
         ))}
       </div>
 
-      {/* ── ADDL TIMER (shown when eye is open) ── */}
+      {/* ── ADDL TIMER (shown when timer icon is active) ── */}
       {timerMode && (
         <div className="act-addl-timer" onClick={e => e.stopPropagation()}>
           {timerDisplay}
