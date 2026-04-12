@@ -41,183 +41,316 @@ export interface Recipe {
 }
 
 export const recipes: Recipe[] = [
+  /* ================================================================
+     V60 — 5 recipes (light / medium / dark / iced / one-pour)
+     ================================================================ */
   {
-    id: "recipe_002",
+    id: "v60_light_hot",
     meta: {
-      title: "Turbo Bloom",
-      title_ja: "ターボブルーム",
-      creator: "M.Hoffmann",
-      grind: { comandante: 30, timemore: 22, zpresso: 4.0, varia: 7, label: "Coarse", label_ja: "粗め" },
-      desc: "A high-agitation, fast-draw method designed for clarity and brightness. The aggressive first pour creates turbulence that extracts evenly without channeling. Ideal for light-roasted, high-density beans where you want the full fruit character without bitterness.",
-      desc_ja: "高攪拌・高速ドローダウンで明るさとクリアさを引き出すレシピ。積極的な最初の注湯が乱流を生み、チャネリングなく均一に抽出します。苦みなくフルーツ感を最大限引き出したい、ライトロースト・高密度の豆に最適です。",
-      beans_note: "Best with natural or honey-processed light roasts from Ethiopia, Kenya, or Guatemala. High-density, specialty-grade beans only.",
-      beans_note_ja: "エチオピア・ケニア・グアテマラ産のナチュラルまたはハニープロセス、ライトローストに最適。高密度・スペシャルティグレードの豆専用。",
-      links: ["https://youtube.com/hoffmann", "https://squaremilecoffee.com"],
-      tags: ["bright", "fruity", "clean"],
-      roast: 1, brewer: "V60", temp: 96, estimatedTime: 180, hot: true, likes: 1923, createdAt: "2024-02-20"
+      title: "V60 Light Roast Basic",
+      title_ja: "V60 浅煎り 基本",
+      creator: "BREW",
+      grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
+      desc: "A basic three-pour V60 recipe designed to highlight the bright acidity and floral notes of light-roasted beans. Higher water temperature compensates for the harder, denser structure of light roasts, ensuring thorough extraction without bitterness.",
+      desc_ja: "浅煎り豆の明るい酸味とフローラルなノートを引き出す基本の3投V60レシピ。高めの湯温が硬く密度の高い浅煎り豆に対応し、苦みなくしっかりと抽出します。",
+      beans_note: "Washed Ethiopian or Kenyan beans are ideal. Floral and citrus notes will be pronounced. Avoid very dark roasts with this recipe.",
+      beans_note_ja: "ウォッシュトのエチオピアやケニア産が理想的。フローラルやシトラス系のノートが際立ちます。深煎りには不向きです。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["bright", "clean", "floral"],
+      roast: 1, brewer: "V60", temp: 94, estimatedTime: 160, hot: true, likes: 0, createdAt: "2026-04-12"
     },
-    base: { beans: 15, water: 250, temp: 96 },
+    base: { beans: 15, water: 250, temp: 94 },
     steps: [
-      { type: "pour", duration: 8, target_ratio: 0.20, tip: "Aggressive bloom — agitate", tip_ja: "力強い蒸らし — しっかり攪拌" },
-      { type: "wait", duration: 32, tip: "Full bloom development", tip_ja: "蒸らしを十分に完成させる" },
-      { type: "pour", duration: 30, target_ratio: 0.80, tip: "Fast, high pour — create turbulence", tip_ja: "高い位置から速く — 乱流を作る" },
-      { type: "wait", duration: 15, tip: "Quick draw-down", tip_ja: "素早くドローダウン" },
-      { type: "pour", duration: 20, target_ratio: 1.0, tip: "Final fill — stay centered", tip_ja: "最終注湯 — 中心をキープ" },
-      { type: "wait", duration: 75, tip: "Drain completely", tip_ja: "完全に落ちきるまで待つ" }
+      { type: "pour", duration: 15, target_ratio: 0.18, tip: "Bloom — saturate all grounds evenly", tip_ja: "蒸らし — 粉全体を均一に湿らせる" },
+      { type: "wait", duration: 30, tip: "Let CO₂ escape fully", tip_ja: "CO₂が十分に抜けるまで待つ" },
+      { type: "pour", duration: 25, target_ratio: 0.60, tip: "Main pour — steady center spiral", tip_ja: "メインの注湯 — 中心から安定したスパイラル" },
+      { type: "wait", duration: 15, tip: "Let the bed settle", tip_ja: "コーヒーベッドが落ち着くまで待つ" },
+      { type: "pour", duration: 25, target_ratio: 1.00, tip: "Final pour — gentle, stay centered", tip_ja: "最終注湯 — 穏やかに中心をキープ" },
+      { type: "wait", duration: 50, tip: "Full draw-down", tip_ja: "完全にドローダウン" }
     ]
   },
   {
-    id: "recipe_003",
+    id: "v60_medium_hot",
     meta: {
-      title: "Iced Clarity",
-      title_ja: "アイスクラリティ",
-      creator: "S.Goto",
-      grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "やや細め" },
-      desc: "A Japanese-style flash-iced brew. Half the water weight is placed as ice in the vessel below. The hot concentrated brew hits the ice immediately, locking in volatile aromatics and achieving crystal clarity. Serve immediately — this cup does not improve with time.",
-      desc_ja: "日本式フラッシュアイスブリュー。抽出量の半量を氷としてサーバーに入れておきます。高温の濃縮されたコーヒーが即座に氷に当たり、揮発性の香りを閉じ込め、クリスタルのような透明感を実現します。すぐに飲んでください。",
-      beans_note: "Ethiopian washed (Yirgacheffe, Guji) or Kenyan AA — floral and citrus notes become vivid when iced. Light roast only.",
-      beans_note_ja: "エチオピア ウォッシュト（イルガチェフ、グジ）またはケニアAA。アイスにすることでフローラル・シトラス系の風味が際立ちます。ライトロースト限定。",
-      links: ["https://instagram.com/goto_coffee", "https://onibuscoffee.com"],
-      tags: ["clean", "floral", "bright"],
-      roast: 1, brewer: "V60", temp: 92, estimatedTime: 150, hot: false, likes: 1456, createdAt: "2024-03-01"
+      title: "V60 Medium Roast Standard",
+      title_ja: "V60 中煎り 定番",
+      creator: "BREW",
+      grind: { comandante: 24, timemore: 18, zpresso: 3.4, varia: 6, label: "Medium", label_ja: "中挽き" },
+      desc: "The everyday V60 recipe for medium-roasted beans. Four pours at moderate temperature bring out balanced sweetness and clean body. A reliable starting point for most single-origin coffees.",
+      desc_ja: "中煎り豆の日常使いV60レシピ。適度な温度での4投がバランスの良い甘みとクリーンなボディを引き出します。ほとんどのシングルオリジンに対応する安定のスタートポイント。",
+      beans_note: "Works well with most washed or natural single origins — Colombian, Guatemalan, Costa Rican. Medium roast recommended.",
+      beans_note_ja: "ウォッシュトやナチュラルのシングルオリジン全般に好相性。コロンビア、グアテマラ、コスタリカ産など。中煎り推奨。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["balanced", "sweet", "clean"],
+      roast: 3, brewer: "V60", temp: 91, estimatedTime: 165, hot: true, likes: 0, createdAt: "2026-04-12"
     },
-    base: { beans: 15, water: 150, temp: 92 },
+    base: { beans: 15, water: 250, temp: 91 },
     steps: [
-      { type: "pour", duration: 10, target_ratio: 0.20, tip: "Bloom — slow and steady", tip_ja: "蒸らし — ゆっくり丁寧に" },
-      { type: "wait", duration: 30, tip: "Full bloom", tip_ja: "蒸らし完了まで待つ" },
-      { type: "pour", duration: 25, target_ratio: 0.60, tip: "Concentrated pour — precise", tip_ja: "濃縮注湯 — 正確に" },
-      { type: "wait", duration: 20, tip: "Watch the bed", tip_ja: "コーヒーベッドを観察" },
-      { type: "pour", duration: 15, target_ratio: 0.85, tip: "Maintain flow", tip_ja: "流量を維持" },
-      { type: "wait", duration: 15, tip: "Near complete", tip_ja: "もうすぐ完了" },
-      { type: "pour", duration: 10, target_ratio: 1.0, tip: "Final water — slow", tip_ja: "最終注湯 — ゆっくりと" },
-      { type: "wait", duration: 25, tip: "Draw down over ice", tip_ja: "氷の上にドローダウン" }
+      { type: "pour", duration: 15, target_ratio: 0.16, tip: "Bloom — slow, even saturation", tip_ja: "蒸らし — ゆっくりと均一に" },
+      { type: "wait", duration: 30, tip: "Wait for bloom to finish", tip_ja: "蒸らしが完了するまで待つ" },
+      { type: "pour", duration: 20, target_ratio: 0.56, tip: "Second pour — center spiral outward", tip_ja: "2投目 — 中心から外側へスパイラル" },
+      { type: "wait", duration: 15, tip: "Brief rest", tip_ja: "短い休憩" },
+      { type: "pour", duration: 15, target_ratio: 0.80, tip: "Third pour — maintain steady flow", tip_ja: "3投目 — 安定した流量を保つ" },
+      { type: "wait", duration: 10, tip: "Short pause", tip_ja: "少し待つ" },
+      { type: "pour", duration: 15, target_ratio: 1.00, tip: "Final pour — gentle finish", tip_ja: "最終注湯 — 穏やかに仕上げ" },
+      { type: "wait", duration: 45, tip: "Draw-down complete", tip_ja: "ドローダウン完了" }
     ]
   },
   {
-    id: "recipe_004",
+    id: "v60_dark_hot",
     meta: {
-      title: "Bodied Immersion",
-      title_ja: "ボディ浸漬",
-      creator: "A.Weber",
-      grind: { comandante: 26, timemore: 19, zpresso: 3.5, varia: 6, label: "Medium", label_ja: "中挽き" },
-      desc: "A hybrid immersion-percolation method for maximum body and sweetness. The extended immersion phase creates even extraction, while the final drain concentrates the cup. Perfect for medium roasts where you want texture alongside clarity. Forgiving of grind inconsistency.",
-      desc_ja: "浸漬と透過を組み合わせたハイブリッド手法で、最大限のボディと甘みを引き出します。長めの浸漬フェーズが均一な抽出を実現し、最後のドレインがカップを凝縮します。クリアさとテクスチャを両立したいミディアムローストに最適。挽き目のばらつきにも寛容です。",
-      beans_note: "Any medium-roasted single origin works well. Brazilian naturals add extra chocolate notes. Also great for blends.",
-      beans_note_ja: "ミディアムローストのシングルオリジンならどんな豆でも良く合います。ブラジルナチュラルはチョコレートのニュアンスが加わります。ブレンドにも最適。",
-      links: ["https://instagram.com/andyweber_coffee", "https://counterculture.coffee"],
-      tags: ["sweet", "balanced", "body"],
-      roast: 3, brewer: "Clever", temp: 91, estimatedTime: 240, hot: true, likes: 987, createdAt: "2024-03-15"
+      title: "V60 Dark Roast Gentle",
+      title_ja: "V60 深煎り やさしく",
+      creator: "BREW",
+      grind: { comandante: 28, timemore: 20, zpresso: 4.0, varia: 7, label: "Medium-Coarse", label_ja: "中粗挽き" },
+      desc: "A low-temperature, coarser-grind V60 recipe for dark roasts. Solubility is high with dark beans, so gentler parameters prevent harsh bitterness and bring out chocolate and caramel sweetness instead.",
+      desc_ja: "深煎り用の低温・粗めのV60レシピ。深煎り豆は溶解度が高いため、穏やかなパラメータで苦味の過抽出を防ぎ、チョコレートやキャラメルの甘みを引き出します。",
+      beans_note: "Dark-roasted beans only — Brazilian, Sumatran, or blends. Chocolate and nutty profiles work best. Not recommended for light roasts.",
+      beans_note_ja: "深煎り豆専用。ブラジル、スマトラ産、またはブレンド向き。チョコレートやナッツ系のプロファイルに最適。浅煎りには不向き。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["bold", "body", "sweet"],
+      roast: 5, brewer: "V60", temp: 85, estimatedTime: 165, hot: true, likes: 0, createdAt: "2026-04-12"
     },
-    base: { beans: 20, water: 320, temp: 91 },
+    base: { beans: 15, water: 250, temp: 85 },
     steps: [
-      { type: "pour", duration: 15, target_ratio: 0.15, tip: "Pre-wet — close valve", tip_ja: "プレウェット — バルブを閉じる" },
-      { type: "wait", duration: 30, tip: "Bloom with valve closed", tip_ja: "バルブを閉じたまま蒸らす" },
-      { type: "pour", duration: 20, target_ratio: 1.0, tip: "Fill completely — gentle", tip_ja: "ゆっくりと満水まで注ぐ" },
-      { type: "wait", duration: 150, tip: "Immersion phase — 2.5 min", tip_ja: "浸漬フェーズ — 2分30秒" },
-      { type: "wait", duration: 25, tip: "Open valve — let drain", tip_ja: "バルブを開けて落とす" }
+      { type: "pour", duration: 15, target_ratio: 0.16, tip: "Bloom — low and gentle", tip_ja: "蒸らし — 低い位置から穏やかに" },
+      { type: "wait", duration: 35, tip: "Longer bloom for dark roast", tip_ja: "深煎り用に長めの蒸らし" },
+      { type: "pour", duration: 30, target_ratio: 0.68, tip: "Slow main pour — avoid agitation", tip_ja: "ゆっくりメイン注湯 — 攪拌を避ける" },
+      { type: "wait", duration: 20, tip: "Let it settle gently", tip_ja: "穏やかに落ち着くまで待つ" },
+      { type: "pour", duration: 25, target_ratio: 1.00, tip: "Final pour — steady and slow", tip_ja: "最終注湯 — 安定してゆっくりと" },
+      { type: "wait", duration: 40, tip: "Draw-down complete", tip_ja: "ドローダウン完了" }
     ]
   },
   {
-    id: "recipe_005",
+    id: "v60_light_iced",
     meta: {
-      title: "Dark & Structured",
-      title_ja: "ダーク&ストラクチャード",
-      creator: "H.Bui",
-      grind: { comandante: 28, timemore: 20, zpresso: 3.8, varia: 7, label: "Medium-Coarse", label_ja: "やや粗め" },
-      desc: "Designed for dark roasts where solubility is high and bitterness is the primary risk. Lower temperature and coarser grind prevent over-extraction. A single long pour maintains flow rate consistency. The result is a structured, bold cup with a clean finish — not muddy, not bitter.",
-      desc_ja: "溶解度が高く苦みが出やすいダークローストのために設計されたレシピ。低温と粗めの挽き目で過抽出を防ぎます。長めの1回注ぎで流量の一定を保ちます。結果は、後味がクリーンで構造的かつボールドなカップです。",
-      beans_note: "Dark-roasted beans only — Sumatra, Brazil, or Italian-style espresso blends work best. Avoid light/medium roasts with this recipe.",
-      beans_note_ja: "ダークロースト専用。スマトラ、ブラジル、またはイタリアンスタイルのエスプレッソブレンドが最適。ライト・ミディアムローストには不向きです。",
-      links: ["https://instagram.com/hbui_coffee", "https://bluebottlecoffee.com"],
-      tags: ["bold", "balanced"],
-      roast: 5, brewer: "Kalita", temp: 85, estimatedTime: 195, hot: true, likes: 743, createdAt: "2024-04-01"
+      title: "V60 Flash Iced",
+      title_ja: "V60 急冷アイス",
+      creator: "BREW",
+      grind: { comandante: 20, timemore: 15, zpresso: 2.8, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
+      desc: "Japanese-style flash-iced pour-over. Half the water weight is replaced by ice in the server below. The hot concentrated brew hits the ice instantly, locking in volatile aromatics for a crystal-clear, bright iced coffee. Serve immediately.",
+      desc_ja: "日本式急冷アイスコーヒー。水量の半分を氷としてサーバーに入れておきます。高温の濃縮コーヒーが瞬時に氷に当たり、揮発性の香りを閉じ込めて透明感のある明るいアイスコーヒーに。すぐに提供してください。",
+      beans_note: "Light-roasted washed beans with floral or citrus notes. Ethiopian Yirgacheffe, Kenyan, or Rwandan single origins are excellent choices.",
+      beans_note_ja: "フローラルやシトラスのノートがある浅煎りウォッシュト豆。エチオピア イルガチェフ、ケニア、ルワンダ産のシングルオリジンが最適。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["bright", "clean", "fruity"],
+      roast: 1, brewer: "V60", temp: 93, estimatedTime: 125, hot: false, likes: 0, createdAt: "2026-04-12"
+    },
+    base: { beans: 15, water: 150, temp: 93 },
+    steps: [
+      { type: "pour", duration: 15, target_ratio: 0.27, tip: "Bloom — finer grind needs less water", tip_ja: "蒸らし — 細挽きなので少なめに" },
+      { type: "wait", duration: 30, tip: "Full bloom development", tip_ja: "蒸らしを十分に発展させる" },
+      { type: "pour", duration: 20, target_ratio: 0.67, tip: "Main pour — concentrated extraction", tip_ja: "メイン注湯 — 濃縮抽出" },
+      { type: "wait", duration: 15, tip: "Watch the bed carefully", tip_ja: "コーヒーベッドをよく観察" },
+      { type: "pour", duration: 15, target_ratio: 1.00, tip: "Final pour — stay centered", tip_ja: "最終注湯 — 中心をキープ" },
+      { type: "wait", duration: 30, tip: "Draw-down onto ice", tip_ja: "氷の上にドローダウン" }
+    ]
+  },
+  {
+    id: "v60_onepour_hot",
+    meta: {
+      title: "V60 One-Pour Simple",
+      title_ja: "V60 ワンプア シンプル",
+      creator: "BREW",
+      grind: { comandante: 30, timemore: 22, zpresso: 4.5, varia: 7, label: "Coarse", label_ja: "粗挽き" },
+      desc: "The simplest possible V60 recipe — just a bloom and one long pour. Coarser grind compensates for the continuous pouring, preventing over-extraction. Great for beginners or busy mornings when precision is less important than consistency.",
+      desc_ja: "V60で最もシンプルなレシピ。蒸らしの後は1回の長い注湯だけ。粗めの挽き目が連続注湯の過抽出を補い、初心者や忙しい朝に最適。精密さよりも再現性を重視したい時に。",
+      beans_note: "Medium-light roast works best. Forgiving of grind inconsistency. Avoid very light or very dark roasts.",
+      beans_note_ja: "中浅煎りに最適。挽き目のばらつきにも寛容。極端な浅煎り・深煎りには不向き。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["balanced", "clean"],
+      roast: 2, brewer: "V60", temp: 93, estimatedTime: 145, hot: true, likes: 0, createdAt: "2026-04-12"
+    },
+    base: { beans: 15, water: 250, temp: 93 },
+    steps: [
+      { type: "pour", duration: 10, target_ratio: 0.16, tip: "Bloom — quick, even saturation", tip_ja: "蒸らし — 素早く均一に" },
+      { type: "wait", duration: 35, tip: "Full bloom — wait for bubbles to stop", tip_ja: "蒸らし完了 — 泡が収まるまで待つ" },
+      { type: "pour", duration: 40, target_ratio: 1.00, tip: "Single slow pour — steady center spiral", tip_ja: "1回の長い注湯 — 安定した中心スパイラル" },
+      { type: "wait", duration: 60, tip: "Full draw-down", tip_ja: "完全にドローダウン" }
+    ]
+  },
+
+  /* ================================================================
+     Kalita Wave — 2 recipes (medium / dark)
+     ================================================================ */
+  {
+    id: "kalita_medium_hot",
+    meta: {
+      title: "Kalita Wave Standard",
+      title_ja: "カリタウェーブ 定番",
+      creator: "BREW",
+      grind: { comandante: 25, timemore: 18, zpresso: 3.5, varia: 6, label: "Medium", label_ja: "中挽き" },
+      desc: "A four-pour Kalita Wave recipe for medium roasts. The flat-bottom design naturally promotes even extraction, making it forgiving and consistent. Multiple small pours build layers of sweetness and body while keeping the cup clean.",
+      desc_ja: "中煎り用の4投カリタウェーブレシピ。フラットボトム構造が自然に均一な抽出を促進し、安定した結果を出しやすいドリッパーです。複数回の小分け注湯で甘みとボディを層状に構築しつつ、クリーンなカップに仕上げます。",
+      beans_note: "Any medium-roasted single origin. Colombian, Guatemalan, and Ethiopian naturals work especially well. Also great for blends.",
+      beans_note_ja: "中煎りのシングルオリジン全般。コロンビア、グアテマラ、エチオピア ナチュラルに特に好相性。ブレンドにも最適。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["balanced", "sweet", "body"],
+      roast: 3, brewer: "Kalita", temp: 92, estimatedTime: 170, hot: true, likes: 0, createdAt: "2026-04-12"
+    },
+    base: { beans: 15, water: 250, temp: 92 },
+    steps: [
+      { type: "pour", duration: 15, target_ratio: 0.16, tip: "Bloom — wet all grounds evenly", tip_ja: "蒸らし — 粉全体を均一に湿らせる" },
+      { type: "wait", duration: 30, tip: "Flat bed should swell evenly", tip_ja: "フラットベッドが均一に膨らむのを確認" },
+      { type: "pour", duration: 20, target_ratio: 0.52, tip: "Second pour — gentle circles", tip_ja: "2投目 — 穏やかな円を描く" },
+      { type: "wait", duration: 20, tip: "Let the wave filter do its work", tip_ja: "ウェーブフィルターに任せる" },
+      { type: "pour", duration: 15, target_ratio: 0.80, tip: "Third pour — center focused", tip_ja: "3投目 — 中心に集中" },
+      { type: "wait", duration: 15, tip: "Brief pause", tip_ja: "少し待つ" },
+      { type: "pour", duration: 15, target_ratio: 1.00, tip: "Final pour — finish gently", tip_ja: "最終注湯 — 穏やかに仕上げ" },
+      { type: "wait", duration: 40, tip: "Complete draw-down", tip_ja: "完全にドローダウン" }
+    ]
+  },
+  {
+    id: "kalita_dark_hot",
+    meta: {
+      title: "Kalita Wave Dark Roast",
+      title_ja: "カリタウェーブ 深煎り",
+      creator: "BREW",
+      grind: { comandante: 28, timemore: 20, zpresso: 4.0, varia: 7, label: "Medium-Coarse", label_ja: "中粗挽き" },
+      desc: "A restrained Kalita recipe for dark-roasted beans. The flat-bottom design paired with lower temperature and coarser grind tames the high solubility of dark roasts, producing a bold cup with full body but no harsh bitterness.",
+      desc_ja: "深煎り豆用の抑制的なカリタレシピ。フラットボトム構造と低温・粗挽きの組み合わせが深煎りの高い溶解度を制御し、しっかりしたボディを持ちながら嫌な苦みのないカップに仕上げます。",
+      beans_note: "Dark-roasted beans — Brazilian natural, Sumatran Mandheling, or espresso blends. Chocolate, caramel, and nutty profiles shine here.",
+      beans_note_ja: "深煎り豆向け。ブラジル ナチュラル、スマトラ マンデリン、エスプレッソブレンドに最適。チョコレート・キャラメル・ナッツ系の風味が映えます。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["bold", "body"],
+      roast: 5, brewer: "Kalita", temp: 85, estimatedTime: 170, hot: true, likes: 0, createdAt: "2026-04-12"
     },
     base: { beans: 18, water: 270, temp: 85 },
     steps: [
-      { type: "pour", duration: 10, target_ratio: 0.15, tip: "Gentle bloom — low temp", tip_ja: "穏やかな蒸らし — 低温で" },
-      { type: "wait", duration: 35, tip: "Short rest — high solubility", tip_ja: "短めの休憩 — 溶解度が高い" },
-      { type: "pour", duration: 45, target_ratio: 0.70, tip: "Slow & consistent — prevent bitterness", tip_ja: "ゆっくり一定に — 苦みを防ぐ" },
-      { type: "wait", duration: 25, tip: "Mid draw-down", tip_ja: "中間ドローダウン" },
-      { type: "pour", duration: 30, target_ratio: 1.0, tip: "Final pour — maintain pace", tip_ja: "最終注湯 — ペースを保つ" },
-      { type: "wait", duration: 50, tip: "Complete draw-down", tip_ja: "完全にドローダウン" }
+      { type: "pour", duration: 15, target_ratio: 0.19, tip: "Bloom — low temperature, gentle pour", tip_ja: "蒸らし — 低温で穏やかに" },
+      { type: "wait", duration: 35, tip: "Extended bloom for dark roast", tip_ja: "深煎り用に長めの蒸らし" },
+      { type: "pour", duration: 25, target_ratio: 0.59, tip: "Main pour — slow and steady", tip_ja: "メイン注湯 — ゆっくり安定して" },
+      { type: "wait", duration: 20, tip: "Let the bed settle", tip_ja: "ベッドが落ち着くまで待つ" },
+      { type: "pour", duration: 30, target_ratio: 1.00, tip: "Final pour — maintain even pace", tip_ja: "最終注湯 — 均一なペースを保つ" },
+      { type: "wait", duration: 45, tip: "Full draw-down", tip_ja: "完全にドローダウン" }
     ]
   },
+
+  /* ================================================================
+     Clever Dripper — 2 recipes (standard / iced)
+     ================================================================ */
   {
-    id: "recipe_007",
+    id: "clever_medium_hot",
     meta: {
-      title: "4:6 Method",
-      title_ja: "4:6メソッド",
-      creator: "T.Kasuya / Philocoffea",
-      grind: { comandante: 30, timemore: 22, zpresso: 4.2, varia: 7, label: "Coarse", label_ja: "粗め" },
-      desc: "The original World Brewers Cup 2016 winning recipe by Tetsu Kasuya. Five equal 60g pours divide into two phases: the first two pours (40%) control flavor — sweetness vs. acidity — while the last three pours (60%) control strength. Each pour begins only once the previous has fully drained. Adjust the first pour split to dial in your cup.",
-      desc_ja: "粕谷哲による2016年World Brewers Cup優勝の正規レシピ。60gずつ5回注ぐことで2フェーズに分かれます。最初の2投（40%）は甘みと酸味のバランスを決定し、後半3投（60%）は濃度をコントロールします。前回の注湯が完全に落ちてから次を注ぐのが鍵。最初の2投の配分で味を調整できます。",
-      beans_note: "Versatile across all origins and processes. To tune flavor: split first two pours equally (60g/60g) for balance; more in the 1st pour (70g/50g) for brightness; less (50g/70g) for sweetness. Medium-light to medium roast recommended.",
-      beans_note_ja: "産地・精製問わず幅広く対応。風味調整：最初の2投を均等(60g/60g)でバランス、1投目を多く(70g/50g)で明るさ・酸味、少なく(50g/70g)で甘みが強まります。ミディアムライト〜ミディアムロースト推奨。",
-      links: ["https://en.philocoffea.com/blogs/blog/coffee-brewing-method", "https://philocoffea.com"],
-      tags: ["balanced", "sweet", "clean", "adjustable"],
-      roast: 2, brewer: "V60", temp: 92, estimatedTime: 210, hot: true, likes: 0, createdAt: "2026-04-07"
+      title: "Clever Immersion",
+      title_ja: "クレバー 浸漬式",
+      creator: "BREW",
+      grind: { comandante: 25, timemore: 18, zpresso: 3.5, varia: 6, label: "Medium", label_ja: "中挽き" },
+      desc: "A full-immersion recipe using the Clever Dripper. The valve stays closed during steeping, ensuring even extraction regardless of pour technique. After two minutes of immersion, opening the valve produces a clean, sweet, full-bodied cup. Very forgiving — ideal for beginners.",
+      desc_ja: "クレバードリッパーを使ったフル浸漬レシピ。浸漬中はバルブを閉じたままにすることで、注ぎ方に関係なく均一な抽出が実現します。2分間の浸漬後、バルブを開けるとクリーンで甘みのあるフルボディのカップに。技術に左右されにくく、初心者に最適。",
+      beans_note: "Works with any medium-roasted single origin or blend. The immersion method is forgiving of grind inconsistency.",
+      beans_note_ja: "中煎りのシングルオリジンやブレンドに幅広く対応。浸漬式のため挽き目のばらつきにも寛容です。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["balanced", "sweet", "body"],
+      roast: 3, brewer: "Clever", temp: 92, estimatedTime: 230, hot: true, likes: 0, createdAt: "2026-04-12"
     },
-    base: { beans: 20, water: 300, temp: 92 },
+    base: { beans: 15, water: 240, temp: 92 },
     steps: [
-      { type: "pour", duration: 12, target_ratio: 0.20, tip: "Pour 60g — center, gentle spiral", tip_ja: "60g注ぐ — 中心からゆっくりスパイラル" },
-      { type: "wait", duration: 30, tip: "Wait for complete draw-down — taste phase 1", tip_ja: "完全にドローダウンするまで待つ — 風味フェーズ1" },
-      { type: "pour", duration: 12, target_ratio: 0.40, tip: "Pour 60g — taste phase complete at 40%", tip_ja: "60g注ぐ — 風味フェーズ完了（40%）" },
-      { type: "wait", duration: 30, tip: "Full draw-down — strength phase begins next", tip_ja: "完全ドローダウン — 次から濃度フェーズ" },
-      { type: "pour", duration: 12, target_ratio: 0.60, tip: "Pour 60g — strength phase starts", tip_ja: "60g注ぐ — 濃度フェーズ開始" },
-      { type: "wait", duration: 30, tip: "Steady draw-down", tip_ja: "安定したドローダウン" },
-      { type: "pour", duration: 12, target_ratio: 0.80, tip: "Pour 60g — consistent pace", tip_ja: "60g注ぐ — 一定のペースで" },
-      { type: "wait", duration: 30, tip: "Nearly complete", tip_ja: "もうすぐ完了" },
-      { type: "pour", duration: 12, target_ratio: 1.0, tip: "Final 60g — center pour", tip_ja: "最終60g — 中心に注ぐ" },
-      { type: "wait", duration: 30, tip: "Complete draw-down — total 3:30", tip_ja: "完全にドローダウン — 合計3分30秒" }
+      { type: "pour", duration: 15, target_ratio: 0.21, tip: "Pre-wet — valve closed", tip_ja: "プレウェット — バルブを閉じて" },
+      { type: "wait", duration: 25, tip: "Bloom with valve closed", tip_ja: "バルブを閉じたまま蒸らす" },
+      { type: "pour", duration: 25, target_ratio: 1.00, tip: "Fill all water — gentle pour", tip_ja: "全量注入 — 穏やかに" },
+      { type: "wait", duration: 120, tip: "Steep 2 min — do not disturb", tip_ja: "2分間浸漬 — 触らずに待つ" },
+      { type: "wait", duration: 45, tip: "Open valve — let it drain fully", tip_ja: "バルブを開けて完全に落とす" }
     ]
   },
   {
-    id: "recipe_008",
+    id: "clever_light_iced",
     meta: {
-      title: "Kurasu Kyoto V60",
-      title_ja: "Kurasu京都 V60",
-      creator: "Tsubasa / Kurasu Kyoto",
-      grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "やや細め" },
-      desc: "A clean, structured three-pour V60 recipe published by Tsubasa at Kurasu Kyoto. The generous 40g bloom saturates the bed evenly before two progressive pours build extraction. Compact at just over two minutes, yet precise enough to showcase delicate floral and fruit notes. Adjust grind coarser if draw-down is too slow.",
-      desc_ja: "京都のスペシャルティカフェ・Kurasu KyotoのTsubasaが公開した、クリーンで構造的な3投V60レシピ。40gの多めの蒸らしで粉全体を均一に湿らせ、その後2投で段階的に抽出します。2分少々とコンパクトながら、フローラルやフルーツの繊細なニュアンスを引き出す精度があります。ドローダウンが遅い場合は挽き目を粗くしてください。",
-      beans_note: "Light-roasted Ethiopian or Kenyan washed beans shine here. Also excellent with Guatemalan or Rwandan single origins. Avoid dark roasts — this recipe rewards high-quality, delicate beans.",
-      beans_note_ja: "エチオピアやケニア産のライトロースト・ウォッシュトが特に映えます。グアテマラやルワンダ産のシングルオリジンにも最適。ダークローストには不向き。高品質で繊細な豆を使うと真価が発揮されます。",
-      links: ["https://kurasu.kyoto/blogs/kurasu-journal/tsubasas-homebrew-recipe", "https://kurasu.kyoto"],
-      tags: ["clean", "bright", "floral"],
-      roast: 1, brewer: "V60", temp: 92, estimatedTime: 145, hot: true, likes: 0, createdAt: "2026-04-07"
+      title: "Clever Iced",
+      title_ja: "クレバー アイス",
+      creator: "BREW",
+      grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
+      desc: "A concentrated immersion brew designed to be poured over ice. The Clever Dripper's sealed immersion ensures consistent extraction even with the higher ratio. Shorter steep time and finer grind produce a bright, fruity concentrate that becomes a refreshing iced coffee when diluted by the ice.",
+      desc_ja: "氷に注ぐための濃縮浸漬式レシピ。クレバードリッパーの密閉浸漬が高い比率でも安定した抽出を保証します。短めの浸漬時間と細かい挽き目で、明るくフルーティな濃縮液を作り、氷で希釈して爽やかなアイスコーヒーに。",
+      beans_note: "Light-roasted washed beans with bright acidity — Ethiopian, Kenyan, or Central American. Place 100g ice in the server before brewing.",
+      beans_note_ja: "明るい酸味のある浅煎りウォッシュト豆。エチオピア、ケニア、中米産。サーバーに100gの氷を入れてから抽出を開始してください。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["bright", "clean", "fruity"],
+      roast: 2, brewer: "Clever", temp: 95, estimatedTime: 185, hot: false, likes: 0, createdAt: "2026-04-12"
     },
-    base: { beans: 14, water: 200, temp: 92 },
+    base: { beans: 18, water: 160, temp: 95 },
     steps: [
-      { type: "pour", duration: 15, target_ratio: 0.20, tip: "Bloom — 40g, saturate evenly", tip_ja: "蒸らし — 40g、均一に湿らせる" },
-      { type: "wait", duration: 25, tip: "Full bloom — 40s from start", tip_ja: "蒸らし完了 — スタートから40秒" },
-      { type: "pour", duration: 20, target_ratio: 0.55, tip: "Pour to 110g — gentle outward spiral", tip_ja: "110gまで注ぐ — 外へ向かって穏やかにスパイラル" },
-      { type: "wait", duration: 10, tip: "Short rest — watch the bed", tip_ja: "短い休憩 — コーヒーベッドを観察" },
-      { type: "pour", duration: 25, target_ratio: 1.0, tip: "Final pour to 200g — spiral back to center", tip_ja: "200gまで最終注湯 — 中心へ収束させる" },
-      { type: "wait", duration: 50, tip: "Complete draw-down — total ~2:15", tip_ja: "完全にドローダウン — 合計約2分15秒" }
+      { type: "pour", duration: 10, target_ratio: 0.25, tip: "Pre-wet — valve closed", tip_ja: "プレウェット — バルブを閉じて" },
+      { type: "wait", duration: 25, tip: "Bloom with valve closed", tip_ja: "バルブを閉じたまま蒸らす" },
+      { type: "pour", duration: 20, target_ratio: 1.00, tip: "Fill — stir gently 3 times", tip_ja: "全量注入 — 3回穏やかに攪拌" },
+      { type: "wait", duration: 90, tip: "Steep 1.5 min — concentrated brew", tip_ja: "1分30秒浸漬 — 濃縮抽出" },
+      { type: "wait", duration: 40, tip: "Open valve — drain onto ice", tip_ja: "バルブを開けて氷の上に落とす" }
     ]
   },
+
+  /* ================================================================
+     Aeropress — 3 recipes (standard / concentrated / iced)
+     ================================================================ */
   {
-    id: "recipe_006",
+    id: "aeropress_medium_hot",
     meta: {
-      title: "Aeropress Classic",
-      title_ja: "エアロプレス クラシック",
-      creator: "K.Yamamoto",
-      grind: { comandante: 18, timemore: 13, zpresso: 2.5, varia: 4, label: "Fine-Medium", label_ja: "やや細め〜中挽き" },
-      desc: "The inverted Aeropress method for full immersion and maximum control. Extended steep time builds body and sweetness. The key is consistency in press pressure — aim for a slow 30-second press. Clean and repeatable, morning after morning.",
-      desc_ja: "フル浸漬と最大コントロールのための逆さAeropressメソッド。長めの浸漬でボディと甘みを構築します。プレスの圧力を一定に保つことが鍵 — 30秒かけてゆっくりとプレスすることを目標にしましょう。毎朝クリーンで再現性の高い一杯を。",
-      beans_note: "Medium roast with good sweetness — Colombian, Guatemalan, or Brazilian single origins. Avoid extremely light or very dark roasts.",
-      beans_note_ja: "甘みのあるミディアムロースト — コロンビア、グアテマラ、またはブラジル産シングルオリジン。超ライトや超ダークは避けること。",
-      links: ["https://instagram.com/yamamoto_brew", "https://fuglen.com"],
-      tags: ["sweet", "body", "bold"],
-      roast: 3, brewer: "Aeropress", temp: 88, estimatedTime: 150, hot: true, likes: 1234, createdAt: "2024-04-10"
+      title: "Aeropress Standard",
+      title_ja: "エアロプレス 定番",
+      creator: "BREW",
+      grind: { comandante: 20, timemore: 15, zpresso: 2.8, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
+      desc: "A basic inverted Aeropress recipe for a clean, sweet cup. The inverted position allows full immersion control — steep for one minute, then flip and press slowly over 30 seconds. Consistent pressure during the press is key to a smooth result.",
+      desc_ja: "クリーンで甘みのあるカップのための基本的な逆さAeropressレシピ。逆さの状態でフル浸漬をコントロールし、1分間浸漬後にひっくり返して30秒かけてゆっくりプレス。プレス時の一定した圧力が滑らかな仕上がりの鍵です。",
+      beans_note: "Medium-roasted single origins with good sweetness — Colombian, Guatemalan, or Brazilian. Also works well with medium blends.",
+      beans_note_ja: "甘みのある中煎りシングルオリジン。コロンビア、グアテマラ、ブラジル産に好相性。中煎りのブレンドにも。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["sweet", "balanced", "body"],
+      roast: 3, brewer: "Aeropress", temp: 88, estimatedTime: 135, hot: true, likes: 0, createdAt: "2026-04-12"
     },
     base: { beans: 15, water: 200, temp: 88 },
     steps: [
-      { type: "pour", duration: 10, target_ratio: 0.20, tip: "Invert — wet the grounds", tip_ja: "逆さに — 粉を湿らせる" },
-      { type: "wait", duration: 20, tip: "Initial bloom", tip_ja: "最初の蒸らし" },
-      { type: "pour", duration: 20, target_ratio: 1.0, tip: "Fill — stir 10x", tip_ja: "満水まで注ぐ — 10回攪拌" },
-      { type: "wait", duration: 60, tip: "Steep — total 90s from start", tip_ja: "浸漬 — スタートから計90秒" },
-      { type: "wait", duration: 40, tip: "Flip and press slowly — 30s", tip_ja: "ひっくり返して30秒かけてゆっくりプレス" }
+      { type: "pour", duration: 10, target_ratio: 0.20, tip: "Invert — wet all grounds", tip_ja: "逆さに — 粉全体を湿らせる" },
+      { type: "wait", duration: 15, tip: "Initial bloom", tip_ja: "最初の蒸らし" },
+      { type: "pour", duration: 20, target_ratio: 1.00, tip: "Fill — stir gently", tip_ja: "全量注入 — 穏やかに攪拌" },
+      { type: "wait", duration: 60, tip: "Steep — 1 minute total immersion", tip_ja: "浸漬 — 1分間のフル浸漬" },
+      { type: "wait", duration: 30, tip: "Flip and press slowly — 30s", tip_ja: "ひっくり返して30秒かけてゆっくりプレス" }
+    ]
+  },
+  {
+    id: "aeropress_dark_hot",
+    meta: {
+      title: "Aeropress Bold",
+      title_ja: "エアロプレス 濃厚",
+      creator: "BREW",
+      grind: { comandante: 16, timemore: 12, zpresso: 2.2, varia: 4, label: "Fine-Medium", label_ja: "細〜中挽き" },
+      desc: "A concentrated Aeropress recipe using a higher dose and lower water ratio. The finer grind and shorter steep time produce a rich, bold cup with heavy body — close to espresso strength. Can be diluted with hot water for an Americano-style drink.",
+      desc_ja: "多めの豆と少なめの湯量による濃縮Aeropressレシピ。細かめの挽き目と短い浸漬時間で、エスプレッソに近い濃厚でボールドなカップに仕上がります。お湯で割ればアメリカーノ風にも。",
+      beans_note: "Medium-dark to dark roasts — Indonesian, Brazilian, or Italian-style blends. Chocolate and caramel flavors are amplified at this concentration.",
+      beans_note_ja: "中深〜深煎り。インドネシア、ブラジル産、またはイタリアンスタイルのブレンド向き。この濃度ではチョコレートやキャラメルの風味が増幅されます。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["bold", "body", "sweet"],
+      roast: 4, brewer: "Aeropress", temp: 85, estimatedTime: 110, hot: true, likes: 0, createdAt: "2026-04-12"
+    },
+    base: { beans: 18, water: 150, temp: 85 },
+    steps: [
+      { type: "pour", duration: 10, target_ratio: 0.20, tip: "Invert — wet grounds thoroughly", tip_ja: "逆さに — 粉を十分に湿らせる" },
+      { type: "wait", duration: 15, tip: "Short bloom", tip_ja: "短めの蒸らし" },
+      { type: "pour", duration: 15, target_ratio: 1.00, tip: "Fill — stir firmly 5 times", tip_ja: "全量注入 — しっかり5回攪拌" },
+      { type: "wait", duration: 45, tip: "Steep — 45 seconds", tip_ja: "浸漬 — 45秒間" },
+      { type: "wait", duration: 25, tip: "Flip and press — steady pressure", tip_ja: "ひっくり返して安定した圧力でプレス" }
+    ]
+  },
+  {
+    id: "aeropress_light_iced",
+    meta: {
+      title: "Aeropress Iced",
+      title_ja: "エアロプレス アイス",
+      creator: "BREW",
+      grind: { comandante: 18, timemore: 13, zpresso: 2.5, varia: 4, label: "Fine-Medium", label_ja: "細〜中挽き" },
+      desc: "A concentrated Aeropress brew pressed directly over ice. Higher temperature and longer steeping extract maximum flavor from light-roasted beans, and the immediate ice contact preserves bright, fruity character. Place 100g ice in the cup before pressing.",
+      desc_ja: "氷の上に直接プレスする濃縮Aeropressレシピ。高温と長めの浸漬で浅煎り豆から最大限のフレーバーを引き出し、氷への即時接触で明るくフルーティな風味を保持します。プレス前にカップに100gの氷を入れてください。",
+      beans_note: "Light-roasted beans with fruity or floral notes. Ethiopian natural, Kenyan, or Panamanian. Place 100g ice in the cup before pressing.",
+      beans_note_ja: "フルーティまたはフローラルなノートの浅煎り豆。エチオピア ナチュラル、ケニア、パナマ産。プレス前にカップに100gの氷を入れること。",
+      links: ["https://github.com/shippoworks/brew", "https://github.com/shippoworks/brew"],
+      tags: ["bright", "fruity", "clean"],
+      roast: 1, brewer: "Aeropress", temp: 93, estimatedTime: 125, hot: false, likes: 0, createdAt: "2026-04-12"
+    },
+    base: { beans: 15, water: 100, temp: 93 },
+    steps: [
+      { type: "pour", duration: 10, target_ratio: 0.30, tip: "Invert — wet all grounds", tip_ja: "逆さに — 粉全体を湿らせる" },
+      { type: "wait", duration: 15, tip: "Bloom — let gases escape", tip_ja: "蒸らし — ガスを抜く" },
+      { type: "pour", duration: 15, target_ratio: 1.00, tip: "Fill — stir 5 times", tip_ja: "全量注入 — 5回攪拌" },
+      { type: "wait", duration: 60, tip: "Steep 1 min — concentrated brew", tip_ja: "1分間浸漬 — 濃縮抽出" },
+      { type: "wait", duration: 25, tip: "Flip and press over ice", tip_ja: "ひっくり返して氷の上にプレス" }
     ]
   }
 ]
