@@ -53,7 +53,7 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
         {/* Hero */}
         <div className="d-hero">
           <div className="d-title">{lang === 'ja' ? r.meta.title_ja : r.meta.title}</div>
-          <div className="d-creator">{r.meta.creator}</div>
+          {r.meta.creator && <div className="d-creator">{r.meta.creator}</div>}
           <div className="d-tagrow">
             <span className={`badge ${r.meta.hot ? 'badge-hot' : 'badge-ice'} d-tag`}>
               {r.meta.hot ? t('hot') : t('ice')}
@@ -171,22 +171,28 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
           </ul>
         </div>
 
-        {/* Links */}
-        <div className="lsec">
-          <div className="sec-lbl">{t('sec_links')}</div>
-          <div className="lrow">
-            <span className="lrow-k">{t('link_sns')}</span>
-            <span className="lrow-v">
-              <a href={r.meta.links[0]} target="_blank" rel="noopener noreferrer">↗ Link</a>
-            </span>
+        {/* Links — hide if both empty */}
+        {(r.meta.links[0] || r.meta.links[1]) && (
+          <div className="lsec">
+            <div className="sec-lbl">{t('sec_links')}</div>
+            {r.meta.links[0] && (
+              <div className="lrow">
+                <span className="lrow-k">{t('link_sns')}</span>
+                <span className="lrow-v">
+                  <a href={r.meta.links[0]} target="_blank" rel="noopener noreferrer">↗ Link</a>
+                </span>
+              </div>
+            )}
+            {r.meta.links[1] && (
+              <div className="lrow">
+                <span className="lrow-k">{t('link_shop')}</span>
+                <span className="lrow-v">
+                  <a href={r.meta.links[1]} target="_blank" rel="noopener noreferrer">↗ Link</a>
+                </span>
+              </div>
+            )}
           </div>
-          <div className="lrow">
-            <span className="lrow-k">{t('link_shop')}</span>
-            <span className="lrow-v">
-              <a href={r.meta.links[1]} target="_blank" rel="noopener noreferrer">↗ Link</a>
-            </span>
-          </div>
-        </div>
+        )}
       </div>
 
       <div className="start-wrap">

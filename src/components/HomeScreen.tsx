@@ -114,7 +114,7 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe }: Props
           >
             <div>
               <div className="r-name">{lang === 'ja' ? r.meta.title_ja : r.meta.title}</div>
-              <div className="r-creator">{r.meta.creator}</div>
+              {r.meta.creator && <div className="r-creator">{r.meta.creator}</div>}
               <div className="r-meta">
                 <span className="badge badge-brewer">{r.meta.brewer}</span>
                 <span className={`badge ${r.meta.hot ? 'badge-hot' : 'badge-ice'}`}>
