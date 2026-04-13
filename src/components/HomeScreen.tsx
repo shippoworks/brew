@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { recipes, Recipe } from '../data/recipes'
 import { Lang, useT } from '../i18n'
 
@@ -18,21 +18,46 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
   const [favs, setFavs] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem('brew_favs') || '[]')) } catch { return new Set() }
   })
-  const [sort, setSort] = useState<'new' | 'likes'>('new')
+  const [saveCounts, setSaveCounts] = useState<Record<string, number>>({})
+  const [sort, setSort] = useState<'new' | 'likes' | 'saved'>('new')
   const [brewer, setBrewer] = useState('')
   const [hot, setHot] = useState('')
   const [roast, setRoast] = useState('')
   const [taste, setTaste] = useState('')
 
+  useEffect(() => {
+    fetch('/api/saves')
+      .then(r => r.json())
+      .then((data: { counts: Record<string, number> }) => setSaveCounts(data.counts))
+      .catch(() => { /* use fallback meta.likes */ })
+  }, [])
+
   function toggleFav(e: React.MouseEvent, id: string) {
     e.stopPropagation()
     setFavs(prev => {
       const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
+      const adding = !next.has(id)
+      adding ? next.add(id) : next.delete(id)
       try { localStorage.setItem('brew_favs', JSON.stringify([...next])) } catch { /* ignore */ }
+
+      // Update DB count
+      fetch(`/api/saves/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: adding ? 'increment' : 'decrement' }),
+      })
+        .then(r => r.json())
+        .then((data: { count: number }) => {
+          setSaveCounts(prev => ({ ...prev, [id]: data.count }))
+        })
+        .catch(() => { /* ignore */ })
+
       return next
     })
   }
+
+  const getCount = (id: string, fallback: number) =>
+    saveCounts[id] !== undefined ? saveCounts[id] : fallback
 
   const filtered = useMemo(() => {
     let list = [...recipes]
@@ -41,10 +66,16 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
     if (hot === 'true') list = list.filter(r => r.meta.hot)
     if (hot === 'false') list = list.filter(r => !r.meta.hot)
     if (roast) list = list.filter(r => r.meta.roast === parseInt(roast))
-    if (sort === 'likes') list.sort((a, b) => b.meta.likes - a.meta.likes)
-    else list.sort((a, b) => b.meta.createdAt.localeCompare(a.meta.createdAt))
+    if (sort === 'saved') {
+      list = list.filter(r => favs.has(r.id))
+      list.sort((a, b) => b.meta.createdAt.localeCompare(a.meta.createdAt))
+    } else if (sort === 'likes') {
+      list.sort((a, b) => getCount(b.id, b.meta.likes) - getCount(a.id, a.meta.likes))
+    } else {
+      list.sort((a, b) => b.meta.createdAt.localeCompare(a.meta.createdAt))
+    }
     return list
-  }, [taste, brewer, hot, roast, sort])
+  }, [taste, brewer, hot, roast, sort, favs, saveCounts])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', maxWidth: 'var(--w)', margin: '0 auto' }}>
@@ -101,12 +132,17 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
       <div className="sort-bar">
         <button className={`sort-btn${sort === 'new' ? ' on' : ''}`} onClick={() => setSort('new')}>{t('sort_new')}</button>
         <button className={`sort-btn${sort === 'likes' ? ' on' : ''}`} onClick={() => setSort('likes')}>{t('sort_pop')}</button>
+        <button className={`sort-btn${sort === 'saved' ? ' on' : ''}`} onClick={() => setSort('saved')}>{t('sort_saved')}</button>
         <div className="rcount">{filtered.length} {t('count_lbl')}</div>
       </div>
 
       {/* Recipe list */}
       <div className="rlist" style={{ paddingBottom: '48px' }}>
-        {filtered.length === 0 && <div className="empty">NO RECIPES FOUND</div>}
+        {filtered.length === 0 && (
+          <div className="empty">
+            {sort === 'saved' ? t('no_saved') : 'NO RECIPES FOUND'}
+          </div>
+        )}
         {filtered.map(r => (
           <div
             key={r.id}
@@ -136,7 +172,7 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
               >
                 {favs.has(r.id) ? t('saved') : t('save')}
               </button>
-              <div className="r-likes">{r.meta.likes}</div>
+              <div className="r-likes">{getCount(r.id, r.meta.likes)}</div>
               <div className="r-arrow">›</div>
             </div>
           </div>
