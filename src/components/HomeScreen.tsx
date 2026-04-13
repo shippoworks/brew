@@ -6,13 +6,14 @@ interface Props {
   lang: Lang
   onToggleLang: () => void
   onSelectRecipe: (recipe: Recipe) => void
+  onPrivacy: () => void
 }
 
 const BREWERS = ['V60', 'Clever', 'Kalita', 'Aeropress']
 const ROASTS = [1, 2, 3, 4, 5]
 const TASTES = ['balanced', 'sweet', 'clean', 'bright', 'fruity', 'bold', 'body', 'floral']
 
-export default function HomeScreen({ lang, onToggleLang, onSelectRecipe }: Props) {
+export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPrivacy }: Props) {
   const t = useT(lang)
   const [favs, setFavs] = useState<Set<string>>(() => {
     try { return new Set(JSON.parse(localStorage.getItem('brew_favs') || '[]')) } catch { return new Set() }
@@ -104,7 +105,7 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe }: Props
       </div>
 
       {/* Recipe list */}
-      <div className="rlist">
+      <div className="rlist" style={{ paddingBottom: '48px' }}>
         {filtered.length === 0 && <div className="empty">NO RECIPES FOUND</div>}
         {filtered.map(r => (
           <div
@@ -140,6 +141,11 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe }: Props
             </div>
           </div>
         ))}
+      </div>
+      <div className="home-footer">
+        <button className="privacy-link" onClick={onPrivacy}>
+          {lang === 'ja' ? 'プライバシーポリシー' : 'Privacy Policy'}
+        </button>
       </div>
     </div>
   )

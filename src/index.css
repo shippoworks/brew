@@ -59,6 +59,24 @@ a{color:inherit;text-decoration:none}
 .r-arrow{font-size:12px;color:var(--b4)}
 .empty{padding:48px 16px;text-align:center;color:var(--b4);font-size:12px;letter-spacing:.1em}
 
+/* HOME FOOTER */
+.home-footer{padding:12px 16px 24px;text-align:center;border-top:var(--line)}
+.privacy-link{background:none;border:none;color:var(--b4);font-size:11px;letter-spacing:.08em;cursor:pointer;font-family:var(--sans);padding:4px 8px}
+.privacy-link:hover{color:var(--b0)}
+
+/* PRIVACY */
+.screen-privacy{display:flex;flex-direction:column;height:100%;overflow-y:auto;max-width:var(--w);margin:0 auto}
+.privacy-body{padding:24px 16px 60px;flex:1}
+.privacy-body h2{font-size:18px;font-weight:700;letter-spacing:.08em;margin:0 0 4px}
+.privacy-date{font-size:11px;color:var(--b4);margin:0 0 28px;letter-spacing:.06em}
+.privacy-body h3{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--b3);margin:24px 0 8px}
+.privacy-body p{font-size:13px;line-height:1.7;color:var(--b1);margin:0 0 10px}
+.privacy-body ul{font-size:13px;line-height:1.7;color:var(--b1);margin:0 0 10px;padding-left:20px}
+.privacy-body ul li{margin-bottom:4px}
+.privacy-body a{color:var(--b0);text-decoration:underline}
+.privacy-links{display:flex;flex-direction:column;gap:8px;margin-top:32px;padding-top:20px;border-top:var(--line)}
+.privacy-links a{font-size:12px;color:var(--b3);letter-spacing:.06em}
+
 /* DETAIL */
 .screen-detail{display:flex;flex-direction:column;height:100%;overflow-y:auto;max-width:var(--w);margin:0 auto}
 .d-content{padding-bottom:90px}

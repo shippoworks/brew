@@ -5,8 +5,9 @@ import HomeScreen from './components/HomeScreen'
 import DetailScreen from './components/DetailScreen'
 import ActiveScreen from './components/ActiveScreen'
 import FinishScreen from './components/FinishScreen'
+import PrivacyScreen from './components/PrivacyScreen'
 
-type Screen = 'home' | 'detail' | 'active' | 'finish'
+type Screen = 'home' | 'detail' | 'active' | 'finish' | 'privacy'
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('home')
@@ -45,6 +46,7 @@ export default function App() {
           lang={lang}
           onToggleLang={toggleLang}
           onSelectRecipe={handleSelectRecipe}
+          onPrivacy={() => setScreen('privacy')}
         />
       )}
       {screen === 'detail' && selectedRecipe && (
@@ -71,6 +73,12 @@ export default function App() {
           lang={lang}
           onGoHome={() => setScreen('home')}
           onGoRecipe={() => setScreen('detail')}
+        />
+      )}
+      {screen === 'privacy' && (
+        <PrivacyScreen
+          lang={lang}
+          onBack={() => setScreen('home')}
         />
       )}
     </div>
