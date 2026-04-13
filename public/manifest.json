@@ -1,6 +1,6 @@
 {
-  "name": "BREW — Coffee Extraction Guide",
-  "short_name": "BREW",
+  "name": "Brew Protocol",
+  "short_name": "Brew Protocol",
   "description": "Barista-grade coffee extraction guide",
   "start_url": "/",
   "display": "standalone",
