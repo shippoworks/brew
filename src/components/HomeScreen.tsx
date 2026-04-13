@@ -49,7 +49,7 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe }: Props
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', maxWidth: 'var(--w)', margin: '0 auto' }}>
       <div className="home-hdr">
         <div>
-          <div className="home-logo">Brew Protocol</div>
+          <div className="home-logo">BREW Protocol</div>
           <div className="home-sub">{t('sub')}</div>
         </div>
         <button className="lang-btn" onClick={onToggleLang}>{t('lang_btn')}</button>
