@@ -1,0 +1,8 @@
+name = "brew"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "brew-saves"
+database_id = "450fbf7e-1107-445b-94e4-83faef687e75"
