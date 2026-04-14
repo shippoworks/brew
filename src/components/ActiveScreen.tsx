@@ -315,19 +315,17 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
   const pourEndSec   = stepEndSec(r, stepIdx)
   const heroTarget   = stepTargetG(r, stepIdx, beans)
 
-  function nextStepSummary(): string {
+  function nextStepData(): { time: string; grams: string | null } | null {
     const nsIdx = stepIdx + 1
     const ns = r.steps[nsIdx]
-    if (!ns) return lang === 'ja' ? '最終ステップ' : 'last step'
+    if (!ns) return null
     const nsTgt   = stepTargetG(r, nsIdx, beans)
     const nsStart = fmtSec(stepEndSec(r, stepIdx))
     const nsEnd   = fmtSec(stepEndSec(r, nsIdx))
-    if (ns.type === 'pour') {
-      return nsTgt != null
-        ? `next: ${nsStart} → ${nsEnd}  ~${nsTgt.toFixed(0)}g`
-        : (lang === 'ja' ? '次: 注湯' : 'next: pour')
+    return {
+      time: `${nsStart} → ${nsEnd}`,
+      grams: ns.type === 'pour' && nsTgt != null ? `~${nsTgt.toFixed(0)}g` : null,
     }
-    return lang === 'ja' ? '次: 待機' : 'next: wait'
   }
 
   return (
@@ -383,33 +381,58 @@ export default function ActiveScreen({ recipe: r, beans, lang, onFinish, onBack 
 
       {/* ── PHASE HERO AREA (always shown) ── */}
       <div className="act-phase-area" onClick={e => e.stopPropagation()}>
+        <div className="act-phase-row">
+          {curStep?.type === 'pour' ? (
+            <div className="act-phase-badge pour">{lang === 'ja' ? 'POUR · 注湯' : 'POUR'}</div>
+          ) : (
+            <div className="act-phase-badge wait">{lang === 'ja' ? 'WAIT · 待機' : 'WAIT'}</div>
+          )}
+          <div className="act-step-indicator">STEP {stepIdx + 1} / {r.steps.length}</div>
+        </div>
+
         {curStep?.type === 'pour' ? (
-          <>
-            <div className="act-phase-badge pour">
-              {lang === 'ja' ? 'POUR · 注湯' : 'POUR'}
-            </div>
+          <div className="act-phase-main">
             <div className="act-time-range">
-              {fmtSec(pourStartSec)} → {fmtSec(pourEndSec)}
+              <span>{fmtSec(pourStartSec)}</span>
+              <span className="act-time-arrow">→</span>
+              <span>{fmtSec(pourEndSec)}</span>
             </div>
             <div className="act-hero">
               ~{heroTarget != null ? heroTarget.toFixed(0) : '—'}
               <span className="act-hero-unit">g</span>
             </div>
-          </>
+            {curStep && (
+              <div className="act-tip">{lang === 'ja' ? curStep.tip_ja : curStep.tip}</div>
+            )}
+          </div>
         ) : (
-          <>
-            <div className="act-phase-badge wait">
-              {lang === 'ja' ? 'WAIT · 待機' : 'WAIT'}
+          <div className="act-phase-main">
+            <div className="act-wait-action">
+              {lang === 'ja' ? curStep?.tip_ja : curStep?.tip}
             </div>
-            <div className="act-wait-next">{nextStepSummary()}</div>
-          </>
+            {(() => {
+              const nd = nextStepData()
+              return (
+                <div className="act-next-block">
+                  <div className="act-next-label">NEXT</div>
+                  {nd ? (
+                    <>
+                      <div className="act-next-time">{nd.time}</div>
+                      {nd.grams && <div className="act-next-grams">{nd.grams}</div>}
+                    </>
+                  ) : (
+                    <div className="act-next-time">{lang === 'ja' ? '最終ステップ完了' : 'All steps done'}</div>
+                  )}
+                </div>
+              )
+            })()}
+          </div>
         )}
       </div>
 
       {/* ── FOOTER ── */}
       <div className="act-footer-bar" onClick={e => e.stopPropagation()}>
         <div className="act-total-time">{timerDisplay}</div>
-        <div className="act-step-count">{stepIdx + 1} / {r.steps.length}</div>
       </div>
 
       {/* ── READY OVERLAY ── */}
