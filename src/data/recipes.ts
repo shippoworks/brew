@@ -42,13 +42,13 @@ export interface Recipe {
 
 export const recipes: Recipe[] = [
   /* ================================================================
-     V60 — 5 recipes (light / medium / dark / iced / one-pour)
+     V60 — 5 recipes (light / medium / dark / iced / single-pour)
      ================================================================ */
   {
     id: "v60_light_hot",
     meta: {
-      title: "V60 Light Roast Basic",
-      title_ja: "V60 浅煎り 基本",
+      title: "V60 Light Roast — 3-Pour Bright Cup",
+      title_ja: "V60 浅煎りの基本レシピ（3投式）",
       creator: "",
       grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
       desc: "A basic three-pour V60 recipe designed to highlight the bright acidity and floral notes of light-roasted beans. Higher water temperature compensates for the harder, denser structure of light roasts, ensuring thorough extraction without bitterness.",
@@ -66,14 +66,14 @@ export const recipes: Recipe[] = [
       { type: "pour", duration: 25, target_ratio: 0.60, tip: "Main pour — steady center spiral", tip_ja: "メインの注湯 — 中心から安定したスパイラル" },
       { type: "wait", duration: 15, tip: "Let the bed settle", tip_ja: "コーヒーベッドが落ち着くまで待つ" },
       { type: "pour", duration: 25, target_ratio: 1.00, tip: "Final pour — gentle, stay centered", tip_ja: "最終注湯 — 穏やかに中心をキープ" },
-      { type: "wait", duration: 50, tip: "Full draw-down", tip_ja: "完全にドローダウン" }
+      { type: "wait", duration: 50, tip: "Wait for the bed to drain fully", tip_ja: "落ち切りを待つ" }
     ]
   },
   {
     id: "v60_medium_hot",
     meta: {
-      title: "V60 Medium Roast Standard",
-      title_ja: "V60 中煎り 定番",
+      title: "V60 Medium Roast — Everyday 4-Pour",
+      title_ja: "V60 中煎りの定番レシピ（4投式）",
       creator: "",
       grind: { comandante: 24, timemore: 18, zpresso: 3.4, varia: 6, label: "Medium", label_ja: "中挽き" },
       desc: "The everyday V60 recipe for medium-roasted beans. Four pours at moderate temperature bring out balanced sweetness and clean body. A reliable starting point for most single-origin coffees.",
@@ -93,14 +93,14 @@ export const recipes: Recipe[] = [
       { type: "pour", duration: 15, target_ratio: 0.80, tip: "Third pour — maintain steady flow", tip_ja: "3投目 — 安定した流量を保つ" },
       { type: "wait", duration: 10, tip: "Short pause", tip_ja: "少し待つ" },
       { type: "pour", duration: 15, target_ratio: 1.00, tip: "Final pour — gentle finish", tip_ja: "最終注湯 — 穏やかに仕上げ" },
-      { type: "wait", duration: 45, tip: "Draw-down complete", tip_ja: "ドローダウン完了" }
+      { type: "wait", duration: 45, tip: "Wait for the bed to drain fully", tip_ja: "落ち切りを待つ" }
     ]
   },
   {
     id: "v60_dark_hot",
     meta: {
-      title: "V60 Dark Roast Gentle",
-      title_ja: "V60 深煎り やさしく",
+      title: "V60 Dark Roast — Low & Slow Extraction",
+      title_ja: "V60 深煎りをやさしく仕上げるレシピ",
       creator: "",
       grind: { comandante: 28, timemore: 20, zpresso: 4.0, varia: 7, label: "Medium-Coarse", label_ja: "中粗挽き" },
       desc: "A low-temperature, coarser-grind V60 recipe for dark roasts. Solubility is high with dark beans, so gentler parameters prevent harsh bitterness and bring out chocolate and caramel sweetness instead.",
@@ -118,14 +118,14 @@ export const recipes: Recipe[] = [
       { type: "pour", duration: 30, target_ratio: 0.68, tip: "Slow main pour — avoid agitation", tip_ja: "ゆっくりメイン注湯 — 攪拌を避ける" },
       { type: "wait", duration: 20, tip: "Let it settle gently", tip_ja: "穏やかに落ち着くまで待つ" },
       { type: "pour", duration: 25, target_ratio: 1.00, tip: "Final pour — steady and slow", tip_ja: "最終注湯 — 安定してゆっくりと" },
-      { type: "wait", duration: 40, tip: "Draw-down complete", tip_ja: "ドローダウン完了" }
+      { type: "wait", duration: 40, tip: "Wait for the bed to drain fully", tip_ja: "落ち切りを待つ" }
     ]
   },
   {
     id: "v60_light_iced",
     meta: {
-      title: "V60 Flash Iced",
-      title_ja: "V60 急冷アイス",
+      title: "V60 Flash Iced — Japanese-Style Cold Coffee",
+      title_ja: "V60 急冷アイスコーヒーのレシピ",
       creator: "",
       grind: { comandante: 20, timemore: 15, zpresso: 2.8, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
       desc: "Japanese-style flash-iced pour-over. Half the water weight is replaced by ice in the server below. The hot concentrated brew hits the ice instantly, locking in volatile aromatics for a crystal-clear, bright iced coffee. Serve immediately.",
@@ -143,18 +143,18 @@ export const recipes: Recipe[] = [
       { type: "pour", duration: 20, target_ratio: 0.67, tip: "Main pour — concentrated extraction", tip_ja: "メイン注湯 — 濃縮抽出" },
       { type: "wait", duration: 15, tip: "Watch the bed carefully", tip_ja: "コーヒーベッドをよく観察" },
       { type: "pour", duration: 15, target_ratio: 1.00, tip: "Final pour — stay centered", tip_ja: "最終注湯 — 中心をキープ" },
-      { type: "wait", duration: 30, tip: "Draw-down onto ice", tip_ja: "氷の上にドローダウン" }
+      { type: "wait", duration: 30, tip: "Wait for it to drain onto the ice", tip_ja: "落ち切るまで待ち、氷に当てる" }
     ]
   },
   {
     id: "v60_onepour_hot",
     meta: {
-      title: "V60 One-Pour Simple",
-      title_ja: "V60 ワンプア シンプル",
+      title: "V60 Single Pour — Simple Morning Method",
+      title_ja: "V60 一気注ぎのシンプルレシピ",
       creator: "",
       grind: { comandante: 30, timemore: 22, zpresso: 4.5, varia: 7, label: "Coarse", label_ja: "粗挽き" },
-      desc: "The simplest possible V60 recipe — just a bloom and one long pour. Coarser grind compensates for the continuous pouring, preventing over-extraction. Great for beginners or busy mornings when precision is less important than consistency.",
-      desc_ja: "V60で最もシンプルなレシピ。蒸らしの後は1回の長い注湯だけ。粗めの挽き目が連続注湯の過抽出を補い、初心者や忙しい朝に最適。精密さよりも再現性を重視したい時に。",
+      desc: "The simplest possible V60 recipe — just a bloom and one long, continuous pour. Coarser grind compensates for the uninterrupted pouring, preventing over-extraction. Great for beginners or busy mornings when consistency matters more than precision.",
+      desc_ja: "V60で最もシンプルなレシピ。蒸らしの後は一気に注ぎ切るだけ。粗めの挽き目が連続注湯の過抽出を補い、初心者や忙しい朝に最適。精密さよりも再現性を重視したい時に。",
       beans_note: "Medium-light roast works best. Forgiving of grind inconsistency. Avoid very light or very dark roasts.",
       beans_note_ja: "中浅煎りに最適。挽き目のばらつきにも寛容。極端な浅煎り・深煎りには不向き。",
       links: ["", ""],
@@ -165,8 +165,8 @@ export const recipes: Recipe[] = [
     steps: [
       { type: "pour", duration: 10, target_ratio: 0.16, tip: "Bloom — quick, even saturation", tip_ja: "蒸らし — 素早く均一に" },
       { type: "wait", duration: 35, tip: "Full bloom — wait for bubbles to stop", tip_ja: "蒸らし完了 — 泡が収まるまで待つ" },
-      { type: "pour", duration: 40, target_ratio: 1.00, tip: "Single slow pour — steady center spiral", tip_ja: "1回の長い注湯 — 安定した中心スパイラル" },
-      { type: "wait", duration: 60, tip: "Full draw-down", tip_ja: "完全にドローダウン" }
+      { type: "pour", duration: 40, target_ratio: 1.00, tip: "One continuous pour — steady center spiral", tip_ja: "一気に注ぎ切る — 安定した中心スパイラル" },
+      { type: "wait", duration: 60, tip: "Wait for the bed to drain fully", tip_ja: "落ち切りを待つ" }
     ]
   },
 
@@ -176,8 +176,8 @@ export const recipes: Recipe[] = [
   {
     id: "kalita_medium_hot",
     meta: {
-      title: "Kalita Wave Standard",
-      title_ja: "カリタウェーブ 定番",
+      title: "Kalita Wave — Balanced Medium Roast",
+      title_ja: "カリタウェーブ 中煎りの定番レシピ",
       creator: "",
       grind: { comandante: 25, timemore: 18, zpresso: 3.5, varia: 6, label: "Medium", label_ja: "中挽き" },
       desc: "A four-pour Kalita Wave recipe for medium roasts. The flat-bottom design naturally promotes even extraction, making it forgiving and consistent. Multiple small pours build layers of sweetness and body while keeping the cup clean.",
@@ -197,14 +197,14 @@ export const recipes: Recipe[] = [
       { type: "pour", duration: 15, target_ratio: 0.80, tip: "Third pour — center focused", tip_ja: "3投目 — 中心に集中" },
       { type: "wait", duration: 15, tip: "Brief pause", tip_ja: "少し待つ" },
       { type: "pour", duration: 15, target_ratio: 1.00, tip: "Final pour — finish gently", tip_ja: "最終注湯 — 穏やかに仕上げ" },
-      { type: "wait", duration: 40, tip: "Complete draw-down", tip_ja: "完全にドローダウン" }
+      { type: "wait", duration: 40, tip: "Wait for the bed to drain fully", tip_ja: "落ち切りを待つ" }
     ]
   },
   {
     id: "kalita_dark_hot",
     meta: {
-      title: "Kalita Wave Dark Roast",
-      title_ja: "カリタウェーブ 深煎り",
+      title: "Kalita Wave — Dark Roast, Full Body",
+      title_ja: "カリタウェーブ 深煎りをボールドに仕上げるレシピ",
       creator: "",
       grind: { comandante: 28, timemore: 20, zpresso: 4.0, varia: 7, label: "Medium-Coarse", label_ja: "中粗挽き" },
       desc: "A restrained Kalita recipe for dark-roasted beans. The flat-bottom design paired with lower temperature and coarser grind tames the high solubility of dark roasts, producing a bold cup with full body but no harsh bitterness.",
@@ -222,7 +222,7 @@ export const recipes: Recipe[] = [
       { type: "pour", duration: 25, target_ratio: 0.59, tip: "Main pour — slow and steady", tip_ja: "メイン注湯 — ゆっくり安定して" },
       { type: "wait", duration: 20, tip: "Let the bed settle", tip_ja: "ベッドが落ち着くまで待つ" },
       { type: "pour", duration: 30, target_ratio: 1.00, tip: "Final pour — maintain even pace", tip_ja: "最終注湯 — 均一なペースを保つ" },
-      { type: "wait", duration: 45, tip: "Full draw-down", tip_ja: "完全にドローダウン" }
+      { type: "wait", duration: 45, tip: "Wait for the bed to drain fully", tip_ja: "落ち切りを待つ" }
     ]
   },
 
@@ -232,8 +232,8 @@ export const recipes: Recipe[] = [
   {
     id: "clever_medium_hot",
     meta: {
-      title: "Clever Immersion",
-      title_ja: "クレバー 浸漬式",
+      title: "Clever — Full Immersion for Beginners",
+      title_ja: "クレバー 浸漬式で失敗しにくいレシピ",
       creator: "",
       grind: { comandante: 25, timemore: 18, zpresso: 3.5, varia: 6, label: "Medium", label_ja: "中挽き" },
       desc: "A full-immersion recipe using the Clever Dripper. The valve stays closed during steeping, ensuring even extraction regardless of pour technique. After two minutes of immersion, opening the valve produces a clean, sweet, full-bodied cup. Very forgiving — ideal for beginners.",
@@ -250,14 +250,14 @@ export const recipes: Recipe[] = [
       { type: "wait", duration: 25, tip: "Bloom with valve closed", tip_ja: "バルブを閉じたまま蒸らす" },
       { type: "pour", duration: 25, target_ratio: 1.00, tip: "Fill all water — gentle pour", tip_ja: "全量注入 — 穏やかに" },
       { type: "wait", duration: 120, tip: "Steep 2 min — do not disturb", tip_ja: "2分間浸漬 — 触らずに待つ" },
-      { type: "wait", duration: 45, tip: "Open valve — let it drain fully", tip_ja: "バルブを開けて完全に落とす" }
+      { type: "wait", duration: 45, tip: "Open valve — wait for it to drain fully", tip_ja: "バルブを開けて落ち切りを待つ" }
     ]
   },
   {
     id: "clever_light_iced",
     meta: {
-      title: "Clever Iced",
-      title_ja: "クレバー アイス",
+      title: "Clever Iced — Concentrated Brew Over Ice",
+      title_ja: "クレバー 浸漬式の濃縮アイスコーヒー",
       creator: "",
       grind: { comandante: 22, timemore: 16, zpresso: 3.0, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
       desc: "A concentrated immersion brew designed to be poured over ice. The Clever Dripper's sealed immersion ensures consistent extraction even with the higher ratio. Shorter steep time and finer grind produce a bright, fruity concentrate that becomes a refreshing iced coffee when diluted by the ice.",
@@ -274,7 +274,7 @@ export const recipes: Recipe[] = [
       { type: "wait", duration: 25, tip: "Bloom with valve closed", tip_ja: "バルブを閉じたまま蒸らす" },
       { type: "pour", duration: 20, target_ratio: 1.00, tip: "Fill — stir gently 3 times", tip_ja: "全量注入 — 3回穏やかに攪拌" },
       { type: "wait", duration: 90, tip: "Steep 1.5 min — concentrated brew", tip_ja: "1分30秒浸漬 — 濃縮抽出" },
-      { type: "wait", duration: 40, tip: "Open valve — drain onto ice", tip_ja: "バルブを開けて氷の上に落とす" }
+      { type: "wait", duration: 40, tip: "Open valve — wait for it to drain onto the ice", tip_ja: "バルブを開けて落ち切りを待つ（氷に当たる）" }
     ]
   },
 
@@ -284,8 +284,8 @@ export const recipes: Recipe[] = [
   {
     id: "aeropress_medium_hot",
     meta: {
-      title: "Aeropress Standard",
-      title_ja: "エアロプレス 定番",
+      title: "Aeropress Inverted — Clean and Sweet",
+      title_ja: "エアロプレス 逆さ式の基本レシピ",
       creator: "",
       grind: { comandante: 20, timemore: 15, zpresso: 2.8, varia: 5, label: "Medium-Fine", label_ja: "中細挽き" },
       desc: "A basic inverted Aeropress recipe for a clean, sweet cup. The inverted position allows full immersion control — steep for one minute, then flip and press slowly over 30 seconds. Consistent pressure during the press is key to a smooth result.",
@@ -308,8 +308,8 @@ export const recipes: Recipe[] = [
   {
     id: "aeropress_dark_hot",
     meta: {
-      title: "Aeropress Bold",
-      title_ja: "エアロプレス 濃厚",
+      title: "Aeropress Concentrated — Bold Cup",
+      title_ja: "エアロプレス 濃縮抽出のボールドレシピ",
       creator: "",
       grind: { comandante: 16, timemore: 12, zpresso: 2.2, varia: 4, label: "Fine-Medium", label_ja: "細〜中挽き" },
       desc: "A concentrated Aeropress recipe using a higher dose and lower water ratio. The finer grind and shorter steep time produce a rich, bold cup with heavy body — close to espresso strength. Can be diluted with hot water for an Americano-style drink.",
@@ -332,8 +332,8 @@ export const recipes: Recipe[] = [
   {
     id: "aeropress_light_iced",
     meta: {
-      title: "Aeropress Iced",
-      title_ja: "エアロプレス アイス",
+      title: "Aeropress Iced — Fruity Concentrate Over Ice",
+      title_ja: "エアロプレス 濃縮アイスコーヒーのレシピ",
       creator: "",
       grind: { comandante: 18, timemore: 13, zpresso: 2.5, varia: 4, label: "Fine-Medium", label_ja: "細〜中挽き" },
       desc: "A concentrated Aeropress brew pressed directly over ice. Higher temperature and longer steeping extract maximum flavor from light-roasted beans, and the immediate ice contact preserves bright, fruity character. Place 100g ice in the cup before pressing.",
