@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Recipe } from './data/recipes'
 import { Lang } from './i18n'
+import { trackEvent } from './analytics'
 import HomeScreen from './components/HomeScreen'
 import DetailScreen from './components/DetailScreen'
 import ActiveScreen from './components/ActiveScreen'
@@ -27,16 +28,23 @@ export default function App() {
   function handleSelectRecipe(recipe: Recipe) {
     setSelectedRecipe(recipe)
     setScreen('detail')
+    trackEvent('recipe_view', { recipe_id: recipe.id, recipe_title: recipe.meta.title, brewer: recipe.meta.brewer })
   }
 
   function handleStartBrew(beanAmount: number) {
     setBeans(beanAmount)
     setScreen('active')
+    if (selectedRecipe) {
+      trackEvent('brew_start', { recipe_id: selectedRecipe.id, recipe_title: selectedRecipe.meta.title, brewer: selectedRecipe.meta.brewer, beans: beanAmount })
+    }
   }
 
   function handleFinish(elapsedMs: number) {
     setFinishedMs(elapsedMs)
     setScreen('finish')
+    if (selectedRecipe) {
+      trackEvent('brew_complete', { recipe_id: selectedRecipe.id, recipe_title: selectedRecipe.meta.title, elapsed_sec: Math.round(elapsedMs / 1000) })
+    }
   }
 
   return (

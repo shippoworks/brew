@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { recipes, Recipe } from '../data/recipes'
 import { Lang, useT } from '../i18n'
+import { trackEvent } from '../analytics'
 
 interface Props {
   lang: Lang
@@ -41,6 +42,8 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
       try { localStorage.setItem('brew_favs', JSON.stringify([...next])) } catch { /* ignore */ }
 
       // Update DB count
+      trackEvent(adding ? 'recipe_save' : 'recipe_unsave', { recipe_id: id })
+
       fetch(`/api/saves/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -92,7 +95,7 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
         <div className="frow-inner">
           <button className={`fchip${brewer === '' ? ' on' : ''}`} onClick={() => setBrewer('')}>{t('all_brewers')}</button>
           {BREWERS.map(b => (
-            <button key={b} className={`fchip${brewer === b ? ' on' : ''}`} onClick={() => setBrewer(b)}>{b}</button>
+            <button key={b} className={`fchip${brewer === b ? ' on' : ''}`} onClick={() => { setBrewer(b); trackEvent('filter_use', { filter_type: 'brewer', value: b }) }}>{b}</button>
           ))}
         </div>
       </div>
@@ -123,7 +126,7 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
         <div className="frow-inner">
           <button className={`fchip${taste === '' ? ' on' : ''}`} onClick={() => setTaste('')}>{t('all_tastes')}</button>
           {TASTES.map(tg => (
-            <button key={tg} className={`fchip${taste === tg ? ' on' : ''}`} onClick={() => setTaste(tg)}>#{tg}</button>
+            <button key={tg} className={`fchip${taste === tg ? ' on' : ''}`} onClick={() => { setTaste(tg); trackEvent('filter_use', { filter_type: 'taste', value: tg }) }}>#{tg}</button>
           ))}
         </div>
       </div>
