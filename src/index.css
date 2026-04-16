@@ -20,6 +20,8 @@ a{color:inherit;text-decoration:none}
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:var(--line);position:sticky;top:0;background:var(--b8);z-index:50;flex-shrink:0}
 .hdr-title{font-size:11px;font-weight:700;letter-spacing:.18em}
 .hdr-back{font-size:12px;font-weight:600;letter-spacing:.06em;cursor:pointer;background:none;border:none;font-family:var(--sans)}
+.hdr-share{font-size:11px;font-weight:700;letter-spacing:.08em;cursor:pointer;background:none;border:none;font-family:var(--sans);min-width:48px;text-align:right;color:var(--b3)}
+.hdr-share:active{color:var(--b0)}
 .lang-btn{font-size:11px;font-weight:700;letter-spacing:.08em;border:var(--line);padding:4px 9px;background:none;cursor:pointer;font-family:var(--sans)}
 
 /* HOME */
@@ -212,6 +214,8 @@ a{color:inherit;text-decoration:none}
 .fin-time-box{border:var(--line);padding:20px 32px;text-align:center;margin:8px 0}
 .fin-time-lbl{font-size:10px;font-weight:700;letter-spacing:.15em;color:var(--b4);margin-bottom:6px}
 .fin-time-val{font-family:var(--mono);font-size:32px;font-weight:700}
+.fin-share-btn{padding:12px;border:var(--line);font-size:11px;font-weight:700;letter-spacing:.15em;cursor:pointer;background:none;font-family:var(--sans);width:100%;max-width:320px}
+.fin-share-btn:active{background:var(--b7)}
 .fin-actions{display:flex;gap:12px;width:100%;max-width:320px}
 .fin-btn{flex:1;padding:14px;border:var(--line);font-size:11px;font-weight:700;letter-spacing:.12em;cursor:pointer;background:none;font-family:var(--sans)}
 .fin-btn.primary{background:var(--b0);color:var(--b8);border-color:var(--b0)}

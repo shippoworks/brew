@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Recipe } from '../data/recipes'
 import { Lang, useT } from '../i18n'
+import { shareRecipe } from '../utils/share'
+import { trackEvent } from '../analytics'
 
 interface Props {
   recipe: Recipe
@@ -29,6 +31,17 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
   const t = useT(lang)
   const [beans, setBeans] = useState(r.base.beans)
   const [mill, setMill] = useState<Mill>('cmd')
+  const [shareState, setShareState] = useState<'idle' | 'copied'>('idle')
+
+  async function handleShare() {
+    const title = lang === 'ja' ? r.meta.title_ja : r.meta.title
+    const result = await shareRecipe(title, r.id, lang)
+    trackEvent('recipe_share', { recipe_id: r.id, recipe_title: r.meta.title, brewer: r.meta.brewer, method: result, source: 'detail' })
+    if (result === 'copied') {
+      setShareState('copied')
+      setTimeout(() => setShareState('idle'), 2000)
+    }
+  }
 
   const water = scaledWater(r, beans)
   const ratio = water > 0 ? (water / beans).toFixed(1) : '—'
@@ -46,7 +59,9 @@ export default function DetailScreen({ recipe: r, lang, onBack, onStart }: Props
       <div className="hdr">
         <button className="hdr-back" onClick={onBack}>{t('d_back')}</button>
         <span className="hdr-title">{t('d_hdr')}</span>
-        <div style={{ width: 48 }} />
+        <button className="hdr-share" onClick={handleShare}>
+          {shareState === 'copied' ? t('share_copied') : t('share')}
+        </button>
       </div>
 
       <div className="d-content">

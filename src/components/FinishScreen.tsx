@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import { Recipe } from '../data/recipes'
 import { Lang, useT } from '../i18n'
+import { shareRecipe } from '../utils/share'
+import { trackEvent } from '../analytics'
 
 interface Props {
   recipe: Recipe
@@ -18,6 +21,17 @@ function fmtTime(ms: number) {
 
 export default function FinishScreen({ recipe: r, elapsedMs, lang, onGoHome, onGoRecipe }: Props) {
   const t = useT(lang)
+  const [shareState, setShareState] = useState<'idle' | 'copied'>('idle')
+
+  async function handleShare() {
+    const title = lang === 'ja' ? r.meta.title_ja : r.meta.title
+    const result = await shareRecipe(title, r.id, lang)
+    trackEvent('recipe_share', { recipe_id: r.id, recipe_title: r.meta.title, brewer: r.meta.brewer, method: result, source: 'finish' })
+    if (result === 'copied') {
+      setShareState('copied')
+      setTimeout(() => setShareState('idle'), 2000)
+    }
+  }
 
   return (
     <div className="screen-finish">
@@ -34,6 +48,9 @@ export default function FinishScreen({ recipe: r, elapsedMs, lang, onGoHome, onG
           <div className="fin-time-lbl">{t('fin_time_lbl')}</div>
           <div className="fin-time-val">{fmtTime(elapsedMs)}</div>
         </div>
+        <button className="fin-share-btn" onClick={handleShare}>
+          {shareState === 'copied' ? t('share_copied') : t('share')}
+        </button>
         <div className="fin-actions">
           <button className="fin-btn" onClick={onGoRecipe}>{t('fin_recipe')}</button>
           <button className="fin-btn primary" onClick={onGoHome}>{t('fin_home')}</button>

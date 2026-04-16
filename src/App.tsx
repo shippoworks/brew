@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import { Recipe } from './data/recipes'
+import { useState, useEffect } from 'react'
+import { recipes, Recipe } from './data/recipes'
 import { Lang } from './i18n'
 import { trackEvent } from './analytics'
+import { useRouter } from './useRouter'
 import HomeScreen from './components/HomeScreen'
 import DetailScreen from './components/DetailScreen'
 import ActiveScreen from './components/ActiveScreen'
@@ -10,7 +11,13 @@ import PrivacyScreen from './components/PrivacyScreen'
 
 type Screen = 'home' | 'detail' | 'active' | 'finish' | 'privacy'
 
+function recipeIdFromPath(pathname: string): string | null {
+  const m = pathname.match(/^\/recipe\/([^/]+)$/)
+  return m ? m[1] : null
+}
+
 export default function App() {
+  const { pathname, navigate, replace } = useRouter()
   const [screen, setScreen] = useState<Screen>('home')
   const [lang, setLang] = useState<Lang>(() => {
     try { return (localStorage.getItem('brew_lang') as Lang) || 'en' } catch { return 'en' }
@@ -18,6 +25,35 @@ export default function App() {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null)
   const [beans, setBeans] = useState(20)
   const [finishedMs, setFinishedMs] = useState(0)
+
+  // Deep link: /recipe/:id on first load
+  useEffect(() => {
+    const id = recipeIdFromPath(pathname)
+    if (id) {
+      const found = recipes.find(r => r.id === id)
+      if (found) {
+        setSelectedRecipe(found)
+        setScreen('detail')
+      } else {
+        replace('/')
+      }
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Browser back/forward sync
+  useEffect(() => {
+    const id = recipeIdFromPath(pathname)
+    if (id) {
+      if (screen === 'active' || screen === 'finish') return // protect active brew
+      const found = recipes.find(r => r.id === id)
+      if (found) {
+        setSelectedRecipe(found)
+        setScreen('detail')
+      }
+    } else if (pathname === '/') {
+      if (screen === 'detail') setScreen('home')
+    }
+  }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function toggleLang() {
     const next: Lang = lang === 'en' ? 'ja' : 'en'
@@ -28,6 +64,7 @@ export default function App() {
   function handleSelectRecipe(recipe: Recipe) {
     setSelectedRecipe(recipe)
     setScreen('detail')
+    navigate('/recipe/' + recipe.id)
     trackEvent('recipe_view', { recipe_id: recipe.id, recipe_title: recipe.meta.title, brewer: recipe.meta.brewer })
   }
 
@@ -61,7 +98,7 @@ export default function App() {
         <DetailScreen
           recipe={selectedRecipe}
           lang={lang}
-          onBack={() => setScreen('home')}
+          onBack={() => { setScreen('home'); navigate('/') }}
           onStart={handleStartBrew}
         />
       )}
@@ -79,8 +116,8 @@ export default function App() {
           recipe={selectedRecipe}
           elapsedMs={finishedMs}
           lang={lang}
-          onGoHome={() => setScreen('home')}
-          onGoRecipe={() => setScreen('detail')}
+          onGoHome={() => { setScreen('home'); navigate('/') }}
+          onGoRecipe={() => { setScreen('detail'); navigate('/recipe/' + selectedRecipe.id) }}
         />
       )}
       {screen === 'privacy' && (
