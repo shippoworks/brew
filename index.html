@@ -31,5 +31,165 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <noscript>
+    <style>
+      body { font-family: sans-serif; max-width: 720px; margin: 0 auto; padding: 24px 16px; color: #111; line-height: 1.7; }
+      h1 { font-size: 2rem; margin-bottom: 4px; }
+      h2 { font-size: 1.3rem; margin-top: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 6px; }
+      h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+      p { margin: 0.6rem 0; }
+      ul { padding-left: 1.4rem; }
+      li { margin: 0.4rem 0; }
+      .recipe { border: 1px solid #eee; border-radius: 8px; padding: 16px; margin: 12px 0; }
+      .recipe h3 { margin: 0 0 6px; }
+      .tag { display: inline-block; background: #f0f0f0; border-radius: 4px; padding: 2px 8px; font-size: 0.8rem; margin: 2px; }
+    </style>
+    <header>
+      <h1>BREW Protocol</h1>
+      <p><strong>コーヒー抽出ガイド / Coffee Extraction Guide</strong></p>
+      <p>BREW Protocol は、V60・カリタ・クレバードリッパー・エアロプレスを使ったコーヒー抽出のステップバイステップガイドアプリです。豆の量を入力するとレシピが自動スケールされ、内蔵タイマーが各ステップをナビゲートします。</p>
+      <p>BREW Protocol is a step-by-step coffee brewing guide for V60, Kalita Wave, Clever Dripper, and Aeropress. Set your bean amount, follow the built-in timer, and brew café-quality coffee at home.</p>
+    </header>
+
+    <h2>使い方 / How to Use</h2>
+    <ol>
+      <li>一覧からレシピを選ぶ — Select a recipe from the list</li>
+      <li>豆の量をグラム単位で入力する — Enter your bean amount in grams</li>
+      <li>グラインダー設定を確認する — Check the grind size for your grinder</li>
+      <li>「抽出画面へ」を押して内蔵タイマーを開始 — Tap "Start" to begin the guided timer</li>
+      <li>各ステップの指示に従って注湯・待機 — Follow pour and wait instructions per step</li>
+    </ol>
+
+    <h2>対応ブリューワー / Supported Brewers</h2>
+
+    <h3>V60 (ハリオ V60)</h3>
+    <p>ハリオ V60 は円錐形のドリッパーで、大きなら旋溝とひとつの大きな穴が特徴です。注湯速度とスパイラルモーションをコントロールすることで、クリーンでブライトなカップを実現します。浅煎りから中煎りの豆に特に向いています。</p>
+    <p>The Hario V60 is a conical pour-over dripper with a large single hole and spiral ridges. Precise pouring technique creates a clean, bright cup. Best for light to medium roasts.</p>
+
+    <h3>カリタウェーブ (Kalita Wave)</h3>
+    <p>カリタウェーブは平底で3つの小さな穴を持ちます。コーヒーベッド全体に均一にお湯が通るため、安定した抽出が得られます。中煎りからやや深煎りの豆でバランスのとれたカップに仕上がります。</p>
+    <p>The Kalita Wave has a flat bottom with three small holes, promoting even extraction across the entire coffee bed. Produces a balanced, consistent cup. Great for medium roasts.</p>
+
+    <h3>クレバードリッパー (Clever Dripper)</h3>
+    <p>クレバードリッパーはイマージョン（浸漬）式のドリッパーで、弁を開くまでコーヒーが液体に浸かり続けます。浸漬時間と注湯量を調整することで、フレンチプレスのようなボディとドリップのクリーンさを両立できます。</p>
+    <p>The Clever Dripper is an immersion brewer — coffee steeps in water until you open the valve. Combining steep time and pour control delivers a full body with the clarity of a pour-over.</p>
+
+    <h3>エアロプレス (Aeropress)</h3>
+    <p>エアロプレスは圧力を使って短時間で抽出する器具です。抽出時間が短く、細かい調整がしやすいため、濃厚なエスプレッソスタイルから滑らかなアメリカーノまで幅広いスタイルに対応できます。</p>
+    <p>The Aeropress uses gentle air pressure to brew quickly. Highly versatile — from concentrated espresso-style shots to smooth, mellow cups — with a short brew time and easy cleanup.</p>
+
+    <h2>グラインダー対応 / Supported Grinders</h2>
+    <p>各レシピにはコマンダンテ・タイムモア・Zpresso・Varia の4機種向けグラインド目安が記載されています。</p>
+    <p>Each recipe includes grind settings for Comandante C40/C60, Timemore C2/C3 Max, Zpresso J-Max/K-Max, and Varia VS3.</p>
+
+    <h2>レシピ一覧 / Recipe List</h2>
+
+    <div class="recipe">
+      <h3>V60 浅煎りの基本レシピ / V60 Light Roast</h3>
+      <p>浅煎り豆の明るい酸味とフローラルなノートを引き出す基本の3投V60レシピ。高めの湯温が硬く密度の高い浅煎り豆に対応し、苦みなくしっかりと抽出します。</p>
+      <p>A three-pour V60 recipe designed to highlight bright acidity and floral notes of light-roasted beans. Higher water temperature ensures thorough extraction without bitterness.</p>
+      <span class="tag">V60</span><span class="tag">HOT</span><span class="tag">94°C</span><span class="tag">Light Roast</span><span class="tag">bright</span><span class="tag">clean</span><span class="tag">floral</span>
+    </div>
+
+    <div class="recipe">
+      <h3>V60 中煎りの定番レシピ / V60 Medium Roast</h3>
+      <p>中煎り豆の日常使いV60レシピ。適度な温度での4投がバランスの良い甘みとクリーンなボディを引き出します。ほとんどのシングルオリジンに対応する安定の淹れ方。</p>
+      <p>The everyday V60 recipe for medium roasts. Four pours at moderate temperature bring out balanced sweetness and clean body. A reliable starting point for most single-origin coffees.</p>
+      <span class="tag">V60</span><span class="tag">HOT</span><span class="tag">91°C</span><span class="tag">Medium Roast</span><span class="tag">balanced</span><span class="tag">sweet</span><span class="tag">clean</span>
+    </div>
+
+    <div class="recipe">
+      <h3>V60 深煎りのまろやかレシピ / V60 Dark Roast</h3>
+      <p>深煎り豆に最適な低温・短時間のV60レシピ。過抽出による苦みや渋みを避け、チョコレートやキャラメルのフレーバーを引き出します。</p>
+      <p>A lower-temperature, shorter V60 recipe for dark roasts. Avoids over-extraction bitterness while drawing out chocolate and caramel flavors.</p>
+      <span class="tag">V60</span><span class="tag">HOT</span><span class="tag">88°C</span><span class="tag">Dark Roast</span><span class="tag">bold</span><span class="tag">body</span>
+    </div>
+
+    <div class="recipe">
+      <h3>V60 アイスコーヒーレシピ / V60 Iced Coffee</h3>
+      <p>直接氷の上に抽出する急冷アイスV60レシピ。濃いめに抽出したコーヒーを氷で瞬時に冷やすことで、フレッシュでクリーンなアイスコーヒーが完成します。</p>
+      <p>A Japanese-style flash-chilled V60 ice brew. Concentrate brewed directly over ice for a fresh, clean iced coffee with minimal dilution.</p>
+      <span class="tag">V60</span><span class="tag">ICE</span><span class="tag">93°C</span><span class="tag">bright</span><span class="tag">clean</span>
+    </div>
+
+    <div class="recipe">
+      <h3>V60 一気注ぎのシンプルレシピ / V60 Single Pour</h3>
+      <p>蒸らし後に一気に注湯するシンプルなV60レシピ。短い抽出時間でも均一なカップが得られます。忙しい朝に最適。</p>
+      <p>A single continuous pour after blooming. Simple, consistent, and fast. Ideal for busy mornings when you need a great cup without complexity.</p>
+      <span class="tag">V60</span><span class="tag">HOT</span><span class="tag">92°C</span><span class="tag">balanced</span><span class="tag">clean</span>
+    </div>
+
+    <div class="recipe">
+      <h3>カリタ 中煎りの安定レシピ / Kalita Wave Medium Roast</h3>
+      <p>カリタウェーブの平底構造を活かしたバランス重視のレシピ。3投で均一に抽出し、甘みと酸のバランスが取れたカップに仕上げます。</p>
+      <p>A balanced Kalita Wave recipe that leverages the flat-bottom design for uniform extraction. Three pours deliver a sweet, well-rounded cup.</p>
+      <span class="tag">Kalita</span><span class="tag">HOT</span><span class="tag">90°C</span><span class="tag">balanced</span><span class="tag">sweet</span>
+    </div>
+
+    <div class="recipe">
+      <h3>カリタ フルーティーレシピ / Kalita Wave Fruity</h3>
+      <p>浅煎り・フルーティー豆向けのカリタウェーブレシピ。高温と細かい挽き目でフルーツ系のフレーバーを最大限に引き出します。</p>
+      <p>A Kalita Wave recipe tuned for fruity light roasts. Higher temperature and finer grind maximize fruit-forward flavors.</p>
+      <span class="tag">Kalita</span><span class="tag">HOT</span><span class="tag">93°C</span><span class="tag">fruity</span><span class="tag">bright</span><span class="tag">floral</span>
+    </div>
+
+    <div class="recipe">
+      <h3>クレバー 浸漬抽出レシピ / Clever Dripper Immersion</h3>
+      <p>クレバードリッパーのシンプルな浸漬抽出レシピ。豆を4分間お湯に浸してから弁を開いて抽出。ミスが少なく安定して美味しいコーヒーが淹れられます。</p>
+      <p>A simple Clever Dripper immersion recipe. Steep for 4 minutes then open the valve. Forgiving and consistent — perfect for beginners.</p>
+      <span class="tag">Clever</span><span class="tag">HOT</span><span class="tag">90°C</span><span class="tag">balanced</span><span class="tag">body</span>
+    </div>
+
+    <div class="recipe">
+      <h3>クレバー アイスコーヒーレシピ / Clever Dripper Iced</h3>
+      <p>クレバードリッパーを使ったアイスコーヒーレシピ。濃いめに抽出してアイスで割ることで、ボディのあるアイスコーヒーが完成。</p>
+      <p>An iced Clever Dripper recipe. Brew concentrated and dilute with ice for a full-bodied iced coffee.</p>
+      <span class="tag">Clever</span><span class="tag">ICE</span><span class="tag">91°C</span><span class="tag">bold</span><span class="tag">body</span>
+    </div>
+
+    <div class="recipe">
+      <h3>エアロプレス スタンダードレシピ / Aeropress Standard</h3>
+      <p>エアロプレスの基本レシピ。短い浸漬と安定したプレスで、クリーンでスムーズなカップが仕上がります。</p>
+      <p>The standard Aeropress recipe. Short steep and steady press delivers a clean, smooth, low-acid cup.</p>
+      <span class="tag">Aeropress</span><span class="tag">HOT</span><span class="tag">88°C</span><span class="tag">balanced</span><span class="tag">clean</span><span class="tag">body</span>
+    </div>
+
+    <div class="recipe">
+      <h3>エアロプレス 濃縮レシピ / Aeropress Concentrate</h3>
+      <p>少量のお湯で濃縮抽出するエアロプレスレシピ。エスプレッソライクな濃いカップが得られ、ラテや希釈してアメリカーノにも使えます。</p>
+      <p>A concentrated Aeropress recipe using minimal water for an espresso-like result. Drink as-is or dilute with hot water or milk.</p>
+      <span class="tag">Aeropress</span><span class="tag">HOT</span><span class="tag">85°C</span><span class="tag">bold</span><span class="tag">body</span>
+    </div>
+
+    <div class="recipe">
+      <h3>エアロプレス 浅煎りレシピ / Aeropress Light Roast</h3>
+      <p>浅煎り豆向けのエアロプレスレシピ。高めの湯温と長めの浸漬時間でフルーティー・フローラルなフレーバーを引き出します。</p>
+      <p>An Aeropress recipe optimized for light roasts. Higher temperature and longer steep time unlock fruity and floral notes.</p>
+      <span class="tag">Aeropress</span><span class="tag">HOT</span><span class="tag">92°C</span><span class="tag">fruity</span><span class="tag">bright</span><span class="tag">floral</span>
+    </div>
+
+    <h2>コーヒー抽出の基礎知識 / Coffee Brewing Basics</h2>
+
+    <h3>湯温 / Water Temperature</h3>
+    <p>湯温はコーヒーの抽出に大きな影響を与えます。浅煎りは94〜96°C、中煎りは90〜92°C、深煎りは85〜88°Cが目安です。温度が高いほど抽出が進み、フレーバーが強く出ます。</p>
+    <p>Water temperature significantly affects extraction. Light roasts: 94–96°C; medium roasts: 90–92°C; dark roasts: 85–88°C. Higher temperature increases extraction rate.</p>
+
+    <h3>挽き目 / Grind Size</h3>
+    <p>挽き目は抽出速度を左右します。細すぎると過抽出で苦みが出やすく、粗すぎると未抽出で酸味や薄さが際立ちます。各レシピの推奨挽き目を参考にしてください。</p>
+    <p>Grind size controls extraction rate. Too fine causes over-extraction (bitterness); too coarse causes under-extraction (sourness, thin body). Follow each recipe's recommended grind setting.</p>
+
+    <h3>蒸らし / Blooming</h3>
+    <p>蒸らしとは最初に少量のお湯で豆を湿らせ、ガス（CO₂）を放出させることです。新鮮な豆ほどガスが多く、蒸らしをしっかり行うことで後の抽出が均一になります。</p>
+    <p>Blooming is the initial pre-infusion where a small amount of water saturates the grounds, allowing CO₂ to escape. Fresh beans bloom vigorously. Proper blooming ensures even extraction in subsequent pours.</p>
+
+    <h3>粉量と水量の比率 / Coffee-to-Water Ratio</h3>
+    <p>一般的なコーヒーの粉量と水量の比率は1:15〜1:17が目安です（例：15gの豆に225〜255mlのお湯）。BREW Protocolの各レシピはベースの比率を持ち、豆の量を変更すると水量も自動的にスケールされます。</p>
+    <p>A common coffee-to-water ratio is 1:15 to 1:17 (e.g., 15g coffee to 225–255ml water). BREW Protocol recipes have a default ratio — changing your bean amount automatically scales the water volume.</p>
+
+    <footer style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; font-size: 0.85rem; color: #666;">
+      <p>BREW Protocol — &copy; 2026. このサイトはJavaScriptが必要です。ブラウザのJavaScriptを有効にしてください。</p>
+      <p>This site requires JavaScript. Please enable JavaScript in your browser.</p>
+    </footer>
+  </noscript>
 </body>
 </html>

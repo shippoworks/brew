@@ -3,6 +3,7 @@ export type Lang = 'en' | 'ja'
 const T = {
   en: {
     sub: 'COFFEE EXTRACTION GUIDE',
+    intro: 'Step-by-step brewing guides for V60, Kalita Wave, Clever Dripper, and Aeropress. Set your bean amount, follow the built-in timer, and brew café-quality coffee at home.',
     lang_btn: '日本語',
     all_brewers: 'ALL BREWERS',
     all_temp: 'HOT + ICE',
@@ -46,6 +47,7 @@ const T = {
   },
   ja: {
     sub: 'コーヒー抽出ガイド',
+    intro: 'V60・カリタ・クレバードリッパー・エアロプレスのステップバイステップ抽出ガイド。豆量を設定してタイマーに従うだけで、カフェクオリティのコーヒーが自宅で楽しめます。',
     lang_btn: 'English',
     all_brewers: 'すべての器具',
     all_temp: 'ホット + アイス',

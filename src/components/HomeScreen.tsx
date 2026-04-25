@@ -89,6 +89,7 @@ export default function HomeScreen({ lang, onToggleLang, onSelectRecipe, onPriva
         </div>
         <button className="lang-btn" onClick={onToggleLang}>{t('lang_btn')}</button>
       </div>
+      <p className="home-intro">{t('intro')}</p>
 
       {/* Brewer filter */}
       <div className="frow">
